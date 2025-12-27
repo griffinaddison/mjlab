@@ -485,13 +485,11 @@ how to attach randomization terms to your environment using <code class="docutil
 <p>Use an <code class="docutils literal notranslate"><span class="pre">EventTerm</span></code> that calls <code class="docutils literal notranslate"><span class="pre">mdp.randomize_field</span></code> with a target <strong>field</strong>, a
 <strong>value range</strong> (or per-axis ranges), and an <strong>operation</strong> describing how to
 apply the draw.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">mjlab.managers.manager_term_config</span><span class="w"> </span><span class="kn">import</span> <span class="n">EventTermCfg</span> <span class="k">as</span> <span class="n">EventTerm</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">mjlab.managers.manager_term_config</span><span class="w"> </span><span class="kn">import</span> <span class="n">term</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">mjlab.managers.manager_term_config</span><span class="w"> </span><span class="kn">import</span> <span class="n">EventTermCfg</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">mjlab.managers.scene_entity_config</span><span class="w"> </span><span class="kn">import</span> <span class="n">SceneEntityCfg</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">mjlab.envs</span><span class="w"> </span><span class="kn">import</span> <span class="n">mdp</span>
 
-<span class="n">foot_friction</span><span class="p">:</span> <span class="n">EventTerm</span> <span class="o">=</span> <span class="n">term</span><span class="p">(</span>
-    <span class="n">EventTerm</span><span class="p">,</span>
+<span class="n">foot_friction</span><span class="p">:</span> <span class="n">EventTermCfg</span> <span class="o">=</span> <span class="n">EventTermCfg</span><span class="p">(</span>
     <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;reset&quot;</span><span class="p">,</span>  <span class="c1"># randomize each episode</span>
     <span class="n">func</span><span class="o">=</span><span class="n">mdp</span><span class="o">.</span><span class="n">randomize_field</span><span class="p">,</span>
     <span class="n">domain_randomization</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># marks this as domain randomization</span>
@@ -507,9 +505,9 @@ apply the draw.</p>
 </section>
 <section id="domain-randomization-flag">
 <h2>Domain Randomization Flag<a class="headerlink" href="#domain-randomization-flag" title="Link to this heading">#</a></h2>
-<p>When creating an <code class="docutils literal notranslate"><span class="pre">EventTerm</span></code> for domain randomization, set <code class="docutils literal notranslate"><span class="pre">domain_randomization=True</span></code>.
+<p>When creating an <code class="docutils literal notranslate"><span class="pre">EventTermCfg</span></code> for domain randomization, set <code class="docutils literal notranslate"><span class="pre">domain_randomization=True</span></code>.
 This allows the environment to track which fields are being randomized:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">EventTerm</span><span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">EventTermCfg</span><span class="p">(</span>
     <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;reset&quot;</span><span class="p">,</span>
     <span class="n">func</span><span class="o">=</span><span class="n">mdp</span><span class="o">.</span><span class="n">randomize_field</span><span class="p">,</span>
     <span class="n">domain_randomization</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># required for DR tracking</span>
@@ -564,8 +562,7 @@ affects contact behavior:</p>
 <h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h2>
 <section id="friction-reset">
 <h3>Friction (reset)<a class="headerlink" href="#friction-reset" title="Link to this heading">#</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">foot_friction</span><span class="p">:</span> <span class="n">EventTerm</span> <span class="o">=</span> <span class="n">term</span><span class="p">(</span>
-    <span class="n">EventTerm</span><span class="p">,</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">foot_friction</span><span class="p">:</span> <span class="n">EventTermCfg</span> <span class="o">=</span> <span class="n">EventTermCfg</span><span class="p">(</span>
     <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;reset&quot;</span><span class="p">,</span>
     <span class="n">func</span><span class="o">=</span><span class="n">mdp</span><span class="o">.</span><span class="n">randomize_field</span><span class="p">,</span>
     <span class="n">domain_randomization</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -599,8 +596,7 @@ contacts.</p>
 <section id="joint-offset-startup">
 <h3>Joint Offset (startup)<a class="headerlink" href="#joint-offset-startup" title="Link to this heading">#</a></h3>
 <p>Randomize default joint positions to simulate joint offset calibration errors:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">joint_offset</span><span class="p">:</span> <span class="n">EventTerm</span> <span class="o">=</span> <span class="n">term</span><span class="p">(</span>
-    <span class="n">EventTerm</span><span class="p">,</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">joint_offset</span><span class="p">:</span> <span class="n">EventTermCfg</span> <span class="o">=</span> <span class="n">EventTermCfg</span><span class="p">(</span>
     <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;startup&quot;</span><span class="p">,</span>
     <span class="n">func</span><span class="o">=</span><span class="n">mdp</span><span class="o">.</span><span class="n">randomize_field</span><span class="p">,</span>
     <span class="n">domain_randomization</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -616,8 +612,7 @@ contacts.</p>
 </section>
 <section id="center-of-mass-com-startup">
 <h3>Center of Mass (COM) (startup)<a class="headerlink" href="#center-of-mass-com-startup" title="Link to this heading">#</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">com</span><span class="p">:</span> <span class="n">EventTerm</span> <span class="o">=</span> <span class="n">term</span><span class="p">(</span>
-    <span class="n">EventTerm</span><span class="p">,</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">com</span><span class="p">:</span> <span class="n">EventTermCfg</span> <span class="o">=</span> <span class="n">EventTermCfg</span><span class="p">(</span>
     <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;startup&quot;</span><span class="p">,</span>
     <span class="n">func</span><span class="o">=</span><span class="n">mdp</span><span class="o">.</span><span class="n">randomize_field</span><span class="p">,</span>
     <span class="n">domain_randomization</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -658,8 +653,7 @@ for event terms that need to maintain state or perform initialization logic:</p>
 
 
 <span class="c1"># Use the custom class in your environment config</span>
-<span class="n">terrain_friction</span><span class="p">:</span> <span class="n">EventTerm</span> <span class="o">=</span> <span class="n">term</span><span class="p">(</span>
-    <span class="n">EventTerm</span><span class="p">,</span>
+<span class="n">terrain_friction</span><span class="p">:</span> <span class="n">EventTermCfg</span> <span class="o">=</span> <span class="n">EventTermCfg</span><span class="p">(</span>
     <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;reset&quot;</span><span class="p">,</span>
     <span class="n">func</span><span class="o">=</span><span class="n">RandomizeTerrainFriction</span><span class="p">,</span>
     <span class="n">domain_randomization</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
