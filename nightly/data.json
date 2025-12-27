@@ -148,5 +148,125 @@
       "ee_pos_error": 0.04233120381832123,
       "ee_ori_error": 0.16708526015281677
     }
+  },
+  {
+    "id": "ld64c9fw",
+    "name": "2025-12-11_02-12-00",
+    "url": "https://wandb.ai/gcbc_researchers/mjlab/runs/ld64c9fw",
+    "created_at": "2025-12-11T10:12:07Z",
+    "commit": "6499663",
+    "metrics": {
+      "success_rate": 0.9892578125,
+      "mpkpe": 0.027189750224351883,
+      "r_mpkpe": 0.025643587112426758,
+      "joint_vel_error": 2.9512453079223633,
+      "ee_pos_error": 0.043330878019332886,
+      "ee_ori_error": 0.16365914046764374
+    }
+  },
+  {
+    "id": "6ionigta",
+    "name": "2025-12-10_02-07-01",
+    "url": "https://wandb.ai/gcbc_researchers/mjlab/runs/6ionigta",
+    "created_at": "2025-12-10T10:07:08Z",
+    "commit": "7cadcb2",
+    "metrics": {
+      "success_rate": 0.9951171875,
+      "mpkpe": 0.028622400015592575,
+      "r_mpkpe": 0.026704832911491394,
+      "joint_vel_error": 3.0303354263305664,
+      "ee_pos_error": 0.04516815021634102,
+      "ee_ori_error": 0.1785683035850525
+    }
+  },
+  {
+    "id": "xrhp74xr",
+    "name": "2025-12-09_02-20-00",
+    "url": "https://wandb.ai/gcbc_researchers/mjlab/runs/xrhp74xr",
+    "created_at": "2025-12-09T10:20:06Z",
+    "commit": "7cadcb2",
+    "metrics": {
+      "success_rate": 0.982421875,
+      "mpkpe": 0.028469357639551163,
+      "r_mpkpe": 0.02730325050652027,
+      "joint_vel_error": 3.1283061504364014,
+      "ee_pos_error": 0.044995829463005066,
+      "ee_ori_error": 0.17740187048912048
+    }
+  },
+  {
+    "id": "9w0xq5d2",
+    "name": "2025-12-08_02-29-00",
+    "url": "https://wandb.ai/gcbc_researchers/mjlab/runs/9w0xq5d2",
+    "created_at": "2025-12-08T10:29:06Z",
+    "commit": "60daa34",
+    "metrics": {
+      "success_rate": 0.98046875,
+      "mpkpe": 0.02825380116701126,
+      "r_mpkpe": 0.02595573291182518,
+      "joint_vel_error": 2.989889144897461,
+      "ee_pos_error": 0.04486943408846855,
+      "ee_ori_error": 0.17115533351898193
+    }
+  },
+  {
+    "id": "jlud0nsa",
+    "name": "2025-12-07_13-19-04",
+    "url": "https://wandb.ai/gcbc_researchers/mjlab/runs/jlud0nsa",
+    "created_at": "2025-12-07T21:19:10Z",
+    "commit": "21645bd",
+    "metrics": {
+      "success_rate": 0.994140625,
+      "mpkpe": 0.027624055743217468,
+      "r_mpkpe": 0.026445792987942696,
+      "joint_vel_error": 2.9860401153564453,
+      "ee_pos_error": 0.04516693204641342,
+      "ee_ori_error": 0.1649709939956665
+    }
+  },
+  {
+    "id": "qty0mhq2",
+    "name": "2025-12-07_02-21-00",
+    "url": "https://wandb.ai/gcbc_researchers/mjlab/runs/qty0mhq2",
+    "created_at": "2025-12-07T10:21:06Z",
+    "commit": "7870092",
+    "metrics": {
+      "success_rate": 0.9921875,
+      "mpkpe": 0.027612047269940376,
+      "r_mpkpe": 0.026281647384166718,
+      "joint_vel_error": 3.021651268005371,
+      "ee_pos_error": 0.044746313244104385,
+      "ee_ori_error": 0.16863170266151428
+    }
+  },
+  {
+    "id": "lhud0asc",
+    "name": "2025-12-05_21-54-31",
+    "url": "https://wandb.ai/gcbc_researchers/mjlab/runs/lhud0asc",
+    "created_at": "2025-12-06T05:54:40Z",
+    "commit": "db67d63",
+    "metrics": {
+      "success_rate": 0.998046875,
+      "mpkpe": 0.026733705773949623,
+      "r_mpkpe": 0.02567988634109497,
+      "joint_vel_error": 3.0153026580810547,
+      "ee_pos_error": 0.04210560768842697,
+      "ee_ori_error": 0.16863782703876495
+    }
+  },
+  {
+    "id": "viz840w8",
+    "name": "2025-12-05_17-25-32",
+    "url": "https://wandb.ai/gcbc_researchers/mjlab/runs/viz840w8",
+    "created_at": "2025-12-06T01:25:38Z",
+    "commit": "e195ef5",
+    "metrics": {
+      "success_rate": 0.98828125,
+      "mpkpe": 0.02750239335000515,
+      "r_mpkpe": 0.02678297832608223,
+      "joint_vel_error": 3.0533790588378906,
+      "ee_pos_error": 0.04517266899347305,
+      "ee_ori_error": 0.1683717966079712
+    }
   }
 ]
