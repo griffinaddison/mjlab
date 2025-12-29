@@ -283,5 +283,20 @@
       "ee_pos_error": 0.04282215237617493,
       "ee_ori_error": 0.16761817038059235
     }
+  },
+  {
+    "id": "meztx3fd",
+    "name": "2025-12-29_02-10-41",
+    "url": "https://wandb.ai/gcbc_researchers/mjlab/runs/meztx3fd",
+    "created_at": "2025-12-29T10:10:47Z",
+    "commit": "6331506",
+    "metrics": {
+      "success_rate": 0.9921875,
+      "mpkpe": 0.027127794921398163,
+      "r_mpkpe": 0.02598004974424839,
+      "joint_vel_error": 3.0313057899475098,
+      "ee_pos_error": 0.044422876089811325,
+      "ee_ori_error": 0.16626426577568054
+    }
   }
 ]
