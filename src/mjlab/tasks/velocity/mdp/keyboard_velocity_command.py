@@ -34,11 +34,12 @@ class KeyboardState:
   when a key is held, so we consider a key "held" if pressed within the timeout.
   """
 
-  def __init__(self, hold_timeout: float = 0.15) -> None:
+  def __init__(self, hold_timeout: float = 0.5) -> None:
     """Initialize keyboard state.
 
     Args:
         hold_timeout: Time in seconds after last key press to consider key released.
+            Default 0.5s to account for GLFW key repeat rate variability.
     """
     self.hold_timeout = hold_timeout
     self._last_press: dict[str, float] = {
