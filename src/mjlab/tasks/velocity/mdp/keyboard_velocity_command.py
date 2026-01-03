@@ -165,7 +165,9 @@ class KeyboardVelocityCommand(CommandTerm):
     super().__init__(cfg, env)
     self.robot: Entity = env.scene[cfg.entity_name]
     self.vel_command_b = torch.zeros(self.num_envs, 3, device=self.device)
-    self.keyboard_state = cfg.keyboard_state
+    # keyboard_state is created in build() if not provided
+    assert cfg.keyboard_state is not None
+    self.keyboard_state: KeyboardState = cfg.keyboard_state
 
     self.metrics["error_vel_xy"] = torch.zeros(self.num_envs, device=self.device)
     self.metrics["error_vel_yaw"] = torch.zeros(self.num_envs, device=self.device)
@@ -328,9 +330,11 @@ class KeyboardVelocityCommandCfg(CommandTermCfg):
   """Configuration for keyboard-controlled velocity command."""
 
   entity_name: str
-  keyboard_state: KeyboardState
+  keyboard_state: KeyboardState | None = None  # Created automatically if None
   lin_vel_scale: float = 1.0  # Max linear velocity (m/s)
   ang_vel_scale: float = 1.0  # Max angular velocity (rad/s)
+  # Keyboard command doesn't resample, but parent class requires this field.
+  resampling_time_range: tuple[float, float] = (1e9, 1e9)
 
   @dataclass
   class VizCfg:
@@ -340,4 +344,7 @@ class KeyboardVelocityCommandCfg(CommandTermCfg):
   viz: VizCfg = field(default_factory=VizCfg)
 
   def build(self, env: ManagerBasedRlEnv) -> KeyboardVelocityCommand:
+    # Create keyboard state if not provided
+    if self.keyboard_state is None:
+      self.keyboard_state = KeyboardState()
     return KeyboardVelocityCommand(self, env)

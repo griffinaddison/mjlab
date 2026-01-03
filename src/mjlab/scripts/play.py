@@ -190,9 +190,30 @@ def run_play(task_id: str, cfg: PlayConfig):
   else:
     resolved_viewer = cfg.viewer
 
+  # Check if keyboard velocity command is being used.
+  from mjlab.tasks.velocity.mdp import KeyboardVelocityCommand, create_keyboard_callback
+
+  keyboard_cmd = None
+  if hasattr(env.unwrapped, "command_manager"):
+    for term in env.unwrapped.command_manager._terms.values():
+      if isinstance(term, KeyboardVelocityCommand):
+        keyboard_cmd = term
+        break
+
   if resolved_viewer == "native":
-    NativeMujocoViewer(env, policy).run()
+    viewer = NativeMujocoViewer(env, policy)
+    if keyboard_cmd is not None:
+      # Hook up keyboard callback for camera-relative control.
+      key_callback = create_keyboard_callback(
+        keyboard_cmd.keyboard_state,
+        get_camera_pose=lambda: viewer.camera_pose,
+      )
+      viewer.user_key_callback = key_callback
+      print("[INFO] Keyboard velocity control enabled (WASD/arrows + Q/E)")
+    viewer.run()
   elif resolved_viewer == "viser":
+    if keyboard_cmd is not None:
+      print("[WARN] Keyboard velocity control not yet supported in Viser viewer")
     ViserPlayViewer(env, policy).run()
   else:
     raise RuntimeError(f"Unsupported viewer backend: {resolved_viewer}")

@@ -13,7 +13,10 @@ from mjlab.managers.manager_term_config import (
 )
 from mjlab.sensor import ContactMatch, ContactSensorCfg
 from mjlab.tasks.velocity import mdp
-from mjlab.tasks.velocity.mdp import UniformVelocityCommandCfg
+from mjlab.tasks.velocity.mdp import (
+  KeyboardVelocityCommandCfg,
+  UniformVelocityCommandCfg,
+)
 from mjlab.tasks.velocity.velocity_env_cfg import make_velocity_env_cfg
 
 
@@ -156,6 +159,16 @@ def unitree_g1_rough_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
         cfg.scene.terrain.terrain_generator.num_rows = 5
         cfg.scene.terrain.terrain_generator.border_width = 10.0
 
+    # Replace velocity command with keyboard control.
+    assert cfg.commands is not None
+    cfg.commands["twist"] = KeyboardVelocityCommandCfg(
+      entity_name="robot",
+      lin_vel_scale=1.5,
+      ang_vel_scale=1.0,
+      debug_vis=True,
+      viz=KeyboardVelocityCommandCfg.VizCfg(z_offset=1.15),
+    )
+
   return cfg
 
 
@@ -172,13 +185,5 @@ def unitree_g1_flat_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
   assert cfg.curriculum is not None
   assert "terrain_levels" in cfg.curriculum
   del cfg.curriculum["terrain_levels"]
-
-  if play:
-    commands = cfg.commands
-    assert commands is not None
-    twist_cmd = commands["twist"]
-    assert isinstance(twist_cmd, UniformVelocityCommandCfg)
-    twist_cmd.ranges.lin_vel_x = (-1.5, 2.0)
-    twist_cmd.ranges.ang_vel_z = (-0.7, 0.7)
 
   return cfg
