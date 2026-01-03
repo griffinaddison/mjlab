@@ -472,6 +472,13 @@ document.write(`
 <span class="sd">  - **Infinite horizon (False)**: The time limit is an artificial cutoff. The agent</span>
 <span class="sd">    receives a truncated done signal to bootstrap the value of continuing beyond the</span>
 <span class="sd">    limit.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">scale_rewards_by_dt</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Whether to multiply rewards by the environment step duration (dt).</span>
+
+<span class="sd">  When True (default), reward values are scaled by step_dt to normalize cumulative</span>
+<span class="sd">  episodic rewards across different simulation frequencies. Set to False for</span>
+<span class="sd">  algorithms that expect unscaled reward signals (e.g., HER, static reward scaling).</span>
 <span class="sd">  &quot;&quot;&quot;</span></div>
 
 
@@ -635,7 +642,9 @@ document.write(`
 
     <span class="bp">self</span><span class="o">.</span><span class="n">termination_manager</span> <span class="o">=</span> <span class="n">TerminationManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">terminations</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
     <span class="n">print_info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[INFO] </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">termination_manager</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">reward_manager</span> <span class="o">=</span> <span class="n">RewardManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">rewards</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">reward_manager</span> <span class="o">=</span> <span class="n">RewardManager</span><span class="p">(</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">rewards</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">scale_by_dt</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">scale_rewards_by_dt</span>
+    <span class="p">)</span>
     <span class="n">print_info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[INFO] </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">reward_manager</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">curriculum</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">curriculum_manager</span> <span class="o">=</span> <span class="n">CurriculumManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">curriculum</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
