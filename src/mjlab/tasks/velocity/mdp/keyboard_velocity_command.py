@@ -1,4 +1,4 @@
-"""Keyboard-controlled velocity command for testing with camera-relative controls."""
+"""Keyboard-controlled velocity command with tank controls for testing."""
 
 from __future__ import annotations
 
@@ -28,22 +28,20 @@ if TYPE_CHECKING:
 class KeyboardState:
   """Shared state for keyboard input with toggle behavior.
 
-  Press a direction key to toggle it on, press again to toggle off.
-  Press SPACE to stop all movement.
+  Camera-relative controls with auto-rotate:
+  - W/Up: Move forward, auto-rotate toward camera direction
+  - S/Down: Move backward
+  - A/Left: Turn left, D/Right: Turn right (yaw)
+  - SPACE: Stop all movement
   """
 
   def __init__(self) -> None:
     self._active: dict[str, bool] = {
       "forward": False,
       "backward": False,
-      "left": False,
-      "right": False,
       "turn_left": False,
       "turn_right": False,
     }
-    # Store camera pose from viewer (updated every frame via callback)
-    self._camera_pose: np.ndarray | None = None
-    # Callback to get current camera pose from viewer
     self._get_camera_pose: Callable[[], np.ndarray | None] | None = None
 
   def toggle(self, key: str) -> None:
@@ -54,8 +52,6 @@ class KeyboardState:
       opposites = {
         "forward": "backward",
         "backward": "forward",
-        "left": "right",
-        "right": "left",
         "turn_left": "turn_right",
         "turn_right": "turn_left",
       }
@@ -76,14 +72,6 @@ class KeyboardState:
     return self._active["backward"]
 
   @property
-  def left(self) -> bool:
-    return self._active["left"]
-
-  @property
-  def right(self) -> bool:
-    return self._active["right"]
-
-  @property
   def turn_left(self) -> bool:
     return self._active["turn_left"]
 
@@ -93,10 +81,10 @@ class KeyboardState:
 
   @property
   def camera_pose(self) -> np.ndarray | None:
-    # Get fresh camera pose if callback is set
+    """Get current camera pose from viewer."""
     if self._get_camera_pose is not None:
-      self._camera_pose = self._get_camera_pose()
-    return self._camera_pose
+      return self._get_camera_pose()
+    return None
 
   def set_camera_pose_callback(self, callback: Callable[[], np.ndarray | None]) -> None:
     """Set callback to get camera pose from viewer."""
@@ -109,21 +97,25 @@ class KeyboardState:
 
 def create_keyboard_callback(
   keyboard_state: KeyboardState,
-  get_camera_pose: Callable[[], np.ndarray | None],
+  get_camera_pose: Callable[[], np.ndarray | None] | None = None,
 ) -> Callable[[int], None]:
   """Create a key callback for the native viewer with toggle behavior.
 
-  Press direction keys to toggle movement on/off. Press SPACE to stop all.
+  Camera-relative controls - press to toggle on/off, SPACE to stop all:
+  - W/Up: Forward (auto-rotates toward camera direction)
+  - S/Down: Backward
+  - A/Left: Turn left
+  - D/Right: Turn right
 
   Args:
       keyboard_state: Shared state to update on key press.
-      get_camera_pose: Function that returns current camera pose (e.g., viewer.camera_pose).
+      get_camera_pose: Optional callback to get camera pose for auto-rotate.
 
   Returns:
       Key callback function for NativeMujocoViewer.
   """
-  # Set up camera pose callback for continuous updates
-  keyboard_state.set_camera_pose_callback(get_camera_pose)
+  if get_camera_pose is not None:
+    keyboard_state.set_camera_pose_callback(get_camera_pose)
 
   # GLFW key codes
   KEY_SPACE = 32
@@ -131,48 +123,40 @@ def create_keyboard_callback(
   KEY_DOWN = 264
   KEY_LEFT = 263
   KEY_RIGHT = 262
-  KEY_Q = 81  # Turn left
-  KEY_E = 69  # Turn right
-  KEY_W = 87  # Alternative forward
-  KEY_S = 83  # Alternative backward
-  KEY_A = 65  # Alternative left
-  KEY_D = 68  # Alternative right
+  KEY_W = 87
+  KEY_S = 83
+  KEY_A = 65
+  KEY_D = 68
 
   def callback(key: int) -> None:
-    # SPACE stops all movement
     if key == KEY_SPACE:
       keyboard_state.stop_all()
       return
 
-    # Toggle direction keys
     if key == KEY_UP or key == KEY_W:
       keyboard_state.toggle("forward")
     elif key == KEY_DOWN or key == KEY_S:
       keyboard_state.toggle("backward")
     elif key == KEY_LEFT or key == KEY_A:
-      keyboard_state.toggle("left")
-    elif key == KEY_RIGHT or key == KEY_D:
-      keyboard_state.toggle("right")
-    elif key == KEY_Q:
       keyboard_state.toggle("turn_left")
-    elif key == KEY_E:
+    elif key == KEY_RIGHT or key == KEY_D:
       keyboard_state.toggle("turn_right")
 
   return callback
 
 
 class KeyboardVelocityCommand(CommandTerm):
-  """Velocity command controlled by keyboard with camera-relative directions.
+  """Velocity command controlled by keyboard with camera-relative auto-rotate.
 
-  Hold keys to move (like a game):
-  - W / UP: Move forward (camera's forward direction projected to ground)
+  Camera-relative controls (like 3rd person games):
+  - W / UP: Move forward, auto-rotate toward camera direction
   - S / DOWN: Move backward
-  - A / LEFT: Strafe left
-  - D / RIGHT: Strafe right
-  - Q: Turn left (yaw)
-  - E: Turn right (yaw)
+  - A / LEFT: Turn left (yaw)
+  - D / RIGHT: Turn right (yaw)
+  - SPACE: Stop all movement
 
-  Release key to stop. Movement is relative to camera view direction.
+  When moving forward/backward, the robot automatically rotates to align
+  with the camera's viewing direction.
   """
 
   cfg: KeyboardVelocityCommandCfg
@@ -211,67 +195,67 @@ class KeyboardVelocityCommand(CommandTerm):
     pass
 
   def _update_command(self) -> None:
-    """Update velocity command based on keyboard state and camera pose."""
+    """Update velocity command with auto-rotate toward camera direction."""
     ks = self.keyboard_state
 
-    # Compute velocity in world frame based on camera orientation
-    ang_vel_z = 0.0
+    # Default: no movement
+    lin_vel_x = 0.0
+    ang_vel_z: float | torch.Tensor = 0.0
 
-    # Get camera forward/right directions (projected to ground plane)
-    cam_forward = np.array([1.0, 0.0])  # Default: world X
-    cam_right = np.array([0.0, -1.0])  # Default: world -Y
-
-    if ks.camera_pose is not None:
-      # Camera pose is 4x4 matrix with OpenGL convention:
-      # - Column 0 = right
-      # - Column 1 = up
-      # - Column 2 = -forward (so -column2 = direction camera is looking)
+    # Check if we need auto-rotate (forward/backward pressed and camera available)
+    if (ks.forward or ks.backward) and ks.camera_pose is not None:
+      # Get camera forward direction (projected to XY)
       rot = ks.camera_pose[:3, :3]
       cam_forward_3d = -rot[:, 2]  # -Z is forward in OpenGL convention
-      cam_right_3d = rot[:, 0]  # X is right
+      cam_forward_xy = cam_forward_3d[:2]
+      cam_norm = np.linalg.norm(cam_forward_xy)
+      if cam_norm > 1e-6:
+        cam_forward_xy = cam_forward_xy / cam_norm
 
-      # Project to ground plane (XY) and normalize
-      cam_forward = cam_forward_3d[:2]
-      cam_right = cam_right_3d[:2]
-      fwd_norm = np.linalg.norm(cam_forward)
-      right_norm = np.linalg.norm(cam_right)
-      if fwd_norm > 1e-6:
-        cam_forward = cam_forward / fwd_norm
-      if right_norm > 1e-6:
-        cam_right = cam_right / right_norm
+      # Desired yaw from camera direction
+      desired_yaw = np.arctan2(cam_forward_xy[1], cam_forward_xy[0])
 
-    # Compute world-frame velocity from keyboard input
-    vel_world = np.zeros(2)
-    if ks.forward:
-      vel_world += cam_forward * self.cfg.lin_vel_scale
-    if ks.backward:
-      vel_world -= cam_forward * self.cfg.lin_vel_scale
-    if ks.right:
-      vel_world += cam_right * self.cfg.lin_vel_scale
-    if ks.left:
-      vel_world -= cam_right * self.cfg.lin_vel_scale
+      # Get robot's current yaw from quaternion (wxyz format)
+      root_quat = self.robot.data.root_link_quat_w
+      w, x, y, z = root_quat[:, 0], root_quat[:, 1], root_quat[:, 2], root_quat[:, 3]
+      current_yaw = torch.atan2(2 * (w * z + x * y), 1 - 2 * (y * y + z * z))
 
-    if ks.turn_left:
-      ang_vel_z = self.cfg.ang_vel_scale
-    if ks.turn_right:
-      ang_vel_z = -self.cfg.ang_vel_scale
+      # Compute yaw error (normalized to [-pi, pi])
+      yaw_error = desired_yaw - current_yaw
+      yaw_error = torch.atan2(torch.sin(yaw_error), torch.cos(yaw_error))
 
-    # Transform world velocity to body frame for each environment
-    root_quat = self.robot.data.root_link_quat_w
-    root_mat = matrix_from_quat(root_quat)  # (num_envs, 3, 3)
+      # P-controller for auto-rotate
+      yaw_gain = self.cfg.yaw_gain
+      ang_vel_z = yaw_gain * yaw_error
+      ang_vel_z = torch.clamp(
+        ang_vel_z, -self.cfg.ang_vel_scale, self.cfg.ang_vel_scale
+      )
 
-    # World velocity as tensor
-    vel_world_t = torch.tensor(
-      [vel_world[0], vel_world[1], 0.0], device=self.device, dtype=torch.float32
-    )
+      # Set forward/backward velocity
+      if ks.forward:
+        lin_vel_x = self.cfg.lin_vel_scale
+      else:
+        lin_vel_x = -self.cfg.lin_vel_scale
 
-    # Transform to body frame: v_b = R^T @ v_w
-    vel_body = torch.einsum("nij,j->ni", root_mat.transpose(1, 2), vel_world_t)
+    else:
+      # No camera or not moving forward/backward: use tank controls
+      if ks.forward:
+        lin_vel_x = self.cfg.lin_vel_scale
+      elif ks.backward:
+        lin_vel_x = -self.cfg.lin_vel_scale
 
-    # Set command for all environments
-    self.vel_command_b[:, 0] = vel_body[:, 0]
-    self.vel_command_b[:, 1] = vel_body[:, 1]
-    self.vel_command_b[:, 2] = ang_vel_z
+      if ks.turn_left:
+        ang_vel_z = self.cfg.ang_vel_scale
+      elif ks.turn_right:
+        ang_vel_z = -self.cfg.ang_vel_scale
+
+    # Set commands
+    self.vel_command_b[:, 0] = lin_vel_x
+    self.vel_command_b[:, 1] = 0.0
+    if isinstance(ang_vel_z, torch.Tensor):
+      self.vel_command_b[:, 2] = ang_vel_z
+    else:
+      self.vel_command_b[:, 2] = ang_vel_z
 
   # Visualization (reuse from UniformVelocityCommand)
 
@@ -351,6 +335,7 @@ class KeyboardVelocityCommandCfg(CommandTermCfg):
   keyboard_state: KeyboardState | None = None  # Created automatically if None
   lin_vel_scale: float = 1.0  # Max linear velocity (m/s)
   ang_vel_scale: float = 1.0  # Max angular velocity (rad/s)
+  yaw_gain: float = 2.0  # P-gain for auto-rotate (rad/s per rad error)
   # Keyboard command doesn't resample, but parent class requires this field.
   resampling_time_range: tuple[float, float] = (1e9, 1e9)
 
