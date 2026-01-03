@@ -222,13 +222,13 @@ class KeyboardVelocityCommand(CommandTerm):
     cam_right = np.array([0.0, -1.0])  # Default: world -Y
 
     if ks.camera_pose is not None:
-      # Camera pose is 4x4 matrix, extract forward direction (-Z in camera frame)
-      # and right direction (X in camera frame)
+      # Camera pose is 4x4 matrix with OpenGL convention:
+      # - Column 0 = right
+      # - Column 1 = up
+      # - Column 2 = -forward (so -column2 = direction camera is looking)
       rot = ks.camera_pose[:3, :3]
-      # Note: We negate because we want "forward" to mean "away from camera"
-      # (the direction the user is looking), not "toward camera target"
-      cam_forward_3d = rot[:, 2]  # Z points away from where camera looks
-      cam_right_3d = -rot[:, 0]  # Negate X to fix left/right
+      cam_forward_3d = -rot[:, 2]  # -Z is forward in OpenGL convention
+      cam_right_3d = rot[:, 0]  # X is right
 
       # Project to ground plane (XY) and normalize
       cam_forward = cam_forward_3d[:2]
