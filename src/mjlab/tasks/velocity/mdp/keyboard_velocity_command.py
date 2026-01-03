@@ -31,7 +31,8 @@ class KeyboardState:
   Camera-relative controls with auto-rotate:
   - W/Up: Move forward, auto-rotate toward camera direction
   - S/Down: Move backward
-  - A/Left: Turn left, D/Right: Turn right (yaw)
+  - A/Left: Strafe left, D/Right: Strafe right
+  - Q: Turn left, E: Turn right (yaw)
   - SPACE: Stop all movement
   """
 
@@ -39,6 +40,8 @@ class KeyboardState:
     self._active: dict[str, bool] = {
       "forward": False,
       "backward": False,
+      "strafe_left": False,
+      "strafe_right": False,
       "turn_left": False,
       "turn_right": False,
     }
@@ -52,6 +55,8 @@ class KeyboardState:
       opposites = {
         "forward": "backward",
         "backward": "forward",
+        "strafe_left": "strafe_right",
+        "strafe_right": "strafe_left",
         "turn_left": "turn_right",
         "turn_right": "turn_left",
       }
@@ -70,6 +75,14 @@ class KeyboardState:
   @property
   def backward(self) -> bool:
     return self._active["backward"]
+
+  @property
+  def strafe_left(self) -> bool:
+    return self._active["strafe_left"]
+
+  @property
+  def strafe_right(self) -> bool:
+    return self._active["strafe_right"]
 
   @property
   def turn_left(self) -> bool:
@@ -104,8 +117,10 @@ def create_keyboard_callback(
   Camera-relative controls - press to toggle on/off, SPACE to stop all:
   - W/Up: Forward (auto-rotates toward camera direction)
   - S/Down: Backward
-  - A/Left: Turn left
-  - D/Right: Turn right
+  - A/Left: Strafe left
+  - D/Right: Strafe right
+  - Q: Turn left (yaw)
+  - E: Turn right (yaw)
 
   Args:
       keyboard_state: Shared state to update on key press.
@@ -127,6 +142,8 @@ def create_keyboard_callback(
   KEY_S = 83
   KEY_A = 65
   KEY_D = 68
+  KEY_Q = 81
+  KEY_E = 69
 
   def callback(key: int) -> None:
     if key == KEY_SPACE:
@@ -138,8 +155,12 @@ def create_keyboard_callback(
     elif key == KEY_DOWN or key == KEY_S:
       keyboard_state.toggle("backward")
     elif key == KEY_LEFT or key == KEY_A:
-      keyboard_state.toggle("turn_left")
+      keyboard_state.toggle("strafe_left")
     elif key == KEY_RIGHT or key == KEY_D:
+      keyboard_state.toggle("strafe_right")
+    elif key == KEY_Q:
+      keyboard_state.toggle("turn_left")
+    elif key == KEY_E:
       keyboard_state.toggle("turn_right")
 
   return callback
@@ -151,8 +172,10 @@ class KeyboardVelocityCommand(CommandTerm):
   Camera-relative controls (like 3rd person games):
   - W / UP: Move forward, auto-rotate toward camera direction
   - S / DOWN: Move backward
-  - A / LEFT: Turn left (yaw)
-  - D / RIGHT: Turn right (yaw)
+  - A / LEFT: Strafe left
+  - D / RIGHT: Strafe right
+  - Q: Turn left (yaw)
+  - E: Turn right (yaw)
   - SPACE: Stop all movement
 
   When moving forward/backward, the robot automatically rotates to align
@@ -200,6 +223,7 @@ class KeyboardVelocityCommand(CommandTerm):
 
     # Default: no movement
     lin_vel_x = 0.0
+    lin_vel_y = 0.0
     ang_vel_z: float | torch.Tensor = 0.0
 
     # Check if we need auto-rotate (forward/backward pressed and camera available)
@@ -238,20 +262,27 @@ class KeyboardVelocityCommand(CommandTerm):
         lin_vel_x = -self.cfg.lin_vel_scale
 
     else:
-      # No camera or not moving forward/backward: use tank controls
+      # No camera or not moving forward/backward: use tank controls for fwd/back
       if ks.forward:
         lin_vel_x = self.cfg.lin_vel_scale
       elif ks.backward:
         lin_vel_x = -self.cfg.lin_vel_scale
 
-      if ks.turn_left:
-        ang_vel_z = self.cfg.ang_vel_scale
-      elif ks.turn_right:
-        ang_vel_z = -self.cfg.ang_vel_scale
+    # Strafe (always available, body-frame lateral movement)
+    if ks.strafe_left:
+      lin_vel_y = self.cfg.lin_vel_scale
+    elif ks.strafe_right:
+      lin_vel_y = -self.cfg.lin_vel_scale
+
+    # Manual yaw control (when not auto-rotating, or can override)
+    if ks.turn_left:
+      ang_vel_z = self.cfg.ang_vel_scale
+    elif ks.turn_right:
+      ang_vel_z = -self.cfg.ang_vel_scale
 
     # Set commands
     self.vel_command_b[:, 0] = lin_vel_x
-    self.vel_command_b[:, 1] = 0.0
+    self.vel_command_b[:, 1] = lin_vel_y
     if isinstance(ang_vel_z, torch.Tensor):
       self.vel_command_b[:, 2] = ang_vel_z
     else:
