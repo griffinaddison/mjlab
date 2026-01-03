@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import time
-
 __all__ = [
   "KeyboardState",
   "KeyboardVelocityCommand",
@@ -28,83 +26,94 @@ if TYPE_CHECKING:
 
 
 class KeyboardState:
-  """Shared state for keyboard input with hold-to-move behavior.
+  """Shared state for keyboard input with toggle behavior.
 
-  Uses timing to detect held keys - MuJoCo's viewer fires repeated key events
-  when a key is held, so we consider a key "held" if pressed within the timeout.
+  Press a direction key to toggle it on, press again to toggle off.
+  Press SPACE to stop all movement.
   """
 
-  def __init__(self, hold_timeout: float = 0.5) -> None:
-    """Initialize keyboard state.
-
-    Args:
-        hold_timeout: Time in seconds after last key press to consider key released.
-            Default 0.5s to account for GLFW key repeat rate variability.
-    """
-    self.hold_timeout = hold_timeout
-    self._last_press: dict[str, float] = {
-      "forward": 0.0,
-      "backward": 0.0,
-      "left": 0.0,
-      "right": 0.0,
-      "turn_left": 0.0,
-      "turn_right": 0.0,
+  def __init__(self) -> None:
+    self._active: dict[str, bool] = {
+      "forward": False,
+      "backward": False,
+      "left": False,
+      "right": False,
+      "turn_left": False,
+      "turn_right": False,
     }
-    # Store camera pose from viewer (updated by key callback)
+    # Store camera pose from viewer (updated every frame via callback)
     self._camera_pose: np.ndarray | None = None
+    # Callback to get current camera pose from viewer
+    self._get_camera_pose: Callable[[], np.ndarray | None] | None = None
 
-  def _is_held(self, key: str) -> bool:
-    """Check if a key is currently held (pressed within timeout)."""
-    return (time.time() - self._last_press[key]) < self.hold_timeout
+  def toggle(self, key: str) -> None:
+    """Toggle a movement key on/off."""
+    if key in self._active:
+      self._active[key] = not self._active[key]
+      # Clear opposing direction
+      opposites = {
+        "forward": "backward",
+        "backward": "forward",
+        "left": "right",
+        "right": "left",
+        "turn_left": "turn_right",
+        "turn_right": "turn_left",
+      }
+      if self._active[key] and key in opposites:
+        self._active[opposites[key]] = False
 
-  def press(self, key: str) -> None:
-    """Record a key press."""
-    self._last_press[key] = time.time()
+  def stop_all(self) -> None:
+    """Stop all movement."""
+    for key in self._active:
+      self._active[key] = False
 
   @property
   def forward(self) -> bool:
-    return self._is_held("forward")
+    return self._active["forward"]
 
   @property
   def backward(self) -> bool:
-    return self._is_held("backward")
+    return self._active["backward"]
 
   @property
   def left(self) -> bool:
-    return self._is_held("left")
+    return self._active["left"]
 
   @property
   def right(self) -> bool:
-    return self._is_held("right")
+    return self._active["right"]
 
   @property
   def turn_left(self) -> bool:
-    return self._is_held("turn_left")
+    return self._active["turn_left"]
 
   @property
   def turn_right(self) -> bool:
-    return self._is_held("turn_right")
+    return self._active["turn_right"]
 
   @property
   def camera_pose(self) -> np.ndarray | None:
+    # Get fresh camera pose if callback is set
+    if self._get_camera_pose is not None:
+      self._camera_pose = self._get_camera_pose()
     return self._camera_pose
 
-  @camera_pose.setter
-  def camera_pose(self, value: np.ndarray | None) -> None:
-    self._camera_pose = value
+  def set_camera_pose_callback(self, callback: Callable[[], np.ndarray | None]) -> None:
+    """Set callback to get camera pose from viewer."""
+    self._get_camera_pose = callback
 
   def reset(self) -> None:
     """Reset all key states."""
-    now = time.time() - self.hold_timeout - 1.0  # Set to expired time
-    for key in self._last_press:
-      self._last_press[key] = now
+    self.stop_all()
 
 
 def create_keyboard_callback(
   keyboard_state: KeyboardState,
   get_camera_pose: Callable[[], np.ndarray | None],
 ) -> Callable[[int], None]:
-  """Create a key callback for the native viewer with hold-to-move behavior.
+  """Create a key callback for the native viewer with toggle behavior.
+
+  Press direction keys to toggle movement on/off. Press SPACE to stop all.
 
   Args:
       keyboard_state: Shared state to update on key press.
@@ -113,7 +122,11 @@ def create_keyboard_callback(
   Returns:
       Key callback function for NativeMujocoViewer.
   """
+  # Set up camera pose callback for continuous updates
+  keyboard_state.set_camera_pose_callback(get_camera_pose)
+
   # GLFW key codes
+  KEY_SPACE = 32
   KEY_UP = 265
   KEY_DOWN = 264
   KEY_LEFT = 263
@@ -126,22 +139,24 @@ def create_keyboard_callback(
   KEY_D = 68  # Alternative right
 
   def callback(key: int) -> None:
-    # Update camera pose on any key press
-    keyboard_state.camera_pose = get_camera_pose()
+    # SPACE stops all movement
+    if key == KEY_SPACE:
+      keyboard_state.stop_all()
+      return
 
-    # Record key presses (hold behavior via timing)
+    # Toggle direction keys
     if key == KEY_UP or key == KEY_W:
-      keyboard_state.press("forward")
+      keyboard_state.toggle("forward")
     elif key == KEY_DOWN or key == KEY_S:
-      keyboard_state.press("backward")
+      keyboard_state.toggle("backward")
     elif key == KEY_LEFT or key == KEY_A:
-      keyboard_state.press("left")
+      keyboard_state.toggle("left")
     elif key == KEY_RIGHT or key == KEY_D:
-      keyboard_state.press("right")
+      keyboard_state.toggle("right")
     elif key == KEY_Q:
-      keyboard_state.press("turn_left")
+      keyboard_state.toggle("turn_left")
     elif key == KEY_E:
-      keyboard_state.press("turn_right")
+      keyboard_state.toggle("turn_right")
 
   return callback
 
@@ -210,8 +225,10 @@ class KeyboardVelocityCommand(CommandTerm):
       # Camera pose is 4x4 matrix, extract forward direction (-Z in camera frame)
       # and right direction (X in camera frame)
       rot = ks.camera_pose[:3, :3]
-      cam_forward_3d = -rot[:, 2]  # -Z is forward in OpenGL convention
-      cam_right_3d = rot[:, 0]  # X is right
+      # Note: We negate because we want "forward" to mean "away from camera"
+      # (the direction the user is looking), not "toward camera target"
+      cam_forward_3d = rot[:, 2]  # Z points away from where camera looks
+      cam_right_3d = -rot[:, 0]  # Negate X to fix left/right
 
       # Project to ground plane (XY) and normalize
       cam_forward = cam_forward_3d[:2]
