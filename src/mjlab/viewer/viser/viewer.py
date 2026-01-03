@@ -6,9 +6,13 @@ Adapted from an MJX visualizer by Chung Min Kim: https://github.com/chungmin99/
 from __future__ import annotations
 
 from concurrent.futures import ThreadPoolExecutor
+from typing import TYPE_CHECKING
 
 import viser
 from typing_extensions import override
+
+if TYPE_CHECKING:
+  import numpy as np
 
 from mjlab.sim.sim import Simulation
 from mjlab.viewer.base import BaseViewer, EnvProtocol, PolicyProtocol, VerbosityLevel
@@ -204,3 +208,42 @@ class ViserPlayViewer(BaseViewer):
         <strong>Speed:</strong> {self._time_multiplier:.0%}
       </div>
       """
+
+  @property
+  def camera_pose(self) -> np.ndarray | None:
+    """Get camera pose as 4x4 transformation matrix.
+
+    Returns:
+        4x4 homogeneous transformation matrix (camera-to-world),
+        or None if no clients are connected.
+    """
+    import numpy as np
+
+    clients = self._server.get_clients()
+    if not clients:
+      return None
+
+    client = next(iter(clients.values()))
+    camera = client.camera
+
+    # Get position, accounting for scene offset when tracking is enabled
+    position = np.array(camera.position)
+    if self._scene.camera_tracking_enabled:
+      position = position - self._scene._scene_offset
+
+    # Convert quaternion (wxyz) to rotation matrix
+    wxyz = np.array(camera.wxyz)
+    w, x, y, z = wxyz
+    rot = np.array(
+      [
+        [1 - 2 * (y * y + z * z), 2 * (x * y - w * z), 2 * (x * z + w * y)],
+        [2 * (x * y + w * z), 1 - 2 * (x * x + z * z), 2 * (y * z - w * x)],
+        [2 * (x * z - w * y), 2 * (y * z + w * x), 1 - 2 * (x * x + y * y)],
+      ]
+    )
+
+    # Build 4x4 matrix
+    mat = np.eye(4)
+    mat[:3, :3] = rot
+    mat[:3, 3] = position
+    return mat

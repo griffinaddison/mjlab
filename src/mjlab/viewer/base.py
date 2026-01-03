@@ -12,6 +12,8 @@ from typing import TYPE_CHECKING, Any, Optional, Protocol
 import torch
 
 if TYPE_CHECKING:
+  import numpy as np
+
   from mjlab.envs import ManagerBasedRlEnvCfg
 
 
@@ -140,6 +142,17 @@ class BaseViewer(ABC):
   def close(self) -> None: ...
   @abstractmethod
   def is_running(self) -> bool: ...
+
+  @property
+  @abstractmethod
+  def camera_pose(self) -> np.ndarray | None:
+    """Get camera pose as 4x4 transformation matrix.
+
+    Returns:
+        4x4 homogeneous transformation matrix (camera-to-world),
+        or None if camera is unavailable.
+    """
+    ...
 
   # Logging.
 

@@ -332,6 +332,56 @@ class NativeMujocoViewer(BaseViewer):
       self.viewer.cam.fixedcamid = -1
       self.viewer.cam.trackbodyid = -1
 
+  @property
+  def camera_pose(self) -> np.ndarray | None:
+    """Get camera pose as 4x4 transformation matrix.
+
+    Returns:
+        4x4 homogeneous transformation matrix (camera-to-world),
+        or None if viewer is not running.
+    """
+    if self.viewer is None or self.mjd is None:
+      return None
+
+    cam = self.viewer.cam
+
+    # Convert spherical to Cartesian (MuJoCo convention)
+    azimuth_rad = np.deg2rad(cam.azimuth)
+    elevation_rad = np.deg2rad(cam.elevation)
+
+    # Camera offset from lookat in world frame
+    dx = cam.distance * np.cos(elevation_rad) * np.cos(azimuth_rad)
+    dy = cam.distance * np.cos(elevation_rad) * np.sin(azimuth_rad)
+    dz = cam.distance * np.sin(elevation_rad)
+
+    # Handle tracking mode - lookat is relative to tracked body
+    lookat = np.array(cam.lookat)
+    if cam.type == mujoco.mjtCamera.mjCAMERA_TRACKING.value and cam.trackbodyid >= 0:
+      lookat = self.mjd.xpos[cam.trackbodyid] + lookat
+
+    camera_pos = lookat + np.array([dx, dy, dz])
+
+    # Build rotation matrix (camera looks at lookat, Z-up)
+    forward = lookat - camera_pos
+    forward = forward / np.linalg.norm(forward)
+    up = np.array([0.0, 0.0, 1.0])
+    right = np.cross(forward, up)
+    right_norm = np.linalg.norm(right)
+    if right_norm < 1e-6:
+      # Camera looking straight up/down - use Y as fallback up
+      up = np.array([0.0, 1.0, 0.0])
+      right = np.cross(forward, up)
+    right = right / np.linalg.norm(right)
+    up = np.cross(right, forward)
+
+    # Build 4x4 matrix (OpenGL convention: -Z forward)
+    mat = np.eye(4)
+    mat[:3, 0] = right
+    mat[:3, 1] = up
+    mat[:3, 2] = -forward
+    mat[:3, 3] = camera_pos
+    return mat
+
   # Reward plotting helpers.
 
   def _init_reward_plots(self, term_names: list[str]) -> None:
