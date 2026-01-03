@@ -169,6 +169,10 @@ def unitree_g1_rough_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
       viz=KeyboardVelocityCommandCfg.VizCfg(z_offset=1.15),
     )
 
+    # Disable command velocity curriculum (expects ranges attribute).
+    if cfg.curriculum is not None and "command_vel" in cfg.curriculum:
+      del cfg.curriculum["command_vel"]
+
   return cfg
 
 
