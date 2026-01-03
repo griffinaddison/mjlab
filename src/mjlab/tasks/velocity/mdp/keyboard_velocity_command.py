@@ -204,9 +204,9 @@ class KeyboardVelocityCommand(CommandTerm):
 
     # Check if we need auto-rotate (forward/backward pressed and camera available)
     if (ks.forward or ks.backward) and ks.camera_pose is not None:
-      # Get camera forward direction (projected to XY)
+      # Get direction away from camera (the direction the robot should face/walk)
       rot = ks.camera_pose[:3, :3]
-      cam_forward_3d = -rot[:, 2]  # -Z is forward in OpenGL convention
+      cam_forward_3d = rot[:, 2]  # +Z points away from where camera looks
       cam_forward_xy = cam_forward_3d[:2]
       cam_norm = np.linalg.norm(cam_forward_xy)
       if cam_norm > 1e-6:
