@@ -54,11 +54,11 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'source/sensors';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Distributed Training" href="distributed_training.html" />
+    <link rel="next" title="RayCast Sensor" href="raycast_sensor.html" />
     <link rel="prev" title="Actuators" href="actuators.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Jan 03, 2026"/>
+    <meta name="docbuild:last-update" content="Jan 05, 2026"/>
   </head>
   
   
@@ -234,6 +234,7 @@
 <li class="toctree-l1"><a class="reference internal" href="observation.html">Observation History and Delay</a></li>
 <li class="toctree-l1"><a class="reference internal" href="actuators.html">Actuators</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Sensors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="raycast_sensor.html">RayCast Sensor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="distributed_training.html">Distributed Training</a></li>
 </ul>
 
@@ -451,6 +452,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sensor-types">Sensor Types</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#builtinsensor">BuiltinSensor</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contactsensor">ContactSensor</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#raycastsensor">RayCastSensor</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">BuiltinSensor</a><ul class="nav section-nav flex-column">
@@ -537,7 +539,7 @@ rewards, terminations, and observations.</p>
 </section>
 <section id="sensor-types">
 <h2>Sensor Types<a class="headerlink" href="#sensor-types" title="Link to this heading">#</a></h2>
-<p>mjlab currently provides two sensor implementations:</p>
+<p>mjlab provides three sensor implementations:</p>
 <section id="builtinsensor">
 <h3>BuiltinSensor<a class="headerlink" href="#builtinsensor" title="Link to this heading">#</a></h3>
 <p>Wraps MuJoCo’s native sensor types (57 total) for measuring forces, positions,
@@ -547,6 +549,12 @@ velocities, and other physical quantities. Returns raw <cite>torch.Tensor</cite>
 <h3>ContactSensor<a class="headerlink" href="#contactsensor" title="Link to this heading">#</a></h3>
 <p>Detects contacts between bodies, geoms, or subtrees. Returns structured
 <cite>ContactData</cite> with forces, positions, air time metrics, etc.</p>
+</section>
+<section id="raycastsensor">
+<h3>RayCastSensor<a class="headerlink" href="#raycastsensor" title="Link to this heading">#</a></h3>
+<p>GPU-accelerated raycasting for terrain scanning and depth sensing. Supports
+grid and pinhole camera patterns with configurable alignment modes.
+See <a class="reference internal" href="raycast_sensor.html#raycast-sensor"><span class="std std-ref">RayCast Sensor</span></a> for full documentation.</p>
 </section>
 </section>
 <section id="id2">
@@ -803,11 +811,11 @@ forces, positions, and timing information.</p>
       </div>
     </a>
     <a class="right-next"
-       href="distributed_training.html"
+       href="raycast_sensor.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Distributed Training</p>
+        <p class="prev-next-title">RayCast Sensor</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -831,6 +839,7 @@ forces, positions, and timing information.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sensor-types">Sensor Types</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#builtinsensor">BuiltinSensor</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#contactsensor">ContactSensor</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#raycastsensor">RayCastSensor</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">BuiltinSensor</a><ul class="nav section-nav flex-column">
@@ -882,7 +891,7 @@ By The mjlab Developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Jan 03, 2026.
+  Last updated on Jan 05, 2026.
   <br/>
 </p>
   </div>
