@@ -478,5 +478,20 @@
       "ee_pos_error": 0.04221540689468384,
       "ee_ori_error": 0.17058175802230835
     }
+  },
+  {
+    "id": "sfad21io",
+    "name": "2026-01-11_02-23-41",
+    "url": "https://wandb.ai/gcbc_researchers/mjlab/runs/sfad21io",
+    "created_at": "2026-01-11T10:23:47Z",
+    "commit": "226d90e",
+    "metrics": {
+      "success_rate": 0.994140625,
+      "mpkpe": 0.027231164276599884,
+      "r_mpkpe": 0.025936001911759377,
+      "joint_vel_error": 3.0184013843536377,
+      "ee_pos_error": 0.04463861137628555,
+      "ee_ori_error": 0.17169469594955444
+    }
   }
 ]
