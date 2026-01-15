@@ -55,7 +55,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Jan 14, 2026"/>
+    <meta name="docbuild:last-update" content="Jan 15, 2026"/>
   </head>
   
   
@@ -1136,6 +1136,7 @@ document.write(`
     <span class="c1"># Transform ray directions (per-ray).</span>
     <span class="n">world_rays</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;bij,nj-&gt;bni&quot;</span><span class="p">,</span> <span class="n">rot_mat</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_directions</span><span class="p">)</span>
 
+    <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ray_pnt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ray_vec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
     <span class="n">pnt_torch</span> <span class="o">=</span> <span class="n">wp</span><span class="o">.</span><span class="n">to_torch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ray_pnt</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">num_envs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_rays</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
     <span class="n">vec_torch</span> <span class="o">=</span> <span class="n">wp</span><span class="o">.</span><span class="n">to_torch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ray_vec</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">num_envs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_rays</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
     <span class="n">pnt_torch</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">world_origins</span><span class="p">)</span>
@@ -1147,6 +1148,7 @@ document.write(`
     <span class="k">else</span><span class="p">:</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">_raycast_direct</span><span class="p">()</span>
 
+    <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ray_dist</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ray_normal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_distances</span> <span class="o">=</span> <span class="n">wp</span><span class="o">.</span><span class="n">to_torch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ray_dist</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_normals_w</span> <span class="o">=</span> <span class="n">wp</span><span class="o">.</span><span class="n">to_torch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ray_normal</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">num_envs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_rays</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_distances</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_distances</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">max_distance</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
@@ -1278,7 +1280,7 @@ By The mjlab Developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Jan 14, 2026.
+  Last updated on Jan 15, 2026.
   <br/>
 </p>
   </div>
