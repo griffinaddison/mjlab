@@ -433,9 +433,6 @@ document.write(`
 <span class="sd">  - Sensor[ContactData] for sensors returning structured contact data</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
-  <span class="n">_cached_data</span><span class="p">:</span> <span class="n">T</span>
-  <span class="n">_is_outdated</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-
 <div class="viewcode-block" id="Sensor.edit_spec">
 <a class="viewcode-back" href="../../../source/api/sensor.html#mjlab.sensor.Sensor.edit_spec">[docs]</a>
   <span class="nd">@abstractmethod</span>
@@ -480,46 +477,31 @@ document.write(`
     <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 
+  <span class="nd">@property</span>
   <span class="nd">@abstractmethod</span>
-  <span class="k">def</span><span class="w"> </span><span class="nf">_compute_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the sensor data.</span>
+  <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the current sensor data.</span>
 
-<span class="sd">    This method is called when the cache is stale. Subclasses must implement</span>
-<span class="sd">    this to compute and return the sensor&#39;s current data.</span>
+<span class="sd">    This property returns the sensor&#39;s current data in its specific type.</span>
+<span class="sd">    The data type is specified by the type parameter T.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">      The sensor data in the format specified by type parameter T.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-  <span class="nd">@property</span>
-  <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the current sensor data (cached within a step).</span>
-
-<span class="sd">    This property returns the sensor&#39;s current data, using a cached value if</span>
-<span class="sd">    available. The cache is invalidated by update() and reset() calls.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">      The sensor data in the format specified by type parameter T.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_outdated</span><span class="p">:</span>
-      <span class="bp">self</span><span class="o">.</span><span class="n">_cached_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_data</span><span class="p">()</span>
-      <span class="bp">self</span><span class="o">.</span><span class="n">_is_outdated</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_data</span>
-
 <div class="viewcode-block" id="Sensor.reset">
 <a class="viewcode-back" href="../../../source/api/sensor.html#mjlab.sensor.Sensor.reset">[docs]</a>
   <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env_ids</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">|</span> <span class="nb">slice</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Reset sensor state for specified environments.</span>
 
-<span class="sd">    Invalidates the cache. Subclasses that maintain internal state should</span>
-<span class="sd">    override this and call super().reset(env_ids).</span>
+<span class="sd">    Base implementation does nothing. Override in subclasses that maintain</span>
+<span class="sd">    internal state.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">      env_ids: Environment indices to reset. If None, reset all environments.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">del</span> <span class="n">env_ids</span>  <span class="c1"># Unused.</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_is_outdated</span> <span class="o">=</span> <span class="kc">True</span></div>
+    <span class="k">del</span> <span class="n">env_ids</span>  <span class="c1"># Unused.</span></div>
 
 
 <div class="viewcode-block" id="Sensor.update">
@@ -527,14 +509,13 @@ document.write(`
   <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Update sensor state after a simulation step.</span>
 
-<span class="sd">    Invalidates the cache. Subclasses that need per-step updates should</span>
-<span class="sd">    override this and call super().update(dt).</span>
+<span class="sd">    Base implementation does nothing. Override in subclasses that need</span>
+<span class="sd">    per-step updates.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">      dt: Time step in seconds.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">del</span> <span class="n">dt</span>  <span class="c1"># Unused.</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_is_outdated</span> <span class="o">=</span> <span class="kc">True</span></div>
+    <span class="k">del</span> <span class="n">dt</span>  <span class="c1"># Unused.</span></div>
 
 
 <div class="viewcode-block" id="Sensor.debug_vis">
