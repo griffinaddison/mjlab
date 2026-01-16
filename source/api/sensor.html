@@ -58,7 +58,7 @@
     <link rel="prev" title="mjlab.actuator" href="actuator.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Jan 15, 2026"/>
+    <meta name="docbuild:last-update" content="Jan 16, 2026"/>
   </head>
   
   
@@ -453,7 +453,6 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.BuiltinSensor.from_existing"><code class="docutils literal notranslate"><span class="pre">BuiltinSensor.from_existing()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.BuiltinSensor.edit_spec"><code class="docutils literal notranslate"><span class="pre">BuiltinSensor.edit_spec()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.BuiltinSensor.initialize"><code class="docutils literal notranslate"><span class="pre">BuiltinSensor.initialize()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.BuiltinSensor.data"><code class="docutils literal notranslate"><span class="pre">BuiltinSensor.data</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.BuiltinSensorCfg"><code class="docutils literal notranslate"><span class="pre">BuiltinSensorCfg</span></code></a><ul class="nav section-nav flex-column">
@@ -504,7 +503,6 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.ContactSensor.__init__"><code class="docutils literal notranslate"><span class="pre">ContactSensor.__init__()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.ContactSensor.edit_spec"><code class="docutils literal notranslate"><span class="pre">ContactSensor.edit_spec()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.ContactSensor.initialize"><code class="docutils literal notranslate"><span class="pre">ContactSensor.initialize()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.ContactSensor.data"><code class="docutils literal notranslate"><span class="pre">ContactSensor.data</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.ContactSensor.reset"><code class="docutils literal notranslate"><span class="pre">ContactSensor.reset()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.ContactSensor.update"><code class="docutils literal notranslate"><span class="pre">ContactSensor.update()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.ContactSensor.compute_first_contact"><code class="docutils literal notranslate"><span class="pre">ContactSensor.compute_first_contact()</span></code></a></li>
@@ -558,7 +556,6 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.RayCastSensor.__init__"><code class="docutils literal notranslate"><span class="pre">RayCastSensor.__init__()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.RayCastSensor.edit_spec"><code class="docutils literal notranslate"><span class="pre">RayCastSensor.edit_spec()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.RayCastSensor.initialize"><code class="docutils literal notranslate"><span class="pre">RayCastSensor.initialize()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.RayCastSensor.data"><code class="docutils literal notranslate"><span class="pre">RayCastSensor.data</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.RayCastSensor.num_rays"><code class="docutils literal notranslate"><span class="pre">RayCastSensor.num_rays</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.RayCastSensor.debug_vis"><code class="docutils literal notranslate"><span class="pre">RayCastSensor.debug_vis()</span></code></a></li>
 </ul>
@@ -692,15 +689,6 @@ Returns raw MuJoCo sensordata as torch.Tensor with shape depending on sensor typ
 </tbody>
 </table>
 </div>
-<p><strong>Attributes:</strong></p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#mjlab.sensor.BuiltinSensor.data" title="mjlab.sensor.BuiltinSensor.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></p></td>
-<td><p>Get the current sensor data.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="mjlab.sensor.BuiltinSensor.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mjlab.sensor.BuiltinSensorCfg" title="mjlab.sensor.builtin_sensor.BuiltinSensorCfg"><span class="pre">BuiltinSensorCfg</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/mjlab/sensor/builtin_sensor.html#BuiltinSensor.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mjlab.sensor.BuiltinSensor.__init__" title="Link to this definition">#</a></dt>
@@ -742,19 +730,6 @@ is ready to run. Use this to cache sensor indices, allocate buffers, etc.</p>
 <li><p><strong>data</strong> – The mjwarp data arrays.</p></li>
 <li><p><strong>device</strong> – Device for tensor operations (e.g., “cuda”, “cpu”).</p></li>
 </ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="mjlab.sensor.BuiltinSensor.data">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tensor</span></em><a class="headerlink" href="#mjlab.sensor.BuiltinSensor.data" title="Link to this definition">#</a></dt>
-<dd><p>Get the current sensor data.</p>
-<p>This property returns the sensor’s current data in its specific type.
-The data type is specified by the type parameter T.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The sensor data in the format specified by type parameter T.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1151,15 +1126,6 @@ exclude: Filter out matches using these regex patterns or exact names.</p>
 </tbody>
 </table>
 </div>
-<p><strong>Attributes:</strong></p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#mjlab.sensor.ContactSensor.data" title="mjlab.sensor.ContactSensor.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></p></td>
-<td><p>Get the current sensor data.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="mjlab.sensor.ContactSensor.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#mjlab.sensor.ContactSensorCfg" title="mjlab.sensor.contact_sensor.ContactSensorCfg"><span class="pre">ContactSensorCfg</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/mjlab/sensor/contact_sensor.html#ContactSensor.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mjlab.sensor.ContactSensor.__init__" title="Link to this definition">#</a></dt>
@@ -1177,25 +1143,12 @@ exclude: Filter out matches using these regex patterns or exact names.</p>
 <dd><p>Map sensors to sensordata buffer and allocate air time state.</p>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="mjlab.sensor.ContactSensor.data">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#mjlab.sensor.ContactData" title="mjlab.sensor.contact_sensor.ContactData"><span class="pre">ContactData</span></a></em><a class="headerlink" href="#mjlab.sensor.ContactSensor.data" title="Link to this definition">#</a></dt>
-<dd><p>Get the current sensor data.</p>
-<p>This property returns the sensor’s current data in its specific type.
-The data type is specified by the type parameter T.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The sensor data in the format specified by type parameter T.</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="mjlab.sensor.ContactSensor.reset">
 <span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#slice" title="(in Python v3.14)"><span class="pre">slice</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/mjlab/sensor/contact_sensor.html#ContactSensor.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mjlab.sensor.ContactSensor.reset" title="Link to this definition">#</a></dt>
 <dd><p>Reset sensor state for specified environments.</p>
-<p>Base implementation does nothing. Override in subclasses that maintain
-internal state.</p>
+<p>Invalidates the cache. Subclasses that maintain internal state should
+override this and call super().reset(env_ids).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>env_ids</strong> – Environment indices to reset. If None, reset all environments.</p>
@@ -1207,8 +1160,8 @@ internal state.</p>
 <dt class="sig sig-object py" id="mjlab.sensor.ContactSensor.update">
 <span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/mjlab/sensor/contact_sensor.html#ContactSensor.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mjlab.sensor.ContactSensor.update" title="Link to this definition">#</a></dt>
 <dd><p>Update sensor state after a simulation step.</p>
-<p>Base implementation does nothing. Override in subclasses that need
-per-step updates.</p>
+<p>Invalidates the cache. Subclasses that need per-step updates should
+override this and call super().update(dt).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>dt</strong> – Time step in seconds.</p>
@@ -1669,10 +1622,7 @@ via factory methods like from_mujoco_camera() or from_intrinsic_matrix().</p>
 <p><strong>Attributes:</strong></p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#mjlab.sensor.RayCastSensor.data" title="mjlab.sensor.RayCastSensor.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></p></td>
-<td><p>Get the current sensor data.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#mjlab.sensor.RayCastSensor.num_rays" title="mjlab.sensor.RayCastSensor.num_rays"><code class="xref py py-obj docutils literal notranslate"><span class="pre">num_rays</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mjlab.sensor.RayCastSensor.num_rays" title="mjlab.sensor.RayCastSensor.num_rays"><code class="xref py py-obj docutils literal notranslate"><span class="pre">num_rays</span></code></a></p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -1713,19 +1663,6 @@ is ready to run. Use this to cache sensor indices, allocate buffers, etc.</p>
 <li><p><strong>data</strong> – The mjwarp data arrays.</p></li>
 <li><p><strong>device</strong> – Device for tensor operations (e.g., “cuda”, “cpu”).</p></li>
 </ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="mjlab.sensor.RayCastSensor.data">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#mjlab.sensor.RayCastData" title="mjlab.sensor.raycast_sensor.RayCastData"><span class="pre">RayCastData</span></a></em><a class="headerlink" href="#mjlab.sensor.RayCastSensor.data" title="Link to this definition">#</a></dt>
-<dd><p>Get the current sensor data.</p>
-<p>This property returns the sensor’s current data in its specific type.
-The data type is specified by the type parameter T.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The sensor data in the format specified by type parameter T.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2010,7 +1947,7 @@ debug visualization.</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mjlab.sensor.Sensor.data" title="mjlab.sensor.Sensor.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code></a></p></td>
-<td><p>Get the current sensor data.</p></td>
+<td><p>Get the current sensor data (cached within a step).</p></td>
 </tr>
 </tbody>
 </table>
@@ -2051,10 +1988,10 @@ is ready to run. Use this to cache sensor indices, allocate buffers, etc.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="mjlab.sensor.Sensor.data">
-<em class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">T</span></em><a class="headerlink" href="#mjlab.sensor.Sensor.data" title="Link to this definition">#</a></dt>
-<dd><p>Get the current sensor data.</p>
-<p>This property returns the sensor’s current data in its specific type.
-The data type is specified by the type parameter T.</p>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">T</span></em><a class="headerlink" href="#mjlab.sensor.Sensor.data" title="Link to this definition">#</a></dt>
+<dd><p>Get the current sensor data (cached within a step).</p>
+<p>This property returns the sensor’s current data, using a cached value if
+available. The cache is invalidated by update() and reset() calls.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The sensor data in the format specified by type parameter T.</p>
@@ -2066,8 +2003,8 @@ The data type is specified by the type parameter T.</p>
 <dt class="sig sig-object py" id="mjlab.sensor.Sensor.reset">
 <span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#slice" title="(in Python v3.14)"><span class="pre">slice</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/mjlab/sensor/sensor.html#Sensor.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mjlab.sensor.Sensor.reset" title="Link to this definition">#</a></dt>
 <dd><p>Reset sensor state for specified environments.</p>
-<p>Base implementation does nothing. Override in subclasses that maintain
-internal state.</p>
+<p>Invalidates the cache. Subclasses that maintain internal state should
+override this and call super().reset(env_ids).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>env_ids</strong> – Environment indices to reset. If None, reset all environments.</p>
@@ -2079,8 +2016,8 @@ internal state.</p>
 <dt class="sig sig-object py" id="mjlab.sensor.Sensor.update">
 <span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/mjlab/sensor/sensor.html#Sensor.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mjlab.sensor.Sensor.update" title="Link to this definition">#</a></dt>
 <dd><p>Update sensor state after a simulation step.</p>
-<p>Base implementation does nothing. Override in subclasses that need
-per-step updates.</p>
+<p>Invalidates the cache. Subclasses that need per-step updates should
+override this and call super().update(dt).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>dt</strong> – Time step in seconds.</p>
@@ -2199,7 +2136,6 @@ debug visualization.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.BuiltinSensor.from_existing"><code class="docutils literal notranslate"><span class="pre">BuiltinSensor.from_existing()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.BuiltinSensor.edit_spec"><code class="docutils literal notranslate"><span class="pre">BuiltinSensor.edit_spec()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.BuiltinSensor.initialize"><code class="docutils literal notranslate"><span class="pre">BuiltinSensor.initialize()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.BuiltinSensor.data"><code class="docutils literal notranslate"><span class="pre">BuiltinSensor.data</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.BuiltinSensorCfg"><code class="docutils literal notranslate"><span class="pre">BuiltinSensorCfg</span></code></a><ul class="nav section-nav flex-column">
@@ -2250,7 +2186,6 @@ debug visualization.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.ContactSensor.__init__"><code class="docutils literal notranslate"><span class="pre">ContactSensor.__init__()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.ContactSensor.edit_spec"><code class="docutils literal notranslate"><span class="pre">ContactSensor.edit_spec()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.ContactSensor.initialize"><code class="docutils literal notranslate"><span class="pre">ContactSensor.initialize()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.ContactSensor.data"><code class="docutils literal notranslate"><span class="pre">ContactSensor.data</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.ContactSensor.reset"><code class="docutils literal notranslate"><span class="pre">ContactSensor.reset()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.ContactSensor.update"><code class="docutils literal notranslate"><span class="pre">ContactSensor.update()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.ContactSensor.compute_first_contact"><code class="docutils literal notranslate"><span class="pre">ContactSensor.compute_first_contact()</span></code></a></li>
@@ -2304,7 +2239,6 @@ debug visualization.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.RayCastSensor.__init__"><code class="docutils literal notranslate"><span class="pre">RayCastSensor.__init__()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.RayCastSensor.edit_spec"><code class="docutils literal notranslate"><span class="pre">RayCastSensor.edit_spec()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.RayCastSensor.initialize"><code class="docutils literal notranslate"><span class="pre">RayCastSensor.initialize()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.RayCastSensor.data"><code class="docutils literal notranslate"><span class="pre">RayCastSensor.data</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.RayCastSensor.num_rays"><code class="docutils literal notranslate"><span class="pre">RayCastSensor.num_rays</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sensor.RayCastSensor.debug_vis"><code class="docutils literal notranslate"><span class="pre">RayCastSensor.debug_vis()</span></code></a></li>
 </ul>
@@ -2383,7 +2317,7 @@ By The mjlab Developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Jan 15, 2026.
+  Last updated on Jan 16, 2026.
   <br/>
 </p>
   </div>
