@@ -397,6 +397,7 @@ document.write(`
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Literal</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">mujoco</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -896,6 +897,155 @@ document.write(`
     <span class="p">)</span>
 
     <span class="n">spawn_height</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">origin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">spawn_height</span><span class="p">])</span>
+
+    <span class="n">geom</span> <span class="o">=</span> <span class="n">TerrainGeometry</span><span class="p">(</span><span class="n">geom</span><span class="o">=</span><span class="n">hfield_geom</span><span class="p">,</span> <span class="n">hfield</span><span class="o">=</span><span class="n">field</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">TerrainOutput</span><span class="p">(</span><span class="n">origin</span><span class="o">=</span><span class="n">origin</span><span class="p">,</span> <span class="n">geometries</span><span class="o">=</span><span class="p">[</span><span class="n">geom</span><span class="p">])</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="HfDiscreteObstaclesTerrainCfg">
+<a class="viewcode-back" href="../../../source/api/terrains.html#mjlab.terrains.HfDiscreteObstaclesTerrainCfg">[docs]</a>
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">HfDiscreteObstaclesTerrainCfg</span><span class="p">(</span><span class="n">SubTerrainCfg</span><span class="p">):</span>
+  <span class="n">obstacle_height_mode</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;choice&quot;</span><span class="p">,</span> <span class="s2">&quot;fixed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;choice&quot;</span>
+  <span class="n">obstacle_width_range</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+  <span class="n">obstacle_height_range</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+  <span class="n">num_obstacles</span><span class="p">:</span> <span class="nb">int</span>
+  <span class="n">platform_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
+  <span class="n">horizontal_scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span>
+  <span class="n">vertical_scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.005</span>
+  <span class="n">base_thickness_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
+  <span class="n">border_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+  <span class="n">square_obstacles</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="HfDiscreteObstaclesTerrainCfg.function">
+<a class="viewcode-back" href="../../../source/api/terrains.html#mjlab.terrains.HfDiscreteObstaclesTerrainCfg.function">[docs]</a>
+  <span class="k">def</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">difficulty</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">mujoco</span><span class="o">.</span><span class="n">MjSpec</span><span class="p">,</span> <span class="n">rng</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span>
+  <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TerrainOutput</span><span class="p">:</span>
+    <span class="n">body</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">body</span><span class="p">(</span><span class="s2">&quot;terrain&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">border_width</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">border_width</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">horizontal_scale</span><span class="p">:</span>
+      <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;Border width (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">border_width</span><span class="si">}</span><span class="s2">) must be &gt;= horizontal scale &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">horizontal_scale</span><span class="si">}</span><span class="s2">)&quot;</span>
+      <span class="p">)</span>
+
+    <span class="n">obs_height</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">obstacle_height_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">difficulty</span> <span class="o">*</span> <span class="p">(</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">obstacle_height_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">obstacle_height_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="n">border_pixels</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">border_width</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">horizontal_scale</span><span class="p">)</span>
+    <span class="n">width_pixels</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">horizontal_scale</span><span class="p">)</span>
+    <span class="n">length_pixels</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">horizontal_scale</span><span class="p">)</span>
+
+    <span class="n">obs_h</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">obs_height</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertical_scale</span><span class="p">)</span>
+    <span class="n">obs_width_min</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obstacle_width_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">horizontal_scale</span><span class="p">)</span>
+    <span class="n">obs_width_max</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obstacle_width_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">horizontal_scale</span><span class="p">)</span>
+    <span class="n">platform_pixels</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">platform_width</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">horizontal_scale</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">border_pixels</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="n">inner_width_pixels</span> <span class="o">=</span> <span class="n">width_pixels</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">border_pixels</span>
+      <span class="n">inner_length_pixels</span> <span class="o">=</span> <span class="n">length_pixels</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">border_pixels</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">inner_width_pixels</span> <span class="o">=</span> <span class="n">width_pixels</span>
+      <span class="n">inner_length_pixels</span> <span class="o">=</span> <span class="n">length_pixels</span>
+
+    <span class="n">noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">inner_width_pixels</span><span class="p">,</span> <span class="n">inner_length_pixels</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
+
+    <span class="n">obs_width_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">obs_width_min</span><span class="p">,</span> <span class="n">obs_width_max</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">obs_width_range</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="n">obs_width_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">obs_width_min</span><span class="p">])</span>
+
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_obstacles</span><span class="p">):</span>
+      <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">obstacle_height_mode</span> <span class="o">==</span> <span class="s2">&quot;choice&quot;</span><span class="p">:</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="n">obs_h</span><span class="p">,</span> <span class="o">-</span><span class="n">obs_h</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">obs_h</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">obs_h</span><span class="p">]))</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">obs_h</span>
+
+      <span class="n">w</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">obs_width_range</span><span class="p">)</span>
+      <span class="n">obs_len</span> <span class="o">=</span> <span class="n">w</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">square_obstacles</span> <span class="k">else</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">obs_width_range</span><span class="p">)</span>
+
+      <span class="n">x_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inner_width_pixels</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+      <span class="n">y_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">inner_length_pixels</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+      <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_range</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_range</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">continue</span>
+      <span class="n">x</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">x_range</span><span class="p">)</span>
+      <span class="n">y</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">y_range</span><span class="p">)</span>
+
+      <span class="n">x_end</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">w</span><span class="p">,</span> <span class="n">inner_width_pixels</span><span class="p">)</span>
+      <span class="n">y_end</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="n">obs_len</span><span class="p">,</span> <span class="n">inner_length_pixels</span><span class="p">)</span>
+      <span class="n">noise</span><span class="p">[</span><span class="n">x</span><span class="p">:</span><span class="n">x_end</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span><span class="n">y_end</span><span class="p">]</span> <span class="o">=</span> <span class="n">h</span>
+
+    <span class="c1"># Clear center platform.</span>
+    <span class="n">cx</span> <span class="o">=</span> <span class="n">inner_width_pixels</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">cy</span> <span class="o">=</span> <span class="n">inner_length_pixels</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">half_pf</span> <span class="o">=</span> <span class="n">platform_pixels</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">x0</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">cx</span> <span class="o">-</span> <span class="n">half_pf</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">x1</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">cx</span> <span class="o">+</span> <span class="n">half_pf</span><span class="p">,</span> <span class="n">inner_width_pixels</span><span class="p">)</span>
+    <span class="n">y0</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">cy</span> <span class="o">-</span> <span class="n">half_pf</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">y1</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">cy</span> <span class="o">+</span> <span class="n">half_pf</span><span class="p">,</span> <span class="n">inner_length_pixels</span><span class="p">)</span>
+    <span class="n">noise</span><span class="p">[</span><span class="n">x0</span><span class="p">:</span><span class="n">x1</span><span class="p">,</span> <span class="n">y0</span><span class="p">:</span><span class="n">y1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="n">border_pixels</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="n">outer_noise</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">width_pixels</span><span class="p">,</span> <span class="n">length_pixels</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
+      <span class="n">outer_noise</span><span class="p">[</span>
+        <span class="n">border_pixels</span> <span class="p">:</span> <span class="n">border_pixels</span> <span class="o">+</span> <span class="n">inner_width_pixels</span><span class="p">,</span>
+        <span class="n">border_pixels</span> <span class="p">:</span> <span class="n">border_pixels</span> <span class="o">+</span> <span class="n">inner_length_pixels</span><span class="p">,</span>
+      <span class="p">]</span> <span class="o">=</span> <span class="n">noise</span>
+      <span class="n">noise</span> <span class="o">=</span> <span class="n">outer_noise</span>
+
+    <span class="n">elevation_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span>
+    <span class="n">elevation_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span>
+    <span class="n">elevation_range</span> <span class="o">=</span> <span class="p">(</span>
+      <span class="n">elevation_max</span> <span class="o">-</span> <span class="n">elevation_min</span> <span class="k">if</span> <span class="n">elevation_max</span> <span class="o">!=</span> <span class="n">elevation_min</span> <span class="k">else</span> <span class="mi">1</span>
+    <span class="p">)</span>
+
+    <span class="n">max_physical_height</span> <span class="o">=</span> <span class="n">elevation_range</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertical_scale</span>
+    <span class="n">base_thickness</span> <span class="o">=</span> <span class="n">max_physical_height</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_thickness_ratio</span>
+
+    <span class="k">if</span> <span class="n">elevation_range</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="n">normalized_elevation</span> <span class="o">=</span> <span class="p">(</span><span class="n">noise</span> <span class="o">-</span> <span class="n">elevation_min</span><span class="p">)</span> <span class="o">/</span> <span class="n">elevation_range</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">normalized_elevation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span>
+
+    <span class="n">unique_id</span> <span class="o">=</span> <span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span>
+    <span class="n">field</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">add_hfield</span><span class="p">(</span>
+      <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;hfield_</span><span class="si">{</span><span class="n">unique_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+      <span class="n">size</span><span class="o">=</span><span class="p">[</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">max_physical_height</span><span class="p">,</span>
+        <span class="n">base_thickness</span><span class="p">,</span>
+      <span class="p">],</span>
+      <span class="n">nrow</span><span class="o">=</span><span class="n">noise</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+      <span class="n">ncol</span><span class="o">=</span><span class="n">noise</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+      <span class="n">userdata</span><span class="o">=</span><span class="n">normalized_elevation</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="c1"># For &quot;choice&quot; mode, obstacles can be negative (pits), so offset the</span>
+    <span class="c1"># geom down so that the zero-level of the noise aligns with z=0.</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">obstacle_height_mode</span> <span class="o">==</span> <span class="s2">&quot;choice&quot;</span><span class="p">:</span>
+      <span class="n">hfield_z_offset</span> <span class="o">=</span> <span class="n">elevation_min</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertical_scale</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">hfield_z_offset</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">material_name</span> <span class="o">=</span> <span class="n">color_by_height</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">noise</span><span class="p">,</span> <span class="n">unique_id</span><span class="p">,</span> <span class="n">normalized_elevation</span><span class="p">)</span>
+
+    <span class="n">hfield_geom</span> <span class="o">=</span> <span class="n">body</span><span class="o">.</span><span class="n">add_geom</span><span class="p">(</span>
+      <span class="nb">type</span><span class="o">=</span><span class="n">mujoco</span><span class="o">.</span><span class="n">mjtGeom</span><span class="o">.</span><span class="n">mjGEOM_HFIELD</span><span class="p">,</span>
+      <span class="n">hfieldname</span><span class="o">=</span><span class="n">field</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+      <span class="n">pos</span><span class="o">=</span><span class="p">[</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">hfield_z_offset</span><span class="p">,</span>
+      <span class="p">],</span>
+      <span class="n">material</span><span class="o">=</span><span class="n">material_name</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">spawn_height</span> <span class="o">=</span> <span class="n">max_physical_height</span> <span class="o">+</span> <span class="n">hfield_z_offset</span>
     <span class="n">origin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">spawn_height</span><span class="p">])</span>
 
     <span class="n">geom</span> <span class="o">=</span> <span class="n">TerrainGeometry</span><span class="p">(</span><span class="n">geom</span><span class="o">=</span><span class="n">hfield_geom</span><span class="p">,</span> <span class="n">hfield</span><span class="o">=</span><span class="n">field</span><span class="p">)</span>
