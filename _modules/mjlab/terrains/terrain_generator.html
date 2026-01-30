@@ -55,7 +55,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Jan 29, 2026"/>
+    <meta name="docbuild:last-update" content="Jan 30, 2026"/>
   </head>
   
   
@@ -401,6 +401,32 @@ document.write(`
 <span class="n">_DARK_GRAY</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
 
 
+<div class="viewcode-block" id="FlatPatchSamplingCfg">
+<a class="viewcode-back" href="../../../source/api/terrains.html#mjlab.terrains.FlatPatchSamplingCfg">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FlatPatchSamplingCfg</span><span class="p">:</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Configuration for sampling flat patches on a heightfield surface.&quot;&quot;&quot;</span>
+
+  <span class="n">num_patches</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Number of flat patches to sample per sub-terrain.&quot;&quot;&quot;</span>
+  <span class="n">patch_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Radius of the circular footprint used to test flatness, in meters.&quot;&quot;&quot;</span>
+  <span class="n">max_height_diff</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Maximum allowed height variation within the patch footprint, in meters.&quot;&quot;&quot;</span>
+  <span class="n">x_range</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">1e6</span><span class="p">,</span> <span class="mf">1e6</span><span class="p">)</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Allowed range of x coordinates for sampled patches, in meters.&quot;&quot;&quot;</span>
+  <span class="n">y_range</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">1e6</span><span class="p">,</span> <span class="mf">1e6</span><span class="p">)</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Allowed range of y coordinates for sampled patches, in meters.&quot;&quot;&quot;</span>
+  <span class="n">z_range</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">1e6</span><span class="p">,</span> <span class="mf">1e6</span><span class="p">)</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Allowed range of z coordinates (world height) for sampled patches, in meters.&quot;&quot;&quot;</span>
+  <span class="n">grid_resolution</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Resolution of the grid used for flat-patch detection, in meters. When</span>
+<span class="sd">  ``None`` (default), the terrain&#39;s own ``horizontal_scale`` is used. Set to a</span>
+<span class="sd">  smaller value (e.g. 0.025) for finer boundary precision at the cost of a</span>
+<span class="sd">  larger intermediate grid.&quot;&quot;&quot;</span></div>
+
+
+
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">TerrainGeometry</span><span class="p">:</span>
   <span class="n">geom</span><span class="p">:</span> <span class="n">mujoco</span><span class="o">.</span><span class="n">MjsGeom</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -412,6 +438,7 @@ document.write(`
 <span class="k">class</span><span class="w"> </span><span class="nc">TerrainOutput</span><span class="p">:</span>
   <span class="n">origin</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
   <span class="n">geometries</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">TerrainGeometry</span><span class="p">]</span>
+  <span class="n">flat_patches</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
 
 <div class="viewcode-block" id="SubTerrainCfg">
@@ -420,6 +447,7 @@ document.write(`
 <span class="k">class</span><span class="w"> </span><span class="nc">SubTerrainCfg</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
   <span class="n">proportion</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
   <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)</span>
+  <span class="n">flat_patch_sampling</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">FlatPatchSamplingCfg</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="SubTerrainCfg.function">
 <a class="viewcode-back" href="../../../source/api/terrains.html#mjlab.terrains.SubTerrainCfg.function">[docs]</a>
@@ -488,7 +516,26 @@ document.write(`
       <span class="n">seed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">np_rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
 
-    <span class="bp">self</span><span class="o">.</span><span class="n">terrain_origins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">num_rows</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">num_cols</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span></div>
+    <span class="bp">self</span><span class="o">.</span><span class="n">terrain_origins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">num_rows</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">num_cols</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+    <span class="c1"># Pre-allocate flat patch storage by scanning all sub-terrain configs.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">flat_patches</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">flat_patch_radii</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">patch_names</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">sub_cfg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">sub_terrains</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+      <span class="k">if</span> <span class="n">sub_cfg</span><span class="o">.</span><span class="n">flat_patch_sampling</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">patch_cfg</span> <span class="ow">in</span> <span class="n">sub_cfg</span><span class="o">.</span><span class="n">flat_patch_sampling</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+          <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">patch_names</span><span class="p">:</span>
+            <span class="n">patch_names</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">patch_names</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="n">patch_cfg</span><span class="o">.</span><span class="n">num_patches</span><span class="p">)</span>
+          <span class="k">else</span><span class="p">:</span>
+            <span class="n">patch_names</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">patch_cfg</span><span class="o">.</span><span class="n">num_patches</span>
+          <span class="bp">self</span><span class="o">.</span><span class="n">flat_patch_radii</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">flat_patch_radii</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">patch_cfg</span><span class="o">.</span><span class="n">patch_radius</span>
+          <span class="p">)</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">max_num_patches</span> <span class="ow">in</span> <span class="n">patch_names</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">flat_patches</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+        <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">num_rows</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">num_cols</span><span class="p">,</span> <span class="n">max_num_patches</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+      <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="TerrainGenerator.compile">
@@ -545,6 +592,8 @@ document.write(`
         <span class="n">world_position</span><span class="p">,</span>
         <span class="n">difficulty</span><span class="p">,</span>
         <span class="n">sub_terrains_cfgs</span><span class="p">[</span><span class="n">sub_index</span><span class="p">],</span>
+        <span class="n">sub_row</span><span class="p">,</span>
+        <span class="n">sub_col</span><span class="p">,</span>
       <span class="p">)</span>
 
       <span class="c1"># Store the spawn origin for this terrain.</span>
@@ -574,7 +623,12 @@ document.write(`
         <span class="n">difficulty</span> <span class="o">=</span> <span class="n">lower</span> <span class="o">+</span> <span class="p">(</span><span class="n">upper</span> <span class="o">-</span> <span class="n">lower</span><span class="p">)</span> <span class="o">*</span> <span class="n">difficulty</span>
         <span class="n">world_position</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_sub_terrain_position</span><span class="p">(</span><span class="n">sub_row</span><span class="p">,</span> <span class="n">sub_col</span><span class="p">)</span>
         <span class="n">spawn_origin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_terrain_geom</span><span class="p">(</span>
-          <span class="n">spec</span><span class="p">,</span> <span class="n">world_position</span><span class="p">,</span> <span class="n">difficulty</span><span class="p">,</span> <span class="n">sub_terrains_cfgs</span><span class="p">[</span><span class="n">sub_indices</span><span class="p">[</span><span class="n">sub_col</span><span class="p">]]</span>
+          <span class="n">spec</span><span class="p">,</span>
+          <span class="n">world_position</span><span class="p">,</span>
+          <span class="n">difficulty</span><span class="p">,</span>
+          <span class="n">sub_terrains_cfgs</span><span class="p">[</span><span class="n">sub_indices</span><span class="p">[</span><span class="n">sub_col</span><span class="p">]],</span>
+          <span class="n">sub_row</span><span class="p">,</span>
+          <span class="n">sub_col</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">terrain_origins</span><span class="p">[</span><span class="n">sub_row</span><span class="p">,</span> <span class="n">sub_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">spawn_origin</span>
 
@@ -600,6 +654,8 @@ document.write(`
     <span class="n">world_position</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">difficulty</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">cfg</span><span class="p">:</span> <span class="n">SubTerrainCfg</span><span class="p">,</span>
+    <span class="n">sub_row</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">sub_col</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
   <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a terrain geometry at the specified world position.</span>
 
@@ -608,6 +664,8 @@ document.write(`
 <span class="sd">      world_position: World position of the terrain&#39;s corner.</span>
 <span class="sd">      difficulty: Difficulty parameter for terrain generation.</span>
 <span class="sd">      cfg: Sub-terrain configuration.</span>
+<span class="sd">      sub_row: Row index in the terrain grid.</span>
+<span class="sd">      sub_col: Column index in the terrain grid.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">      The spawn origin in world coordinates.</span>
@@ -624,9 +682,23 @@ document.write(`
             <span class="n">terrain_geom</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">rgba</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
           <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">color_scheme</span> <span class="o">==</span> <span class="s2">&quot;none&quot;</span><span class="p">:</span>
             <span class="n">terrain_geom</span><span class="o">.</span><span class="n">geom</span><span class="o">.</span><span class="n">rgba</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">output</span><span class="o">.</span><span class="n">origin</span> <span class="o">+</span> <span class="n">world_position</span>
+
+    <span class="c1"># Collect flat patches into pre-allocated arrays.</span>
+    <span class="n">spawn_origin</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">origin</span> <span class="o">+</span> <span class="n">world_position</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">arr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">flat_patches</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+      <span class="k">if</span> <span class="n">output</span><span class="o">.</span><span class="n">flat_patches</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">output</span><span class="o">.</span><span class="n">flat_patches</span><span class="p">:</span>
+        <span class="n">patches</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">flat_patches</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="n">arr</span><span class="p">[</span><span class="n">sub_row</span><span class="p">,</span> <span class="n">sub_col</span><span class="p">,</span> <span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">patches</span><span class="p">)]</span> <span class="o">=</span> <span class="n">patches</span> <span class="o">+</span> <span class="n">world_position</span>
+        <span class="n">arr</span><span class="p">[</span><span class="n">sub_row</span><span class="p">,</span> <span class="n">sub_col</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">patches</span><span class="p">)</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">spawn_origin</span>
+      <span class="k">elif</span> <span class="n">cfg</span><span class="o">.</span><span class="n">flat_patch_sampling</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">flat_patch_sampling</span><span class="p">:</span>
+        <span class="c1"># Terrain didn&#39;t produce patches (primitive fallback): fill with spawn origin.</span>
+        <span class="n">arr</span><span class="p">[</span><span class="n">sub_row</span><span class="p">,</span> <span class="n">sub_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">spawn_origin</span>
+
+    <span class="k">return</span> <span class="n">spawn_origin</span>
 
   <span class="k">def</span><span class="w"> </span><span class="nf">_add_terrain_border</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">mujoco</span><span class="o">.</span><span class="n">MjSpec</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">border_width</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">:</span>
+      <span class="k">return</span>
     <span class="n">body</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">body</span><span class="p">(</span><span class="s2">&quot;terrain&quot;</span><span class="p">)</span>
     <span class="n">border_size</span> <span class="o">=</span> <span class="p">(</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">num_rows</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">border_width</span><span class="p">,</span>
@@ -712,7 +784,7 @@ By The mjlab Developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Jan 29, 2026.
+  Last updated on Jan 30, 2026.
   <br/>
 </p>
   </div>

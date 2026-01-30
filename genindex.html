@@ -55,7 +55,7 @@
     <link rel="search" title="Search" href="search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Jan 29, 2026"/>
+    <meta name="docbuild:last-update" content="Jan 30, 2026"/>
   </head>
   
   
@@ -412,6 +412,8 @@ document.write(`
  | <a href="#V"><strong>V</strong></a>
  | <a href="#W"><strong>W</strong></a>
  | <a href="#X"><strong>X</strong></a>
+ | <a href="#Y"><strong>Y</strong></a>
+ | <a href="#Z"><strong>Z</strong></a>
  
 </div>
 <h2 id="_">_</h2>
@@ -579,6 +581,8 @@ document.write(`
         <li><a href="source/api/terrains.html#mjlab.terrains.BoxPyramidStairsTerrainCfg.__init__">(mjlab.terrains.BoxPyramidStairsTerrainCfg method)</a>
 </li>
         <li><a href="source/api/terrains.html#mjlab.terrains.BoxRandomGridTerrainCfg.__init__">(mjlab.terrains.BoxRandomGridTerrainCfg method)</a>
+</li>
+        <li><a href="source/api/terrains.html#mjlab.terrains.FlatPatchSamplingCfg.__init__">(mjlab.terrains.FlatPatchSamplingCfg method)</a>
 </li>
         <li><a href="source/api/terrains.html#mjlab.terrains.HfDiscreteObstaclesTerrainCfg.__init__">(mjlab.terrains.HfDiscreteObstaclesTerrainCfg method)</a>
 </li>
@@ -1245,6 +1249,12 @@ document.write(`
 </li>
       <li><a href="source/api/entity.html#mjlab.entity.Entity.find_tendons">find_tendons() (mjlab.entity.Entity method)</a>
 </li>
+      <li><a href="source/api/terrains.html#mjlab.terrains.SubTerrainCfg.flat_patch_sampling">flat_patch_sampling (mjlab.terrains.SubTerrainCfg attribute)</a>
+</li>
+      <li><a href="source/api/terrains.html#mjlab.terrains.TerrainImporter.flat_patches">flat_patches (mjlab.terrains.TerrainImporter property)</a>
+</li>
+      <li><a href="source/api/terrains.html#mjlab.terrains.FlatPatchSamplingCfg">FlatPatchSamplingCfg (class in mjlab.terrains)</a>
+</li>
       <li><a href="source/api/managers.html#mjlab.managers.ObservationGroupCfg.flatten_history_dim">flatten_history_dim (mjlab.managers.ObservationGroupCfg attribute)</a>
 
       <ul>
@@ -1269,12 +1279,12 @@ document.write(`
 </li>
       <li><a href="source/api/actuator.html#mjlab.actuator.BuiltinMuscleActuatorCfg.fpmax">fpmax (mjlab.actuator.BuiltinMuscleActuatorCfg attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/sensor.html#mjlab.sensor.RayCastSensorCfg.frame">frame (mjlab.sensor.RayCastSensorCfg attribute)</a>
 </li>
       <li><a href="source/api/entity.html#mjlab.entity.EntityIndexing.free_joint_q_adr">free_joint_q_adr (mjlab.entity.EntityIndexing attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/entity.html#mjlab.entity.EntityIndexing.free_joint_v_adr">free_joint_v_adr (mjlab.entity.EntityIndexing attribute)</a>
 </li>
       <li><a href="source/api/actuator.html#mjlab.actuator.ActuatorCfg.frictionloss">frictionloss (mjlab.actuator.ActuatorCfg attribute)</a>
@@ -1430,6 +1440,8 @@ document.write(`
       <li><a href="source/api/entity.html#mjlab.entity.EntityData.gravity_vec_w">gravity_vec_w (mjlab.entity.EntityData attribute)</a>
 </li>
       <li><a href="source/api/terrains.html#mjlab.terrains.BoxRandomGridTerrainCfg.grid_height_range">grid_height_range (mjlab.terrains.BoxRandomGridTerrainCfg attribute)</a>
+</li>
+      <li><a href="source/api/terrains.html#mjlab.terrains.FlatPatchSamplingCfg.grid_resolution">grid_resolution (mjlab.terrains.FlatPatchSamplingCfg attribute)</a>
 </li>
       <li><a href="source/api/terrains.html#mjlab.terrains.BoxRandomGridTerrainCfg.grid_width">grid_width (mjlab.terrains.BoxRandomGridTerrainCfg attribute)</a>
 </li>
@@ -1697,6 +1709,8 @@ document.write(`
 </li>
       <li><a href="source/api/envs.html#mjlab.envs.ManagerBasedRlEnv.max_episode_length_s">max_episode_length_s (mjlab.envs.ManagerBasedRlEnv property)</a>
 </li>
+      <li><a href="source/api/terrains.html#mjlab.terrains.FlatPatchSamplingCfg.max_height_diff">max_height_diff (mjlab.terrains.FlatPatchSamplingCfg attribute)</a>
+</li>
       <li><a href="source/api/terrains.html#mjlab.terrains.TerrainImporterCfg.max_init_terrain_level">max_init_terrain_level (mjlab.terrains.TerrainImporterCfg attribute)</a>
 </li>
       <li><a href="source/api/terrains.html#mjlab.terrains.BoxRandomGridTerrainCfg.max_merge_distance">max_merge_distance (mjlab.terrains.BoxRandomGridTerrainCfg attribute)</a>
@@ -1858,10 +1872,10 @@ document.write(`
 </li>
       <li><a href="source/api/sensor.html#mjlab.sensor.RayCastSensorCfg.VizCfg.normal_length">normal_length (mjlab.sensor.RayCastSensorCfg.VizCfg attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/sensor.html#mjlab.sensor.RayCastData.normals_w">normals_w (mjlab.sensor.RayCastData attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/managers.html#mjlab.managers.NullCommandManager">NullCommandManager (class in mjlab.managers)</a>
 </li>
       <li><a href="source/api/managers.html#mjlab.managers.NullCurriculumManager">NullCurriculumManager (class in mjlab.managers)</a>
@@ -1891,6 +1905,8 @@ document.write(`
       <li><a href="source/api/entity.html#mjlab.entity.Entity.num_joints">num_joints (mjlab.entity.Entity property)</a>
 </li>
       <li><a href="source/api/terrains.html#mjlab.terrains.HfDiscreteObstaclesTerrainCfg.num_obstacles">num_obstacles (mjlab.terrains.HfDiscreteObstaclesTerrainCfg attribute)</a>
+</li>
+      <li><a href="source/api/terrains.html#mjlab.terrains.FlatPatchSamplingCfg.num_patches">num_patches (mjlab.terrains.FlatPatchSamplingCfg attribute)</a>
 </li>
       <li><a href="source/api/sensor.html#mjlab.sensor.RayCastSensor.num_rays">num_rays (mjlab.sensor.RayCastSensor property)</a>
 </li>
@@ -1946,6 +1962,8 @@ document.write(`
         <li><a href="source/api/managers.html#mjlab.managers.TerminationTermCfg.params">(mjlab.managers.TerminationTermCfg attribute)</a>
 </li>
       </ul></li>
+      <li><a href="source/api/terrains.html#mjlab.terrains.FlatPatchSamplingCfg.patch_radius">patch_radius (mjlab.terrains.FlatPatchSamplingCfg attribute)</a>
+</li>
       <li><a href="source/api/sensor.html#mjlab.sensor.ContactMatch.pattern">pattern (mjlab.sensor.ContactMatch attribute)</a>
 
       <ul>
@@ -2576,16 +2594,18 @@ document.write(`
 <h2 id="X">X</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/terrains.html#mjlab.terrains.FlatPatchSamplingCfg.x_range">x_range (mjlab.terrains.FlatPatchSamplingCfg attribute)</a>
+</li>
       <li><a href="source/api/actuator.html#mjlab.actuator.XmlMotorActuator">XmlMotorActuator (class in mjlab.actuator)</a>
 </li>
       <li><a href="source/api/actuator.html#mjlab.actuator.XmlMotorActuatorCfg">XmlMotorActuatorCfg (class in mjlab.actuator)</a>
 </li>
       <li><a href="source/api/actuator.html#mjlab.actuator.XmlMuscleActuator">XmlMuscleActuator (class in mjlab.actuator)</a>
 </li>
-      <li><a href="source/api/actuator.html#mjlab.actuator.XmlMuscleActuatorCfg">XmlMuscleActuatorCfg (class in mjlab.actuator)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/actuator.html#mjlab.actuator.XmlMuscleActuatorCfg">XmlMuscleActuatorCfg (class in mjlab.actuator)</a>
+</li>
       <li><a href="source/api/actuator.html#mjlab.actuator.XmlPositionActuator">XmlPositionActuator (class in mjlab.actuator)</a>
 </li>
       <li><a href="source/api/actuator.html#mjlab.actuator.XmlPositionActuatorCfg">XmlPositionActuatorCfg (class in mjlab.actuator)</a>
@@ -2593,6 +2613,22 @@ document.write(`
       <li><a href="source/api/actuator.html#mjlab.actuator.XmlVelocityActuator">XmlVelocityActuator (class in mjlab.actuator)</a>
 </li>
       <li><a href="source/api/actuator.html#mjlab.actuator.XmlVelocityActuatorCfg">XmlVelocityActuatorCfg (class in mjlab.actuator)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Y">Y</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/terrains.html#mjlab.terrains.FlatPatchSamplingCfg.y_range">y_range (mjlab.terrains.FlatPatchSamplingCfg attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Z">Z</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/terrains.html#mjlab.terrains.FlatPatchSamplingCfg.z_range">z_range (mjlab.terrains.FlatPatchSamplingCfg attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -2644,7 +2680,7 @@ By The mjlab Developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Jan 29, 2026.
+  Last updated on Jan 30, 2026.
   <br/>
 </p>
   </div>
