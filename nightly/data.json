@@ -718,5 +718,20 @@
       "ee_pos_error": 0.04977509379386902,
       "ee_ori_error": 0.1774878203868866
     }
+  },
+  {
+    "id": "susicp94",
+    "name": "2026-02-01_02-11-18",
+    "url": "https://wandb.ai/gcbc_researchers/mjlab/runs/susicp94",
+    "created_at": "2026-02-01T10:11:25Z",
+    "commit": "a04f4c4",
+    "metrics": {
+      "success_rate": 0.98828125,
+      "mpkpe": 0.02940071001648903,
+      "r_mpkpe": 0.028891127556562424,
+      "joint_vel_error": 3.1810054779052734,
+      "ee_pos_error": 0.04706261679530144,
+      "ee_ori_error": 0.17777425050735474
+    }
   }
 ]
