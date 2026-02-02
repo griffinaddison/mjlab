@@ -463,10 +463,16 @@ document.write(`
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;Configuration for a pyramid stairs terrain.&quot;&quot;&quot;</span>
 
   <span class="n">border_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Width of the flat border frame around the staircase, in meters. Ignored</span>
+<span class="sd">  when holes is True.&quot;&quot;&quot;</span>
   <span class="n">step_height_range</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Min and max step height, in meters. Interpolated by difficulty.&quot;&quot;&quot;</span>
   <span class="n">step_width</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Depth (run) of each step, in meters.&quot;&quot;&quot;</span>
   <span class="n">platform_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Side length of the flat square platform at the top of the staircase, in meters.&quot;&quot;&quot;</span>
   <span class="n">holes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;If True, steps form a cross pattern with empty gaps in the corners.&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="BoxPyramidStairsTerrainCfg.function">
 <a class="viewcode-back" href="../../../source/api/terrains.html#mjlab.terrains.BoxPyramidStairsTerrainCfg.function">[docs]</a>
@@ -786,12 +792,22 @@ document.write(`
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">BoxRandomGridTerrainCfg</span><span class="p">(</span><span class="n">SubTerrainCfg</span><span class="p">):</span>
   <span class="n">grid_width</span><span class="p">:</span> <span class="nb">float</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Side length of each square grid cell, in meters.&quot;&quot;&quot;</span>
   <span class="n">grid_height_range</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Min and max grid cell height bound, in meters. Interpolated by difficulty.</span>
+<span class="sd">  At a given difficulty, cell heights are sampled uniformly from</span>
+<span class="sd">  [-bound, +bound].&quot;&quot;&quot;</span>
   <span class="n">platform_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Side length of the flat square platform at the grid center, in meters.&quot;&quot;&quot;</span>
   <span class="n">holes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;If True, only the cross-shaped region around the center platform has grid cells.&quot;&quot;&quot;</span>
   <span class="n">merge_similar_heights</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;If True, adjacent cells with similar heights are merged into larger boxes</span>
+<span class="sd">  to reduce geom count.&quot;&quot;&quot;</span>
   <span class="n">height_merge_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.05</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Maximum height difference between cells that can be merged, in meters.&quot;&quot;&quot;</span>
   <span class="n">max_merge_distance</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Maximum number of grid cells that can be merged in each direction.&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="BoxRandomGridTerrainCfg.function">
 <a class="viewcode-back" href="../../../source/api/terrains.html#mjlab.terrains.BoxRandomGridTerrainCfg.function">[docs]</a>

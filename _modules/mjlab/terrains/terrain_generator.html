@@ -430,15 +430,21 @@ document.write(`
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">TerrainGeometry</span><span class="p">:</span>
   <span class="n">geom</span><span class="p">:</span> <span class="n">mujoco</span><span class="o">.</span><span class="n">MjsGeom</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;MuJoCo geometry spec element, or None.&quot;&quot;&quot;</span>
   <span class="n">hfield</span><span class="p">:</span> <span class="n">mujoco</span><span class="o">.</span><span class="n">MjsHField</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;MuJoCo heightfield spec element, or None.&quot;&quot;&quot;</span>
   <span class="n">color</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;RGBA color override for this geometry, or None to use default.&quot;&quot;&quot;</span>
 
 
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">TerrainOutput</span><span class="p">:</span>
   <span class="n">origin</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Spawn origin position (x, y, z) in the sub-terrain&#39;s local frame.&quot;&quot;&quot;</span>
   <span class="n">geometries</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">TerrainGeometry</span><span class="p">]</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;List of geometry elements comprising this terrain.&quot;&quot;&quot;</span>
   <span class="n">flat_patches</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Named sets of flat patch positions, each an (N, 3) array. None if not configured.&quot;&quot;&quot;</span>
 
 
 <div class="viewcode-block" id="SubTerrainCfg">
@@ -446,8 +452,11 @@ document.write(`
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">SubTerrainCfg</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
   <span class="n">proportion</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Relative weight for randomly selecting this terrain type.&quot;&quot;&quot;</span>
   <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Width and length of the terrain patch, in meters.&quot;&quot;&quot;</span>
   <span class="n">flat_patch_sampling</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">FlatPatchSamplingCfg</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Named flat-patch sampling configurations, or None to disable.&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="SubTerrainCfg.function">
 <a class="viewcode-back" href="../../../source/api/terrains.html#mjlab.terrains.SubTerrainCfg.function">[docs]</a>
@@ -470,16 +479,28 @@ document.write(`
 <span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">TerrainGeneratorCfg</span><span class="p">:</span>
   <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Random seed for terrain generation. None uses a random seed.&quot;&quot;&quot;</span>
   <span class="n">curriculum</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;If True, difficulty increases along rows. If False, difficulty is random.&quot;&quot;&quot;</span>
   <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Width and length of each sub-terrain patch, in meters.&quot;&quot;&quot;</span>
   <span class="n">border_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Width of the flat border around the entire terrain grid, in meters.&quot;&quot;&quot;</span>
   <span class="n">border_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Height of the border wall around the terrain grid, in meters.&quot;&quot;&quot;</span>
   <span class="n">num_rows</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Number of sub-terrain rows in the grid.&quot;&quot;&quot;</span>
   <span class="n">num_cols</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Number of sub-terrain columns in the grid.&quot;&quot;&quot;</span>
   <span class="n">color_scheme</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;height&quot;</span><span class="p">,</span> <span class="s2">&quot;random&quot;</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;height&quot;</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Coloring strategy for terrain geometry. &quot;height&quot; colors by elevation,</span>
+<span class="sd">  &quot;random&quot; assigns random colors, &quot;none&quot; uses uniform gray.&quot;&quot;&quot;</span>
   <span class="n">sub_terrains</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">SubTerrainCfg</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Named sub-terrain configurations to populate the grid.&quot;&quot;&quot;</span>
   <span class="n">difficulty_range</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
-  <span class="n">add_lights</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Min and max difficulty values used when generating sub-terrains.&quot;&quot;&quot;</span>
+  <span class="n">add_lights</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;If True, adds a directional light above the terrain grid.&quot;&quot;&quot;</span></div>
 
 
 
