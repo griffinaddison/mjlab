@@ -1054,15 +1054,20 @@ document.write(`
 <div class="viewcode-block" id="Entity.write_ctrl_to_sim">
 <a class="viewcode-back" href="../../../source/api/entity.html#mjlab.entity.Entity.write_ctrl_to_sim">[docs]</a>
   <span class="k">def</span><span class="w"> </span><span class="nf">write_ctrl_to_sim</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span> <span class="n">ctrl</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">ctrl_ids</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">|</span> <span class="nb">slice</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">ctrl</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">ctrl_ids</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">|</span> <span class="nb">slice</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">env_ids</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">|</span> <span class="nb">slice</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
   <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Write control inputs to the simulation.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">      ctrl: A tensor of control inputs.</span>
 <span class="sd">      ctrl_ids: A tensor of control indices.</span>
+<span class="sd">      env_ids: Optional tensor or slice specifying which environments to set.</span>
+<span class="sd">        If None, all environments are set.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">write_ctrl</span><span class="p">(</span><span class="n">ctrl</span><span class="p">,</span> <span class="n">ctrl_ids</span><span class="p">)</span></div>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">write_ctrl</span><span class="p">(</span><span class="n">ctrl</span><span class="p">,</span> <span class="n">ctrl_ids</span><span class="p">,</span> <span class="n">env_ids</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Entity.write_root_state_to_sim">
