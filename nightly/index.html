@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MJLab Nightly Tracking Benchmark</title>
+    <title>MJLab Nightly Benchmark</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
     <style>
@@ -45,7 +45,7 @@
             background: var(--bg);
             color: var(--text);
             padding: 2rem;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
         header {
@@ -57,26 +57,15 @@
             border-bottom: 1px solid var(--border);
         }
         h1 { font-size: 1.5rem; }
+        .subtitle {
+            font-size: 0.875rem;
+            color: var(--text-dim);
+            margin-top: 0.25rem;
+        }
         .timestamp { color: var(--text-dim); font-size: 0.875rem; }
-        .summary {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-        .stat {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1rem;
-        }
-        .stat-label { font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; }
-        .stat-value { font-size: 1.5rem; font-weight: 600; margin-top: 0.25rem; }
-        .stat-value.good { color: var(--green); }
-        .stat-value.bad { color: var(--red); }
         .charts {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: 1fr;
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
@@ -94,25 +83,7 @@
             justify-content: space-between;
         }
         .chart-value { color: var(--text-dim); }
-        .chart-container { height: 180px; }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        th, td {
-            padding: 0.75rem 1rem;
-            text-align: left;
-            border-bottom: 1px solid var(--border);
-        }
-        th {
-            font-size: 0.75rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-        }
+        .chart-container { height: 350px; }
         a { color: var(--accent); text-decoration: none; }
         a:hover { text-decoration: underline; }
         .theme-toggle {
@@ -150,71 +121,79 @@
         }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
+        .tab-description {
+            font-size: 0.875rem;
+            color: var(--text-dim);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+        .task-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .task-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 0.75rem;
+            cursor: pointer;
+            transition: border-color 0.15s, box-shadow 0.15s;
+            text-align: center;
+        }
+        .task-card:hover { border-color: var(--accent); }
+        .task-card.active {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 1px var(--accent);
+        }
+        .task-card img {
+            width: 100%;
+            aspect-ratio: 16/10;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            background: var(--border);
+        }
+        .task-card .task-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .task-card .task-stat {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            margin-top: 0.2rem;
+        }
+        .task-chart-area {
+            display: none;
+        }
+        .task-chart-area.active {
+            display: block;
+        }
+        footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            line-height: 1.6;
+        }
         @media (max-width: 600px) {
             body { padding: 1rem; }
             h1 { font-size: 1.25rem; }
-            .charts { grid-template-columns: 1fr; }
-            .summary { grid-template-columns: repeat(2, 1fr); }
-            table { display: block; overflow-x: auto; }
             .tabs { flex-wrap: wrap; }
-        }
-        .section-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin: 1.5rem 0 1rem 0;
-            color: var(--text-dim);
-        }
-        .runs-details {
-            margin-top: 1.5rem;
-        }
-        .runs-details summary {
-            cursor: pointer;
-            padding: 0.75rem 1rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-weight: 500;
-            color: var(--text-dim);
-        }
-        .runs-details summary:hover {
-            border-color: var(--accent);
-        }
-        .runs-details[open] summary {
-            border-radius: 8px 8px 0 0;
-            border-bottom: none;
-        }
-        .runs-details table {
-            border-radius: 0 0 8px 8px;
-        }
-        .info-box {
-            margin-bottom: 1.5rem;
-        }
-        .info-box summary {
-            cursor: pointer;
-            font-size: 0.8rem;
-            color: var(--accent);
-            font-weight: 500;
-        }
-        .info-box summary:hover {
-            text-decoration: underline;
-        }
-        .info-box p {
-            margin-top: 0.75rem;
-            padding: 1rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 0.875rem;
-            line-height: 1.5;
-            color: var(--text-dim);
+            .task-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>MJLab Nightly Benchmark</h1>
+        <div>
+            <h1><a href="https://github.com/mujocolab/mjlab" style="color:inherit;text-decoration:none">MJLab</a> Nightly Benchmark</h1>
+            <div class="subtitle">Performance tracking over time</div>
+        </div>
         <div class="header-right">
-            <span class="timestamp">Updated: 2026-02-03 03:32</span>
+            <span class="timestamp">Updated: 2026-02-03 12:42</span>
             <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
                 <span id="theme-icon"></span>
             </button>
@@ -227,67 +206,20 @@
     </div>
 
     <div id="tracking" class="tab-content active">
-        <details class="info-box">
-            <summary>What is this?</summary>
-            <p>
-              Every night, we train a policy to imitate a reference motion on the Unitree G1 using the latest MJLab commit.
-              The trained policy is then evaluated across 1024 trials, with the results logged here to catch regressions over time.
-            </p>
-        </details>
-        <div class="summary" id="summary"></div>
+        <p class="tab-description">Nightly motion imitation training and evaluation on Unitree G1 (1024 trials per run).</p>
         <div class="charts" id="charts"></div>
-        <details class="runs-details">
-            <summary>All Runs</summary>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Commit</th>
-                        <th>Run</th>
-                        <th>Success Rate</th>
-                        <th>MPKPE (m)</th>
-                        <th>EE Pos Error (m)</th>
-                    </tr>
-                </thead>
-                <tbody id="table-body"></tbody>
-            </table>
-        </details>
     </div>
 
     <div id="throughput" class="tab-content">
-        <details class="info-box">
-            <summary>What is this?</summary>
-            <p>
-                Measures simulation throughput in <strong>env steps per second</strong> for different tasks.
-                <strong>Physics SPS</strong> is the theoretical max if only physics ran (no managers).
-                <strong>Env SPS</strong> is the actual throughput including observations, rewards, terminations, and resets.
-                <strong>Overhead</strong> is the percentage of time spent on non-physics work.
-                Benchmarks run on NVIDIA RTX 5090 with 4096 parallel environments.
-            </p>
-            <p>
-                Note: These benchmarks use zero actions, which causes frequent terminations and resets.
-                This represents a worst-case scenario for overhead since resets are expensive.
-            </p>
-        </details>
-        <div class="summary" id="throughput-summary"></div>
-        <div class="charts" id="throughput-charts"></div>
-        <details class="runs-details">
-            <summary>All Runs</summary>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Commit</th>
-                        <th>Task</th>
-                        <th>Physics SPS</th>
-                        <th>Env SPS</th>
-                        <th>Overhead</th>
-                    </tr>
-                </thead>
-                <tbody id="throughput-table-body"></tbody>
-            </table>
-        </details>
+        <p class="tab-description">Physics simulation throughput across tasks (4096 parallel envs, NVIDIA RTX 5090).</p>
+        <div class="task-grid" id="task-grid"></div>
+        <div id="task-chart-panels"></div>
     </div>
+
+    <footer>
+        These benchmarks run nightly using the latest commit.<br>
+        GPU: NVIDIA RTX 5090
+    </footer>
 
     <script>
         // Theme toggle logic
@@ -370,39 +302,30 @@
             const style = getComputedStyle(root);
             const textDim = style.getPropertyValue('--text-dim').trim();
             const border = style.getPropertyValue('--border').trim();
+            const isDark = getEffectiveTheme() === 'dark';
+            const gridColor = isDark ? '#3a424b' : '#d0d7de';
             Chart.defaults.color = textDim;
-            Chart.defaults.borderColor = border;
+            Chart.defaults.borderColor = gridColor;
             charts.forEach(c => c.update());
         }
 
-        // Summary cards
-        const summary = document.getElementById('summary');
-        const latest = runs[runs.length - 1];
-        if (latest) {
-            summary.innerHTML = `
-                <div class="stat">
-                    <div class="stat-label">Total Runs</div>
-                    <div class="stat-value">${runs.length}</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-label">Success Rate</div>
-                    <div class="stat-value ${latest.metrics.success_rate >= 0.95 ? 'good' : latest.metrics.success_rate < 0.8 ? 'bad' : ''}">
-                        ${(latest.metrics.success_rate * 100).toFixed(1)}%
-                    </div>
-                </div>
-                <div class="stat">
-                    <div class="stat-label">MPKPE</div>
-                    <div class="stat-value">${(latest.metrics.mpkpe * 100).toFixed(1)} cm</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-label">EE Position Error</div>
-                    <div class="stat-value">${(latest.metrics.ee_pos_error * 100).toFixed(1)} cm</div>
-                </div>
-            `;
-        }
+        // Initialize theme before creating charts so grid colors are correct.
+        applyTheme();
 
         // Charts
         const chartsContainer = document.getElementById('charts');
+
+        // Compute a rolling average over the last `window` points.
+        function rollingAvg(data, window) {
+            return data.map((d, i) => {
+                const start = Math.max(0, i - window + 1);
+                const slice = data.slice(start, i + 1);
+                const avg = slice.reduce((s, p) => s + p.y, 0) / slice.length;
+                return { x: d.x, y: avg };
+            });
+        }
+
+        const AVG_WINDOW = 7;
 
         METRICS.forEach(([key, label, unit, scale, higherIsBetter]) => {
             const data = runs.map(r => ({
@@ -411,6 +334,9 @@
                 commit: r.commit,
                 name: r.name
             }));
+
+            const avgData = rollingAvg(data, AVG_WINDOW);
+            const color = colors[key] || '#58a6ff';
 
             const latestVal = data[data.length - 1]?.y;
             const arrow = higherIsBetter ? '↑' : '↓';
@@ -430,21 +356,34 @@
             charts.push(new Chart(card.querySelector('canvas'), {
                 type: 'line',
                 data: {
-                    datasets: [{
-                        data: data,
-                        borderColor: colors[key] || '#58a6ff',
-                        backgroundColor: (colors[key] || '#58a6ff') + '20',
-                        borderWidth: 2,
-                        pointRadius: 4,
-                        tension: 0.1,
-                        fill: true
-                    }]
+                    datasets: [
+                        {
+                            label: label,
+                            data: data,
+                            borderColor: color,
+                            backgroundColor: color + '20',
+                            borderWidth: 2,
+                            pointRadius: 4,
+                            tension: 0.1,
+                            fill: true
+                        },
+                        {
+                            label: `${AVG_WINDOW}-run avg`,
+                            data: avgData,
+                            borderColor: color,
+                            borderWidth: 2,
+                            borderDash: [6, 4],
+                            pointRadius: 0,
+                            tension: 0.3,
+                            fill: false
+                        }
+                    ]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     onClick: (event, elements) => {
-                        if (elements.length > 0) {
+                        if (elements.length > 0 && elements[0].datasetIndex === 0) {
                             const d = data[elements[0].index];
                             if (d?.commit && d.commit !== 'unknown') {
                                 window.open(`${GITHUB_REPO}/commit/${d.commit}`, '_blank');
@@ -452,8 +391,13 @@
                         }
                     },
                     plugins: {
-                        legend: { display: false },
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            labels: { usePointStyle: true, pointStyle: 'line', boxHeight: 1 }
+                        },
                         tooltip: {
+                            filter: (item) => item.datasetIndex === 0,
                             callbacks: {
                                 title: (items) => {
                                     const d = items[0]?.raw;
@@ -485,34 +429,13 @@
                             ticks: { maxTicksLimit: 5 },
                             title: {
                                 display: true,
-                                text: `${unit} (${higherIsBetter ? 'higher is better' : 'lower is better'})`,
+                                text: unit,
                                 font: { size: 11 }
                             }
                         }
                     }
                 }
             }));
-        });
-
-        // Initialize theme
-        applyTheme();
-
-        // Table
-        const tbody = document.getElementById('table-body');
-        [...runs].reverse().forEach(run => {
-            const commitLink = run.commit && run.commit !== 'unknown'
-                ? `<a href="${GITHUB_REPO}/commit/${run.commit}" target="_blank"><code>${run.commit}</code></a>`
-                : `<code>${run.commit}</code>`;
-            tbody.innerHTML += `
-                <tr>
-                    <td>${new Date(run.created_at).toLocaleDateString()}</td>
-                    <td>${commitLink}</td>
-                    <td><a href="${run.url}" target="_blank">${run.name}</a></td>
-                    <td>${(run.metrics.success_rate * 100).toFixed(1)}%</td>
-                    <td>${run.metrics.mpkpe.toFixed(4)}</td>
-                    <td>${run.metrics.ee_pos_error.toFixed(4)}</td>
-                </tr>
-            `;
         });
 
         // Tab switching
@@ -533,92 +456,99 @@
             if (tab) tab.click();
         }
 
-        // Throughput data and charts
+        // Throughput data and task cards
         const throughputData = [{"created_at": "2025-12-27T10:24:41.313998+00:00", "commit": "4b625f5", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 491595.81431207986, "env_sps": 253944.87460406503, "overhead_pct": 48.34275085124033}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 279671.1502911464, "env_sps": 140380.43905281049, "overhead_pct": 49.80517693488583}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 595168.345498946, "env_sps": 445057.86007393914, "overhead_pct": 25.221516997710136}]}, {"created_at": "2025-12-27T10:38:10.262987+00:00", "commit": "f1afe31", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 493653.467918742, "env_sps": 253976.6064699149, "overhead_pct": 48.5516413891129}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 288095.59455898846, "env_sps": 140452.65401632473, "overhead_pct": 51.24789942333998}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 595027.5499997175, "env_sps": 444590.66079317295, "overhead_pct": 25.28234015494173}]}, {"created_at": "2025-12-28T11:26:49.435910+00:00", "commit": "6331506", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 493170.69415236847, "env_sps": 254359.63052854568, "overhead_pct": 48.42361203848022}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 284344.69869459653, "env_sps": 140447.7680870134, "overhead_pct": 50.60651078363772}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 593946.113976644, "env_sps": 443930.34961102135, "overhead_pct": 25.257470473410958}]}, {"created_at": "2025-12-29T11:28:46.513247+00:00", "commit": "6331506", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 494876.9240734048, "env_sps": 254580.75446671297, "overhead_pct": 48.556753794211836}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 280929.097874366, "env_sps": 140238.6982024273, "overhead_pct": 50.08039421208574}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 594049.7984557612, "env_sps": 443902.87906996754, "overhead_pct": 25.275140194660807}]}, {"created_at": "2025-12-30T11:36:21.357879+00:00", "commit": "695c360", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 496768.27822228184, "env_sps": 254030.53838384963, "overhead_pct": 48.86337362504008}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 282088.8062181695, "env_sps": 139956.12154138763, "overhead_pct": 50.3857939569766}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 593936.4929157363, "env_sps": 443711.59694712417, "overhead_pct": 25.293090719368372}]}, {"created_at": "2025-12-31T11:34:50.717944+00:00", "commit": "695c360", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 494447.80321983306, "env_sps": 254802.77928371754, "overhead_pct": 48.467203691785556}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 279689.1303330472, "env_sps": 140639.3038044096, "overhead_pct": 49.715849294200446}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 593763.3926551344, "env_sps": 444657.77063444455, "overhead_pct": 25.111959387380487}]}, {"created_at": "2026-01-01T11:20:01.581567+00:00", "commit": "d6c9e18", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 494830.9943733663, "env_sps": 252069.91975199754, "overhead_pct": 49.05939146532069}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 277665.50566594244, "env_sps": 140031.0167023039, "overhead_pct": 49.568450583568605}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 601137.4320293748, "env_sps": 445391.39090906695, "overhead_pct": 25.90855814693257}]}, {"created_at": "2026-01-02T11:26:47.414390+00:00", "commit": "d6c9e18", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 496753.63649228285, "env_sps": 251706.667757384, "overhead_pct": 49.32967787920878}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 277900.6316366703, "env_sps": 139625.1184212805, "overhead_pct": 49.75717845656876}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 595709.4938458565, "env_sps": 444367.05004328216, "overhead_pct": 25.405410752398573}]}, {"created_at": "2026-01-03T11:20:02.852961+00:00", "commit": "d48ec5e", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 500132.3005928314, "env_sps": 252180.88582742872, "overhead_pct": 49.577164776498876}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 278237.74709987704, "env_sps": 140097.2727852117, "overhead_pct": 49.648358554699634}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 596021.5107545006, "env_sps": 445676.8507447654, "overhead_pct": 25.224703688867645}]}, {"created_at": "2026-01-04T11:35:11.164765+00:00", "commit": "6295031", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 493130.40988299897, "env_sps": 251928.0584473021, "overhead_pct": 48.91248777233693}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 281822.1906452953, "env_sps": 139645.51223024342, "overhead_pct": 50.44907148351463}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 596015.8231053475, "env_sps": 445042.3193984694, "overhead_pct": 25.33045228904821}]}, {"created_at": "2026-01-05T11:21:59.341628+00:00", "commit": "6295031", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 494088.3016608731, "env_sps": 252321.3958044695, "overhead_pct": 48.93192270363546}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 284816.6783689042, "env_sps": 139908.93898905147, "overhead_pct": 50.877546992582836}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 595654.211322369, "env_sps": 445611.1342459741, "overhead_pct": 25.189627509439593}]}, {"created_at": "2026-01-06T11:37:22.058446+00:00", "commit": "a386f66", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 494286.6953355753, "env_sps": 251316.34814117957, "overhead_pct": 49.15575302496078}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 282186.4445665497, "env_sps": 139923.46630674196, "overhead_pct": 50.41453301498223}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 602898.0301467925, "env_sps": 445332.35460422386, "overhead_pct": 26.13471394229052}]}, {"created_at": "2026-01-07T11:35:56.050184+00:00", "commit": "364ab7d", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 493306.9370929872, "env_sps": 252880.34541188978, "overhead_pct": 48.73772769098067}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 281707.8521969217, "env_sps": 139942.10777708876, "overhead_pct": 50.32367515291505}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 596124.5855265782, "env_sps": 445392.79181558994, "overhead_pct": 25.285283877000563}]}, {"created_at": "2026-01-08T11:24:55.137844+00:00", "commit": "23ac0dd", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 493708.561541547, "env_sps": 252546.64310115197, "overhead_pct": 48.84701972503682}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 277772.60900406115, "env_sps": 140113.13827039805, "overhead_pct": 49.558331625005714}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 596877.2280431712, "env_sps": 445114.15750347683, "overhead_pct": 25.42617868623355}]}, {"created_at": "2026-01-09T11:35:49.857525+00:00", "commit": "178f5bc", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 493787.3182472471, "env_sps": 252070.09501412656, "overhead_pct": 48.95168715371684}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 278336.1358842441, "env_sps": 139690.22315320032, "overhead_pct": 49.81240121430175}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 596233.5637580081, "env_sps": 444733.40518191125, "overhead_pct": 25.40953206679687}]}, {"created_at": "2026-01-10T11:43:18.641244+00:00", "commit": "226d90e", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 493339.4423661983, "env_sps": 255302.47702542183, "overhead_pct": 48.25013872782652}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 279920.71131786203, "env_sps": 141202.07107067978, "overhead_pct": 49.556404595464635}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 606274.343207966, "env_sps": 444381.8315239527, "overhead_pct": 26.70284723371189}]}, {"created_at": "2026-01-11T11:41:17.379714+00:00", "commit": "226d90e", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 491167.2612741415, "env_sps": 255558.63774585686, "overhead_pct": 47.969122151401166}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 285659.0982399567, "env_sps": 141593.48191801197, "overhead_pct": 50.43270710073029}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 596418.8416301772, "env_sps": 445058.3932045819, "overhead_pct": 25.378213741853873}]}, {"created_at": "2026-01-12T11:39:12.745426+00:00", "commit": "226d90e", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 494578.5716104981, "env_sps": 255224.07463611735, "overhead_pct": 48.395646458149166}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 279944.5880884295, "env_sps": 141496.34556109435, "overhead_pct": 49.455588147895114}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 596392.6122830865, "env_sps": 445392.3690675649, "overhead_pct": 25.318932546375528}]}, {"created_at": "2026-01-13T11:38:40.665392+00:00", "commit": "0f47107", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 489897.28581932, "env_sps": 255293.47500280445, "overhead_pct": 47.88836713478757}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 279144.8582847429, "env_sps": 141386.6378550064, "overhead_pct": 49.35008342128073}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 599402.1518227229, "env_sps": 444917.8288825396, "overhead_pct": 25.77306779270172}]}, {"created_at": "2026-01-14T11:39:14.433692+00:00", "commit": "3149993", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 500591.27292301843, "env_sps": 252767.39927276774, "overhead_pct": 49.50623134182393}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 278806.091526131, "env_sps": 142139.62444183996, "overhead_pct": 49.01846524808875}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 596039.7398699208, "env_sps": 444358.96658793266, "overhead_pct": 25.448097355906295}]}, {"created_at": "2026-01-15T11:41:24.089114+00:00", "commit": "915150e", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 490937.5128252581, "env_sps": 252313.801185689, "overhead_pct": 48.60571975165069}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 279333.27867469355, "env_sps": 141931.5508853957, "overhead_pct": 49.189172318173156}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 596358.9070420127, "env_sps": 445418.7103169092, "overhead_pct": 25.310294680392854}]}, {"created_at": "2026-01-16T11:46:23.387436+00:00", "commit": "71ac65c", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 492170.27741906577, "env_sps": 252920.24823068536, "overhead_pct": 48.61123073969528}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 279546.0025289966, "env_sps": 142219.75215022167, "overhead_pct": 49.12474123629453}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 596365.6184311267, "env_sps": 445305.9713221512, "overhead_pct": 25.33003956639415}]}, {"created_at": "2026-01-18T20:11:20.555595+00:00", "commit": "9f089d2", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 491060.01204349904, "env_sps": 254517.74512859416, "overhead_pct": 48.16972694041141}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 279389.84483632696, "env_sps": 142055.07061399953, "overhead_pct": 49.15524911178547}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 613278.5996901523, "env_sps": 445003.6582196213, "overhead_pct": 27.438580370413845}]}, {"created_at": "2026-01-19T11:48:20.606241+00:00", "commit": "9f089d2", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 500940.07719289913, "env_sps": 255089.0545189441, "overhead_pct": 49.07793044861215}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 278700.4340255354, "env_sps": 141791.33352108794, "overhead_pct": 49.12410738904821}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 595674.7740865939, "env_sps": 444832.0868624443, "overhead_pct": 25.322993987021082}]}, {"created_at": "2026-01-20T11:30:14.593357+00:00", "commit": "30b73e9", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 493538.499674443, "env_sps": 254115.7718070667, "overhead_pct": 48.51145919220259}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 279809.1028630692, "env_sps": 141822.35386753926, "overhead_pct": 49.314603271880266}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 595824.4717953969, "env_sps": 444373.25263180083, "overhead_pct": 25.418764473910972}]}, {"created_at": "2026-01-21T11:34:16.673951+00:00", "commit": "ae79475", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 491561.58393163467, "env_sps": 254017.88547608425, "overhead_pct": 48.32430080390242}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 287636.3787897854, "env_sps": 141743.8743993675, "overhead_pct": 50.721158778403755}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 596001.4014793574, "env_sps": 444312.3109159543, "overhead_pct": 25.45112984413962}]}, {"created_at": "2026-01-22T11:46:17.658117+00:00", "commit": "34603d0", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 490295.5966135215, "env_sps": 254161.17827223134, "overhead_pct": 48.16164370479235}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 279711.6309096334, "env_sps": 141648.53039813734, "overhead_pct": 49.35908459098013}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 595878.5454503, "env_sps": 444076.79096139333, "overhead_pct": 25.47528445988796}]}, {"created_at": "2026-01-23T11:38:07.748628+00:00", "commit": "ae9e888", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 492418.22243621974, "env_sps": 253733.74252768556, "overhead_pct": 48.471902345053785}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 279409.8848071617, "env_sps": 142077.11943176604, "overhead_pct": 49.15100461466408}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 611852.8026276839, "env_sps": 444837.7137079952, "overhead_pct": 27.29661255164968}]}, {"created_at": "2026-01-24T11:48:06.144094+00:00", "commit": "ae9e888", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 493239.91728327336, "env_sps": 254693.60781622186, "overhead_pct": 48.363139540884234}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 279774.1273706572, "env_sps": 141868.6384820844, "overhead_pct": 49.29172335720289}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 596006.5259969992, "env_sps": 444566.489694264, "overhead_pct": 25.40912384296572}]}, {"created_at": "2026-01-25T11:29:09.674994+00:00", "commit": "ae9e888", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 496029.8982619546, "env_sps": 254519.27335591154, "overhead_pct": 48.68872335161149}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 279331.25165670365, "env_sps": 141718.20043303882, "overhead_pct": 49.26518261293241}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 595650.7420977923, "env_sps": 444578.6108113543, "overhead_pct": 25.362535561423915}]}, {"created_at": "2026-01-27T11:21:15.159330+00:00", "commit": "a3f28e5", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 493015.6396573592, "env_sps": 253661.50818429148, "overhead_pct": 48.54899362612846}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 279120.9847426109, "env_sps": 141600.25434375668, "overhead_pct": 49.26921941238772}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 614486.7921631801, "env_sps": 443651.58673831244, "overhead_pct": 27.80128191583676}]}, {"created_at": "2026-01-28T11:35:11.349385+00:00", "commit": "58ac682", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 489936.2038100265, "env_sps": 253846.23612909668, "overhead_pct": 48.1878999439025}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 279765.37642162765, "env_sps": 141867.8052371585, "overhead_pct": 49.29043505964336}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 596053.4412670706, "env_sps": 444482.37237408495, "overhead_pct": 25.429107257695026}]}, {"created_at": "2026-02-01T11:27:12.906649+00:00", "commit": "a04f4c4", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 509602.2468982096, "env_sps": 260456.2480136191, "overhead_pct": 48.890286571745854}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 295652.0861410296, "env_sps": 147262.1644149163, "overhead_pct": 50.19072371954431}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 655432.7598471186, "env_sps": 477570.39067305764, "overhead_pct": 27.136630951365305}]}, {"created_at": "2026-02-02T11:37:15.969325+00:00", "commit": "0554e4d", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 507890.42872325116, "env_sps": 260353.20550709436, "overhead_pct": 48.73831228488055}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 295016.2556755738, "env_sps": 147324.91378928802, "overhead_pct": 50.06210303499354}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 655158.8300808147, "env_sps": 477761.17381737835, "overhead_pct": 27.077045766376084}]}, {"created_at": "2026-02-03T11:32:04.736614+00:00", "commit": "a85d384", "results": [{"task": "Mjlab-Velocity-Flat-Unitree-Go1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 506823.2562707918, "env_sps": 260194.42536759278, "overhead_pct": 48.66170363173452}, {"task": "Mjlab-Tracking-Flat-Unitree-G1", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 296148.7996685842, "env_sps": 147101.6972501759, "overhead_pct": 50.32845062522784}, {"task": "Mjlab-Lift-Cube-Yam", "num_envs": 4096, "num_steps": 200, "decimation": 4, "physics_sps": 655251.6722058884, "env_sps": 477413.7837950038, "overhead_pct": 27.14039443992532}]}];
-        const throughputChartsContainer = document.getElementById('throughput-charts');
-        const throughputSummary = document.getElementById('throughput-summary');
-        const throughputTbody = document.getElementById('throughput-table-body');
+        const taskGrid = document.getElementById('task-grid');
+        const taskChartPanels = document.getElementById('task-chart-panels');
+
+        // Task metadata: display name and image path (relative to nightly/)
+        const taskMeta = {
+            'Mjlab-Velocity-Flat-Unitree-Go1': { name: 'Velocity — Go1', img: 'images/velocity_go1.png' },
+            'Mjlab-Tracking-Flat-Unitree-G1': { name: 'Tracking — G1', img: 'images/tracking_g1.png' },
+            'Mjlab-Lift-Cube-Yam': { name: 'Lift Cube — Yam', img: 'images/lift_cube_yam.png' }
+        };
+
+        const throughputChartInstances = {};
 
         if (throughputData.length > 0) {
-            // Get unique tasks from the data
             const tasks = [...new Set(throughputData.flatMap(d => d.results.map(r => r.task)))];
-
-            // Throughput summary (latest values)
             const latestRun = throughputData[throughputData.length - 1];
-            if (latestRun) {
-                let summaryHtml = `<div class="stat"><div class="stat-label">Total Runs</div><div class="stat-value">${throughputData.length}</div></div>`;
-                latestRun.results.forEach(r => {
-                    const taskShort = r.task.replace('Mjlab-', '').replace('-Unitree-', '-');
-                    summaryHtml += `
-                        <div class="stat">
-                            <div class="stat-label">${taskShort} Env SPS</div>
-                            <div class="stat-value">${(r.env_sps / 1000).toFixed(0)}K</div>
-                        </div>`;
-                });
-                throughputSummary.innerHTML = summaryHtml;
-            }
 
-            // Create charts for each metric type
-            const throughputMetrics = [
-                ['physics_sps', 'Physics SPS', true],
-                ['env_sps', 'Env SPS', true],
-                ['overhead_pct', 'Overhead %', false]
-            ];
+            tasks.forEach((task, i) => {
+                const meta = taskMeta[task] || { name: task, img: '' };
+                const latestResult = latestRun?.results.find(r => r.task === task);
+                const latestSps = latestResult ? `${(latestResult.env_sps / 1000).toFixed(0)}K env steps/s` : '';
 
-            const taskColors = {
-                'Mjlab-Velocity-Flat-Unitree-Go1': '#3fb950',
-                'Mjlab-Tracking-Flat-Unitree-G1': '#58a6ff',
-                'Mjlab-Lift-Cube-Yam': '#f0883e'
-            };
-
-            throughputMetrics.forEach(([key, label, higherIsBetter]) => {
+                // Card
                 const card = document.createElement('div');
-                card.className = 'chart-card';
-                const arrow = higherIsBetter ? '↑' : '↓';
-                const tooltip = higherIsBetter ? 'Higher is better' : 'Lower is better';
+                card.className = 'task-card' + (i === 0 ? ' active' : '');
+                card.dataset.task = task;
                 card.innerHTML = `
-                    <div class="chart-title">
-                        <span>${label} <span title="${tooltip}" style="cursor:help;opacity:0.6">${arrow}</span></span>
-                    </div>
-                    <div class="chart-container"><canvas></canvas></div>
+                    <img src="${meta.img}" alt="${meta.name}" onerror="this.style.display='none'">
+                    <div class="task-name">${meta.name}</div>
+                    <div class="task-stat">${latestSps}</div>
                 `;
-                throughputChartsContainer.appendChild(card);
+                taskGrid.appendChild(card);
 
-                const datasets = tasks.map(task => {
-                    const data = throughputData.map(run => {
-                        const result = run.results.find(r => r.task === task);
-                        if (!result) return null;
-                        const value = result[key];
-                        return {
-                            x: new Date(run.created_at),
-                            y: key.includes('_sps') ? value / 1000 : value,
-                            commit: run.commit
-                        };
-                    }).filter(d => d !== null);
+                // Chart panel
+                const panel = document.createElement('div');
+                panel.className = 'task-chart-area' + (i === 0 ? ' active' : '');
+                panel.id = `task-panel-${i}`;
+                panel.innerHTML = `
+                    <div class="chart-card">
+                        <div class="chart-title">
+                            <span>${meta.name} — Throughput</span>
+                        </div>
+                        <div class="chart-container"><canvas></canvas></div>
+                    </div>
+                `;
+                taskChartPanels.appendChild(panel);
 
-                    const taskShort = task.replace('Mjlab-', '').replace('-Unitree-', '-');
-                    return {
-                        label: taskShort,
-                        data: data,
-                        borderColor: taskColors[task] || '#58a6ff',
-                        backgroundColor: (taskColors[task] || '#58a6ff') + '20',
-                        borderWidth: 2,
-                        pointRadius: 4,
-                        tension: 0.1
-                    };
+                // Build datasets
+                const envData = [];
+                const physicsData = [];
+                throughputData.forEach(run => {
+                    const result = run.results.find(r => r.task === task);
+                    if (!result) return;
+                    const point = { x: new Date(run.created_at), commit: run.commit };
+                    envData.push({ ...point, y: result.env_sps / 1000 });
+                    physicsData.push({ ...point, y: result.physics_sps / 1000 });
                 });
 
-                charts.push(new Chart(card.querySelector('canvas'), {
+                const chart = new Chart(panel.querySelector('canvas'), {
                     type: 'line',
-                    data: { datasets },
+                    data: {
+                        datasets: [
+                            {
+                                label: 'Env SPS',
+                                data: envData,
+                                borderColor: '#58a6ff',
+                                backgroundColor: '#58a6ff20',
+                                borderWidth: 2,
+                                pointRadius: 4,
+                                tension: 0.1,
+                                fill: true
+                            },
+                            {
+                                label: 'Physics SPS',
+                                data: physicsData,
+                                borderColor: '#3fb950',
+                                backgroundColor: '#3fb95020',
+                                borderWidth: 2,
+                                pointRadius: 4,
+                                tension: 0.1,
+                                fill: true
+                            }
+                        ]
+                    },
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
                         onClick: (event, elements) => {
                             if (elements.length > 0) {
-                                const datasetIndex = elements[0].datasetIndex;
-                                const index = elements[0].index;
-                                const d = datasets[datasetIndex].data[index];
+                                const di = elements[0].datasetIndex;
+                                const idx = elements[0].index;
+                                const d = di === 0 ? envData[idx] : physicsData[idx];
                                 if (d?.commit && d.commit !== 'unknown') {
                                     window.open(`${GITHUB_REPO}/commit/${d.commit}`, '_blank');
                                 }
@@ -627,10 +557,23 @@
                         plugins: {
                             legend: { display: true, position: 'bottom' },
                             tooltip: {
+                                mode: 'index',
                                 callbacks: {
                                     title: (items) => {
                                         const d = items[0]?.raw;
                                         return d ? `Commit: ${d.commit}` : '';
+                                    },
+                                    label: (item) => {
+                                        return `${item.dataset.label}: ${item.raw.y?.toFixed(0)}K steps/s`;
+                                    },
+                                    afterBody: (items) => {
+                                        if (items.length >= 2) {
+                                            const envY = items[0]?.raw?.y || 0;
+                                            const physY = items[1]?.raw?.y || 0;
+                                            const overhead = physY > 0 ? ((1 - envY / physY) * 100).toFixed(1) : '?';
+                                            return `Overhead: ${overhead}%`;
+                                        }
+                                        return '';
                                     },
                                     footer: (items) => {
                                         const d = items[0]?.raw;
@@ -650,36 +593,28 @@
                                 ticks: { maxTicksLimit: 5 },
                                 title: {
                                     display: true,
-                                    text: key.includes('_sps') ? 'K env steps/sec' : '%',
+                                    text: 'K steps/s',
                                     font: { size: 11 }
                                 }
                             }
                         }
                     }
-                }));
-            });
+                });
+                charts.push(chart);
+                throughputChartInstances[task] = { chart, panelId: `task-panel-${i}` };
 
-            // Throughput table
-            [...throughputData].reverse().forEach(run => {
-                run.results.forEach((r, i) => {
-                    const taskShort = r.task.replace('Mjlab-', '').replace('-Unitree-', '-');
-                    const commitLink = run.commit && run.commit !== 'unknown'
-                        ? `<a href="${GITHUB_REPO}/commit/${run.commit}" target="_blank"><code>${run.commit}</code></a>`
-                        : `<code>${run.commit}</code>`;
-                    throughputTbody.innerHTML += `
-                        <tr>
-                            <td>${i === 0 ? new Date(run.created_at).toLocaleDateString() : ''}</td>
-                            <td>${i === 0 ? commitLink : ''}</td>
-                            <td>${taskShort}</td>
-                            <td>${(r.physics_sps / 1000).toFixed(0)}K</td>
-                            <td>${(r.env_sps / 1000).toFixed(0)}K</td>
-                            <td>${r.overhead_pct.toFixed(1)}%</td>
-                        </tr>
-                    `;
+                // Card click handler
+                card.addEventListener('click', () => {
+                    document.querySelectorAll('.task-card').forEach(c => c.classList.remove('active'));
+                    document.querySelectorAll('.task-chart-area').forEach(p => p.classList.remove('active'));
+                    card.classList.add('active');
+                    panel.classList.add('active');
+                    // Trigger resize so chart renders at correct size
+                    throughputChartInstances[task].chart.resize();
                 });
             });
         } else {
-            throughputSummary.innerHTML = '<p style="color: var(--text-dim)">No throughput data available. Run measure_throughput.py to generate data.</p>';
+            taskGrid.innerHTML = '<p style="color: var(--text-dim)">No throughput data available. Run measure_throughput.py to generate data.</p>';
         }
     </script>
 </body>
