@@ -451,6 +451,14 @@ document.write(`
 <span class="sd">  The terrain is a grid of sub-terrain patches (num_rows x num_cols), each with</span>
 <span class="sd">  a spawn origin. When num_envs exceeds the number of patches, environment</span>
 <span class="sd">  origins are sampled from the sub-terrain origins.</span>
+
+<span class="sd">  .. note::</span>
+<span class="sd">    Environment allocation for procedural terrain: Columns (terrain types) are</span>
+<span class="sd">    evenly distributed across environments, but rows (difficulty levels) are</span>
+<span class="sd">    randomly sampled. This means multiple environments can spawn on the same</span>
+<span class="sd">    (row, col) patch, leaving others unoccupied, even when num_envs &gt; num_patches.</span>
+
+<span class="sd">  See FAQ: &quot;How does env_origins determine robot layout?&quot;</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="TerrainImporter.__init__">
@@ -664,7 +672,27 @@ document.write(`
   <span class="k">def</span><span class="w"> </span><span class="nf">_compute_env_origins_curriculum</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">num_envs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">origins</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span>
   <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the origins of the environments defined by the sub-terrains origins.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the origins of the environments defined by the sub-terrains origins.</span>
+
+<span class="sd">    Allocation strategy:</span>
+<span class="sd">      - Columns (terrain_types): Evenly distributed across environments using</span>
+<span class="sd">        integer division. Each column gets floor(num_envs / num_cols) or</span>
+<span class="sd">        ceil(num_envs / num_cols) envs.</span>
+<span class="sd">      - Rows (terrain_levels): Randomly sampled from [0, max_init_terrain_level].</span>
+<span class="sd">        Supports curriculum learning where rows represent difficulty levels.</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">      Multiple environments can be assigned to the same (row, col) patch, leaving</span>
+<span class="sd">      other patches unoccupied, even when num_envs &gt; num_patches. This is because</span>
+<span class="sd">      row assignment is random while column assignment is deterministic.</span>
+
+<span class="sd">    Example: 5x5 terrain grid (25 patches), 100 environments:</span>
+<span class="sd">      - Each of 5 columns gets exactly 20 environments</span>
+<span class="sd">      - Those 20 are randomly distributed across 5 rows</span>
+<span class="sd">      - Result: Some patches get 0 envs, others might get 5+</span>
+
+<span class="sd">    See FAQ: &quot;How does env_origins determine robot layout?&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">num_rows</span><span class="p">,</span> <span class="n">num_cols</span> <span class="o">=</span> <span class="n">origins</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">max_init_terrain_level</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
       <span class="n">max_init_level</span> <span class="o">=</span> <span class="n">num_rows</span> <span class="o">-</span> <span class="mi">1</span>
@@ -686,7 +714,19 @@ document.write(`
   <span class="k">def</span><span class="w"> </span><span class="nf">_compute_env_origins_grid</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">num_envs</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">env_spacing</span><span class="p">:</span> <span class="nb">float</span>
   <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the origins of the environments in a grid based on configured spacing.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the origins of the environments in a grid based on configured spacing.</span>
+
+<span class="sd">    Creates an approximately square grid centered at the world origin where:</span>
+<span class="sd">      - num_rows ≈ ceil(sqrt(num_envs))</span>
+<span class="sd">      - num_cols = ceil(num_envs / num_rows)</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">      - 32 envs → 7 rows x 5 cols</span>
+<span class="sd">      - 64 envs → 8 rows x 8 cols</span>
+<span class="sd">      - 4096 envs → 64 rows x 64 cols</span>
+
+<span class="sd">    See FAQ: &quot;How does env_origins determine robot layout?&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">env_origins</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_envs</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
     <span class="n">num_rows</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">num_envs</span> <span class="o">/</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">num_envs</span><span class="p">)))</span>
     <span class="n">num_cols</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">num_envs</span> <span class="o">/</span> <span class="n">num_rows</span><span class="p">)</span>

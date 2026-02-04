@@ -616,6 +616,78 @@ but this is not yet available.</p>
 <p>The MuJoCo Warp team is actively developing <strong>camera support</strong>. Once mature, it
 will be integrated into mjlab for vision-based RL workflows.</p>
 </dd>
+<dt>How many environments can I visualize at once?</dt><dd><p>Visualizers are <strong>limited to 32 environments maximum</strong> for performance reasons.</p>
+<ul class="simple">
+<li><p><strong>Offscreen renderer</strong> (for video recording): Hard-capped at 32 envs
+(see <code class="docutils literal notranslate"><span class="pre">_MAX_ENVS</span></code> in <code class="docutils literal notranslate"><span class="pre">viewer/offscreen_renderer.py:12</span></code>)</p></li>
+<li><p><strong>Native/Viser viewers</strong>: Limited by MuJoCo’s geometry buffer
+(default 10,000 geoms, configurable via <code class="docutils literal notranslate"><span class="pre">max_geom</span></code> parameter)</p></li>
+</ul>
+<p>With thousands of environments, only a subset will be rendered. The viewer
+shows whichever environments fit within the geometry budget.</p>
+</dd>
+<dt>Why are my fixed-base robots all stacked at the origin instead of in a grid?</dt><dd><p>Fixed-base robots require an <strong>explicit reset event</strong> to position them at
+their <code class="docutils literal notranslate"><span class="pre">env_origins</span></code>. If your robots appear stacked at (0, 0, 0):</p>
+<p><strong>Common causes:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Missing reset event</strong> - Most common issue.</p></li>
+<li><p><strong>env_spacing is 0 or very small</strong> - Check your <code class="docutils literal notranslate"><span class="pre">SceneCfg(env_spacing=...)</span></code>.
+Even with proper reset events, if <code class="docutils literal notranslate"><span class="pre">env_spacing=0.0</span></code>, all robots will
+be at the same position. If <code class="docutils literal notranslate"><span class="pre">env_spacing</span></code> is very small (e.g., 0.01),
+they’ll be clustered in a tiny area that looks like a line from a distance.</p></li>
+</ol>
+<p><strong>Solution</strong>: Add a reset event that calls <code class="docutils literal notranslate"><span class="pre">reset_root_state_uniform</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># In your ManagerBasedRlEnvCfg</span>
+<span class="n">events</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="c1"># For positioning the base of the robot at env_origins.</span>
+  <span class="s2">&quot;reset_base&quot;</span><span class="p">:</span> <span class="n">EventTermCfg</span><span class="p">(</span>
+    <span class="n">func</span><span class="o">=</span><span class="n">mdp</span><span class="o">.</span><span class="n">reset_root_state_uniform</span><span class="p">,</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;reset&quot;</span><span class="p">,</span>
+    <span class="n">params</span><span class="o">=</span><span class="p">{</span>
+      <span class="s2">&quot;pose_range&quot;</span><span class="p">:</span> <span class="p">{},</span>  <span class="c1"># Empty = use default pose + env_origins</span>
+      <span class="s2">&quot;velocity_range&quot;</span><span class="p">:</span> <span class="p">{},</span>
+    <span class="p">},</span>
+  <span class="p">),</span>
+  <span class="c1"># ... other events</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This pattern is used in the example manipulation task (see <code class="docutils literal notranslate"><span class="pre">lift_cube_env_cfg.py:84-93</span></code>).</p>
+<p><strong>Why this is needed</strong>: Fixed-base robots are automatically wrapped in mocap
+bodies by <code class="docutils literal notranslate"><span class="pre">auto_wrap_fixed_base_mocap()</span></code>, but mocap positioning only happens
+when you explicitly call a reset event. The <code class="docutils literal notranslate"><span class="pre">env_origins</span></code> offset is applied
+inside <code class="docutils literal notranslate"><span class="pre">reset_root_state_uniform()</span></code> at line 127 of <code class="docutils literal notranslate"><span class="pre">envs/mdp/events.py</span></code>.</p>
+<p>See <a class="reference external" href="https://github.com/mujocolab/mjlab/issues/560">issue #560</a> for examples.</p>
+</dd>
+<dt>How does env_origins determine robot layout?</dt><dd><p>Robot spacing depends on your terrain configuration:</p>
+<dl class="simple">
+<dt><strong>Plane terrain</strong> (<code class="docutils literal notranslate"><span class="pre">terrain_type=&quot;plane&quot;</span></code>):</dt><dd><ul class="simple">
+<li><p>Creates an approximately square grid automatically</p></li>
+<li><p>Grid size: <code class="docutils literal notranslate"><span class="pre">ceil(sqrt(num_envs))</span></code> rows x cols</p></li>
+<li><p>Spacing controlled by <code class="docutils literal notranslate"><span class="pre">env_spacing</span></code> parameter (default: 2.0m)</p></li>
+<li><p>Examples with <code class="docutils literal notranslate"><span class="pre">env_spacing=2.0</span></code>:
+- 32 envs → 7x5 grid spanning 12m x 8m
+- 4096 envs → 64x64 grid spanning 126m x 126m</p></li>
+<li><p><strong>Important</strong>: If <code class="docutils literal notranslate"><span class="pre">env_spacing=0</span></code>, all robots will be at (0, 0, 0)</p></li>
+<li><p>Implementation: <code class="docutils literal notranslate"><span class="pre">terrain_importer.py:_compute_env_origins_grid()</span></code></p></li>
+</ul>
+</dd>
+<dt><strong>Procedural terrain</strong> (<code class="docutils literal notranslate"><span class="pre">terrain_type=&quot;generator&quot;</span></code>):</dt><dd><ul class="simple">
+<li><p>Origins loaded from pre-generated terrain sub-patches</p></li>
+<li><p>Grid size: <code class="docutils literal notranslate"><span class="pre">TerrainGeneratorCfg.num_rows</span> <span class="pre">x</span> <span class="pre">num_cols</span></code></p></li>
+<li><p>Row index = difficulty level (curriculum mode)</p></li>
+<li><p>Column index = terrain type variant</p></li>
+<li><p><strong>Important allocation behavior</strong>: Columns (terrain types) are evenly distributed
+across environments, but rows (difficulty levels) are randomly sampled. This means
+multiple environments can spawn on the same (row, col) patch, leaving others unoccupied,
+even when <code class="docutils literal notranslate"><span class="pre">num_envs</span> <span class="pre">&gt;</span> <span class="pre">num_patches</span></code>.</p></li>
+<li><p>Example: 5x5 grid (25 patches), 100 envs → each column gets exactly 20 envs,
+but those 20 are randomly distributed across 5 rows, so some patches remain empty.</p></li>
+<li><p>Supports <code class="docutils literal notranslate"><span class="pre">randomize_env_origins()</span></code> to shuffle positions during training</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
 </dl>
 </section>
 <section id="development-extensions">

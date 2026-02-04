@@ -490,9 +490,12 @@ document.write(`
   <span class="n">border_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;Height of the border wall around the terrain grid, in meters.&quot;&quot;&quot;</span>
   <span class="n">num_rows</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="w">  </span><span class="sd">&quot;&quot;&quot;Number of sub-terrain rows in the grid.&quot;&quot;&quot;</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Number of sub-terrain rows in the grid. Represents difficulty levels in</span>
+<span class="sd">  curriculum mode. Note: Environments are randomly assigned to rows, so multiple</span>
+<span class="sd">  envs can share the same patch.&quot;&quot;&quot;</span>
   <span class="n">num_cols</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="w">  </span><span class="sd">&quot;&quot;&quot;Number of sub-terrain columns in the grid.&quot;&quot;&quot;</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Number of sub-terrain columns in the grid. Represents terrain type variants.</span>
+<span class="sd">  Note: Environments are evenly distributed across columns (not random).&quot;&quot;&quot;</span>
   <span class="n">color_scheme</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;height&quot;</span><span class="p">,</span> <span class="s2">&quot;random&quot;</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;height&quot;</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;Coloring strategy for terrain geometry. &quot;height&quot; colors by elevation,</span>
 <span class="sd">  &quot;random&quot; assigns random colors, &quot;none&quot; uses uniform gray.&quot;&quot;&quot;</span>

@@ -1657,13 +1657,16 @@ optional overhead lighting.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="mjlab.terrains.TerrainGeneratorCfg.num_rows">
 <span class="sig-name descname"><span class="pre">num_rows</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#mjlab.terrains.TerrainGeneratorCfg.num_rows" title="Link to this definition">#</a></dt>
-<dd><p>Number of sub-terrain rows in the grid.</p>
+<dd><p>Number of sub-terrain rows in the grid. Represents difficulty levels in
+curriculum mode. Note: Environments are randomly assigned to rows, so multiple
+envs can share the same patch.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="mjlab.terrains.TerrainGeneratorCfg.num_cols">
 <span class="sig-name descname"><span class="pre">num_cols</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#mjlab.terrains.TerrainGeneratorCfg.num_cols" title="Link to this definition">#</a></dt>
-<dd><p>Number of sub-terrain columns in the grid.</p>
+<dd><p>Number of sub-terrain columns in the grid. Represents terrain type variants.
+Note: Environments are evenly distributed across columns (not random).</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -1701,6 +1704,14 @@ optional overhead lighting.</p>
 <p>The terrain is a grid of sub-terrain patches (num_rows x num_cols), each with
 a spawn origin. When num_envs exceeds the number of patches, environment
 origins are sampled from the sub-terrain origins.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Environment allocation for procedural terrain: Columns (terrain types) are
+evenly distributed across environments, but rows (difficulty levels) are
+randomly sampled. This means multiple environments can spawn on the same
+(row, col) patch, leaving others unoccupied, even when num_envs &gt; num_patches.</p>
+</div>
+<p>See FAQ: “How does env_origins determine robot layout?”</p>
 <p><strong>Methods:</strong></p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
