@@ -688,6 +688,63 @@ but those 20 are randomly distributed across 5 rows, so some patches remain empt
 </dd>
 </dl>
 </dd>
+<dt>How do I ensure each terrain type gets its own column?</dt><dd><p>Set <code class="docutils literal notranslate"><span class="pre">curriculum=True</span></code> in your <code class="docutils literal notranslate"><span class="pre">TerrainGeneratorCfg</span></code>. This makes column
+allocation deterministic - each column gets one terrain type based on normalized
+proportions.</p>
+<p>Example with 2 terrain types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">TerrainGeneratorCfg</span><span class="p">(</span>
+  <span class="n">num_rows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+  <span class="n">num_cols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+  <span class="n">curriculum</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># Required for deterministic column allocation!</span>
+  <span class="n">sub_terrains</span><span class="o">=</span><span class="p">{</span>
+    <span class="s2">&quot;flat&quot;</span><span class="p">:</span> <span class="n">BoxFlatTerrainCfg</span><span class="p">(</span><span class="n">proportion</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span>  <span class="c1"># Gets column 0</span>
+    <span class="s2">&quot;pillars&quot;</span><span class="p">:</span> <span class="n">HfDiscreteObstaclesTerrainCfg</span><span class="p">(</span>
+      <span class="n">proportion</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>  <span class="c1"># Gets column 1</span>
+    <span class="p">),</span>
+  <span class="p">},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Without <code class="docutils literal notranslate"><span class="pre">curriculum=True</span></code>, every patch is randomly sampled and you’ll get
+a random mix of both terrain types scattered across all patches.</p>
+<p><strong>Note</strong>: When <code class="docutils literal notranslate"><span class="pre">num_cols</span></code> equals the number of terrain types, each terrain
+gets exactly one column regardless of proportion values (they’re normalized).
+When <code class="docutils literal notranslate"><span class="pre">num_cols</span> <span class="pre">&gt;</span> <span class="pre">num_terrain_types</span></code>, proportions determine how many columns
+each terrain type occupies.</p>
+</dd>
+<dt>What is flat patch sampling and how does it affect robot spawning?</dt><dd><p>Flat patch sampling detects flat regions on heightfield terrains where robots
+can safely spawn. It uses morphological filtering on the heightfield to find
+circular areas where height variation is within a tolerance.</p>
+<p>Configure it on any sub-terrain via <code class="docutils literal notranslate"><span class="pre">flat_patch_sampling</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">mjlab.terrains.terrain_generator</span><span class="w"> </span><span class="kn">import</span> <span class="n">FlatPatchSamplingCfg</span>
+
+<span class="s2">&quot;obstacles&quot;</span><span class="p">:</span> <span class="n">HfDiscreteObstaclesTerrainCfg</span><span class="p">(</span>
+  <span class="o">...</span><span class="p">,</span>
+  <span class="n">flat_patch_sampling</span><span class="o">=</span><span class="p">{</span>
+    <span class="s2">&quot;spawn&quot;</span><span class="p">:</span> <span class="n">FlatPatchSamplingCfg</span><span class="p">(</span>
+      <span class="n">num_patches</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>      <span class="c1"># patches to sample per sub-terrain</span>
+      <span class="n">patch_radius</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>    <span class="c1"># flatness check radius (meters)</span>
+      <span class="n">max_height_diff</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>  <span class="c1"># max height variation within radius</span>
+    <span class="p">),</span>
+  <span class="p">},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Then use <code class="docutils literal notranslate"><span class="pre">reset_root_state_from_flat_patches</span></code> as your reset event to spawn
+robots on detected patches instead of at the sub-terrain center.</p>
+<p><strong>Key details:</strong></p>
+<ul class="simple">
+<li><p>Only heightfield (<code class="docutils literal notranslate"><span class="pre">Hf*</span></code>) terrains support actual flat patch detection.
+Box terrains (<code class="docutils literal notranslate"><span class="pre">Box*</span></code>) don’t have heightfield data to analyze.</p></li>
+<li><p>If any sub-terrain in the grid configures <code class="docutils literal notranslate"><span class="pre">flat_patch_sampling</span></code>, the
+flat patches array is allocated for <strong>all</strong> cells. Sub-terrains that don’t
+produce patches have their slots filled with the sub-terrain’s spawn origin,
+so <code class="docutils literal notranslate"><span class="pre">reset_root_state_from_flat_patches</span></code> always gets valid positions.</p></li>
+<li><p>Without <code class="docutils literal notranslate"><span class="pre">flat_patch_sampling</span></code>, use <code class="docutils literal notranslate"><span class="pre">reset_root_state_uniform</span></code> which
+spawns at the sub-terrain origin (<code class="docutils literal notranslate"><span class="pre">env_origins</span></code>) plus an optional random
+offset.</p></li>
+</ul>
+</dd>
 </dl>
 </section>
 <section id="development-extensions">

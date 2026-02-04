@@ -1471,7 +1471,7 @@ larger intermediate grid.</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mjlab.terrains.SubTerrainCfg.proportion" title="mjlab.terrains.SubTerrainCfg.proportion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">proportion</span></code></a></p></td>
-<td><p>Relative weight for randomly selecting this terrain type.</p></td>
+<td><p>Terrain type allocation weight (behavior depends on curriculum mode):</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#mjlab.terrains.SubTerrainCfg.size" title="mjlab.terrains.SubTerrainCfg.size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">size</span></code></a></p></td>
 <td><p>Width and length of the terrain patch, in meters.</p></td>
@@ -1497,7 +1497,14 @@ larger intermediate grid.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="mjlab.terrains.SubTerrainCfg.proportion">
 <span class="sig-name descname"><span class="pre">proportion</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1.0</span></em><a class="headerlink" href="#mjlab.terrains.SubTerrainCfg.proportion" title="Link to this definition">#</a></dt>
-<dd><p>Relative weight for randomly selecting this terrain type.</p>
+<dd><p>Terrain type allocation weight (behavior depends on curriculum mode):</p>
+<ul class="simple">
+<li><p>curriculum=True: Controls column allocation. Normalized proportions determine
+how many columns each terrain type occupies via cumulative distribution.
+Example: proportions [0.5, 0.5] with num_cols=2 gives one terrain per column.</p></li>
+<li><p>curriculum=False: Sampling probability for each patch. Each patch independently
+samples a terrain type weighted by normalized proportions.</p></li>
+</ul>
 </dd></dl>
 
 <dl class="py attribute">
@@ -1536,8 +1543,16 @@ larger intermediate grid.</p>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Generates procedural terrain grids with configurable difficulty.</p>
 <p>Creates a grid of terrain patches where each patch can be a different
-terrain type. Supports two modes: random (patches get random difficulty)
-or curriculum (difficulty increases along rows for progressive training).</p>
+terrain type. Supports two modes:</p>
+<ul class="simple">
+<li><p><strong>Random mode</strong> (curriculum=False): Every patch independently samples a
+terrain type weighted by proportions. Results in random variety across
+all patches.</p></li>
+<li><p><strong>Curriculum mode</strong> (curriculum=True): Columns are deterministically
+assigned to terrain types based on proportions. All patches in a column
+share the same terrain type, with difficulty increasing along rows.
+Use this to ensure each terrain type occupies specific column(s).</p></li>
+</ul>
 <p>Terrain types are weighted by proportion and their geometry is generated
 based on a difficulty value in the configured range. The grid is centered
 at the world origin. A border can be added around the entire grid along with
@@ -1578,7 +1593,7 @@ optional overhead lighting.</p>
 <td><p>Random seed for terrain generation.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#mjlab.terrains.TerrainGeneratorCfg.curriculum" title="mjlab.terrains.TerrainGeneratorCfg.curriculum"><code class="xref py py-obj docutils literal notranslate"><span class="pre">curriculum</span></code></a></p></td>
-<td><p>If True, difficulty increases along rows.</p></td>
+<td><p>Controls terrain allocation mode:</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mjlab.terrains.TerrainGeneratorCfg.size" title="mjlab.terrains.TerrainGeneratorCfg.size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">size</span></code></a></p></td>
 <td><p>Width and length of each sub-terrain patch, in meters.</p></td>
@@ -1628,7 +1643,16 @@ optional overhead lighting.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="mjlab.terrains.TerrainGeneratorCfg.curriculum">
 <span class="sig-name descname"><span class="pre">curriculum</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#mjlab.terrains.TerrainGeneratorCfg.curriculum" title="Link to this definition">#</a></dt>
-<dd><p>If True, difficulty increases along rows. If False, difficulty is random.</p>
+<dd><p>Controls terrain allocation mode:</p>
+<ul class="simple">
+<li><p>curriculum=True: Each column gets ONE terrain type (deterministic allocation).
+Difficulty increases along rows. Use this to ensure each terrain type occupies
+its own column(s).</p></li>
+<li><p>curriculum=False: Every patch is randomly sampled from all terrain types.
+Proportions control sampling probability. Use this for random variety.</p></li>
+</ul>
+<p>Example: With 2 terrain types and num_cols=2, curriculum=True gives one terrain
+per column. curriculum=False gives a random mix of both types in all patches.</p>
 </dd></dl>
 
 <dl class="py attribute">

@@ -232,6 +232,72 @@ How does env_origins determine robot layout?
        but those 20 are randomly distributed across 5 rows, so some patches remain empty.
      - Supports ``randomize_env_origins()`` to shuffle positions during training
 
+How do I ensure each terrain type gets its own column?
+   Set ``curriculum=True`` in your ``TerrainGeneratorCfg``. This makes column
+   allocation deterministic - each column gets one terrain type based on normalized
+   proportions.
+
+   Example with 2 terrain types:
+
+   .. code-block:: python
+
+      TerrainGeneratorCfg(
+        num_rows=3,
+        num_cols=2,
+        curriculum=True,  # Required for deterministic column allocation!
+        sub_terrains={
+          "flat": BoxFlatTerrainCfg(proportion=0.5),  # Gets column 0
+          "pillars": HfDiscreteObstaclesTerrainCfg(
+            proportion=0.5,  # Gets column 1
+          ),
+        },
+      )
+
+   Without ``curriculum=True``, every patch is randomly sampled and you'll get
+   a random mix of both terrain types scattered across all patches.
+
+   **Note**: When ``num_cols`` equals the number of terrain types, each terrain
+   gets exactly one column regardless of proportion values (they're normalized).
+   When ``num_cols > num_terrain_types``, proportions determine how many columns
+   each terrain type occupies.
+
+What is flat patch sampling and how does it affect robot spawning?
+   Flat patch sampling detects flat regions on heightfield terrains where robots
+   can safely spawn. It uses morphological filtering on the heightfield to find
+   circular areas where height variation is within a tolerance.
+
+   Configure it on any sub-terrain via ``flat_patch_sampling``:
+
+   .. code-block:: python
+
+      from mjlab.terrains.terrain_generator import FlatPatchSamplingCfg
+
+      "obstacles": HfDiscreteObstaclesTerrainCfg(
+        ...,
+        flat_patch_sampling={
+          "spawn": FlatPatchSamplingCfg(
+            num_patches=10,      # patches to sample per sub-terrain
+            patch_radius=0.5,    # flatness check radius (meters)
+            max_height_diff=0.05,  # max height variation within radius
+          ),
+        },
+      )
+
+   Then use ``reset_root_state_from_flat_patches`` as your reset event to spawn
+   robots on detected patches instead of at the sub-terrain center.
+
+   **Key details:**
+
+   - Only heightfield (``Hf*``) terrains support actual flat patch detection.
+     Box terrains (``Box*``) don't have heightfield data to analyze.
+   - If any sub-terrain in the grid configures ``flat_patch_sampling``, the
+     flat patches array is allocated for **all** cells. Sub-terrains that don't
+     produce patches have their slots filled with the sub-terrain's spawn origin,
+     so ``reset_root_state_from_flat_patches`` always gets valid positions.
+   - Without ``flat_patch_sampling``, use ``reset_root_state_uniform`` which
+     spawns at the sub-terrain origin (``env_origins``) plus an optional random
+     offset.
+
 Development & Extensions
 ------------------------
 

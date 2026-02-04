@@ -453,7 +453,15 @@ document.write(`
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">SubTerrainCfg</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
   <span class="n">proportion</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
-<span class="w">  </span><span class="sd">&quot;&quot;&quot;Relative weight for randomly selecting this terrain type.&quot;&quot;&quot;</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Terrain type allocation weight (behavior depends on curriculum mode):</span>
+
+<span class="sd">  - curriculum=True: Controls column allocation. Normalized proportions determine</span>
+<span class="sd">    how many columns each terrain type occupies via cumulative distribution.</span>
+<span class="sd">    Example: proportions [0.5, 0.5] with num_cols=2 gives one terrain per column.</span>
+
+<span class="sd">  - curriculum=False: Sampling probability for each patch. Each patch independently</span>
+<span class="sd">    samples a terrain type weighted by normalized proportions.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;Width and length of the terrain patch, in meters.&quot;&quot;&quot;</span>
   <span class="n">flat_patch_sampling</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">FlatPatchSamplingCfg</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -482,7 +490,18 @@ document.write(`
   <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;Random seed for terrain generation. None uses a random seed.&quot;&quot;&quot;</span>
   <span class="n">curriculum</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="w">  </span><span class="sd">&quot;&quot;&quot;If True, difficulty increases along rows. If False, difficulty is random.&quot;&quot;&quot;</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Controls terrain allocation mode:</span>
+
+<span class="sd">  - curriculum=True: Each column gets ONE terrain type (deterministic allocation).</span>
+<span class="sd">    Difficulty increases along rows. Use this to ensure each terrain type occupies</span>
+<span class="sd">    its own column(s).</span>
+
+<span class="sd">  - curriculum=False: Every patch is randomly sampled from all terrain types.</span>
+<span class="sd">    Proportions control sampling probability. Use this for random variety.</span>
+
+<span class="sd">  Example: With 2 terrain types and num_cols=2, curriculum=True gives one terrain</span>
+<span class="sd">  per column. curriculum=False gives a random mix of both types in all patches.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;Width and length of each sub-terrain patch, in meters.&quot;&quot;&quot;</span>
   <span class="n">border_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
@@ -514,8 +533,16 @@ document.write(`
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;Generates procedural terrain grids with configurable difficulty.</span>
 
 <span class="sd">  Creates a grid of terrain patches where each patch can be a different</span>
-<span class="sd">  terrain type. Supports two modes: random (patches get random difficulty)</span>
-<span class="sd">  or curriculum (difficulty increases along rows for progressive training).</span>
+<span class="sd">  terrain type. Supports two modes:</span>
+
+<span class="sd">  - **Random mode** (curriculum=False): Every patch independently samples a</span>
+<span class="sd">    terrain type weighted by proportions. Results in random variety across</span>
+<span class="sd">    all patches.</span>
+
+<span class="sd">  - **Curriculum mode** (curriculum=True): Columns are deterministically</span>
+<span class="sd">    assigned to terrain types based on proportions. All patches in a column</span>
+<span class="sd">    share the same terrain type, with difficulty increasing along rows.</span>
+<span class="sd">    Use this to ensure each terrain type occupies specific column(s).</span>
 
 <span class="sd">  Terrain types are weighted by proportion and their geometry is generated</span>
 <span class="sd">  based on a difficulty value in the configured range. The grid is centered</span>
@@ -715,8 +742,9 @@ document.write(`
         <span class="n">patches</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">flat_patches</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
         <span class="n">arr</span><span class="p">[</span><span class="n">sub_row</span><span class="p">,</span> <span class="n">sub_col</span><span class="p">,</span> <span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">patches</span><span class="p">)]</span> <span class="o">=</span> <span class="n">patches</span> <span class="o">+</span> <span class="n">world_position</span>
         <span class="n">arr</span><span class="p">[</span><span class="n">sub_row</span><span class="p">,</span> <span class="n">sub_col</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">patches</span><span class="p">)</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">spawn_origin</span>
-      <span class="k">elif</span> <span class="n">cfg</span><span class="o">.</span><span class="n">flat_patch_sampling</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">flat_patch_sampling</span><span class="p">:</span>
-        <span class="c1"># Terrain didn&#39;t produce patches (primitive fallback): fill with spawn origin.</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Sub-terrain didn&#39;t produce patches: fill with spawn origin so that</span>
+        <span class="c1"># every slot contains a valid position for reset_root_state_from_flat_patches.</span>
         <span class="n">arr</span><span class="p">[</span><span class="n">sub_row</span><span class="p">,</span> <span class="n">sub_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">spawn_origin</span>
 
     <span class="k">return</span> <span class="n">spawn_origin</span>
