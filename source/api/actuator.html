@@ -59,7 +59,7 @@
     <link rel="prev" title="mjlab.entity" href="entity.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Feb 03, 2026"/>
+    <meta name="docbuild:last-update" content="Feb 04, 2026"/>
   </head>
   
   
@@ -455,6 +455,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.actuator.Actuator.target_names"><code class="docutils literal notranslate"><span class="pre">Actuator.target_names</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.actuator.Actuator.transmission_type"><code class="docutils literal notranslate"><span class="pre">Actuator.transmission_type</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.actuator.Actuator.ctrl_ids"><code class="docutils literal notranslate"><span class="pre">Actuator.ctrl_ids</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.actuator.Actuator.global_ctrl_ids"><code class="docutils literal notranslate"><span class="pre">Actuator.global_ctrl_ids</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.actuator.Actuator.edit_spec"><code class="docutils literal notranslate"><span class="pre">Actuator.edit_spec()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.actuator.Actuator.initialize"><code class="docutils literal notranslate"><span class="pre">Actuator.initialize()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.actuator.Actuator.get_command"><code class="docutils literal notranslate"><span class="pre">Actuator.get_command()</span></code></a></li>
@@ -821,7 +822,10 @@ document.write(`
 <td><p>Transmission type of this actuator.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#mjlab.actuator.Actuator.ctrl_ids" title="mjlab.actuator.Actuator.ctrl_ids"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ctrl_ids</span></code></a></p></td>
-<td><p>Global indices of control inputs for this actuator.</p></td>
+<td><p>Local indices of control inputs within the entity.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mjlab.actuator.Actuator.global_ctrl_ids" title="mjlab.actuator.Actuator.global_ctrl_ids"><code class="xref py py-obj docutils literal notranslate"><span class="pre">global_ctrl_ids</span></code></a></p></td>
+<td><p>Global indices of control inputs in the MuJoCo model.</p></td>
 </tr>
 </tbody>
 </table>
@@ -852,7 +856,13 @@ document.write(`
 <dl class="py property">
 <dt class="sig sig-object py" id="mjlab.actuator.Actuator.ctrl_ids">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ctrl_ids</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tensor</span></em><a class="headerlink" href="#mjlab.actuator.Actuator.ctrl_ids" title="Link to this definition">#</a></dt>
-<dd><p>Global indices of control inputs for this actuator.</p>
+<dd><p>Local indices of control inputs within the entity.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mjlab.actuator.Actuator.global_ctrl_ids">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">global_ctrl_ids</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Tensor</span></em><a class="headerlink" href="#mjlab.actuator.Actuator.global_ctrl_ids" title="Link to this definition">#</a></dt>
+<dd><p>Global indices of control inputs in the MuJoCo model.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -2995,6 +3005,7 @@ Interpreted based on transmission_type (joint/tendon/site).</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.actuator.Actuator.target_names"><code class="docutils literal notranslate"><span class="pre">Actuator.target_names</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.actuator.Actuator.transmission_type"><code class="docutils literal notranslate"><span class="pre">Actuator.transmission_type</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.actuator.Actuator.ctrl_ids"><code class="docutils literal notranslate"><span class="pre">Actuator.ctrl_ids</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.actuator.Actuator.global_ctrl_ids"><code class="docutils literal notranslate"><span class="pre">Actuator.global_ctrl_ids</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.actuator.Actuator.edit_spec"><code class="docutils literal notranslate"><span class="pre">Actuator.edit_spec()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.actuator.Actuator.initialize"><code class="docutils literal notranslate"><span class="pre">Actuator.initialize()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.actuator.Actuator.get_command"><code class="docutils literal notranslate"><span class="pre">Actuator.get_command()</span></code></a></li>
@@ -3244,7 +3255,7 @@ By The mjlab Developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Feb 03, 2026.
+  Last updated on Feb 04, 2026.
   <br/>
 </p>
   </div>
