@@ -451,7 +451,7 @@ document.write(`
 <span class="sd">  specifies ``num_envs``, the number of parallel environments.&quot;&quot;&quot;</span>
 
   <span class="n">observations</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ObservationGroupCfg</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
-<span class="w">  </span><span class="sd">&quot;&quot;&quot;Observation groups configuration. Each group (e.g., &quot;policy&quot;, &quot;critic&quot;) contains</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Observation groups configuration. Each group (e.g., &quot;actor&quot;, &quot;critic&quot;) contains</span>
 <span class="sd">  observation terms that are concatenated. Groups can have different settings for</span>
 <span class="sd">  noise, history, and delay.&quot;&quot;&quot;</span>
 
