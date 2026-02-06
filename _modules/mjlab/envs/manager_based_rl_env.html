@@ -725,6 +725,27 @@ document.write(`
 <div class="viewcode-block" id="ManagerBasedRlEnv.step">
 <a class="viewcode-back" href="../../../source/api/envs.html#mjlab.envs.ManagerBasedRlEnv.step">[docs]</a>
   <span class="k">def</span><span class="w"> </span><span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">types</span><span class="o">.</span><span class="n">VecEnvStepReturn</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run one environment step: apply actions, simulate, compute RL signals.</span>
+
+<span class="sd">    After ``mj_step``, derived quantities (``xpos``, ``xquat``, ``site_xpos``,</span>
+<span class="sd">    ``cvel``, ``sensordata``) are stale. They reflect the pre-integration</span>
+<span class="sd">    state while ``qpos``/``qvel`` have been integrated forward. This method</span>
+<span class="sd">    calls ``sim.forward()`` at two points to keep them in sync:</span>
+
+<span class="sd">    1. After the decimation loop, before termination/reward computation.</span>
+<span class="sd">    2. After the reset block, before observation computation. This second</span>
+<span class="sd">       call is needed because ``_reset_idx`` and reset events write new</span>
+<span class="sd">       ``qpos``/``qvel`` for terminated envs, making derived quantities</span>
+<span class="sd">       stale again.</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">       Event and command authors do not need to call ``sim.forward()``</span>
+<span class="sd">       themselves. This method handles it. The only constraint is: do not</span>
+<span class="sd">       read derived quantities (``root_link_pose_w``, ``body_link_vel_w``,</span>
+<span class="sd">       etc.) in the same function that writes state (``write_root_state_to_sim``,</span>
+<span class="sd">       ``write_joint_state_to_sim``, etc.). See :ref:`faq` for details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">action_manager</span><span class="o">.</span><span class="n">process_action</span><span class="p">(</span><span class="n">action</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">))</span>
 
     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">decimation</span><span class="p">):</span>

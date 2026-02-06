@@ -449,7 +449,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.envs.ManagerBasedRlEnv"><code class="docutils literal notranslate"><span class="pre">ManagerBasedRlEnv</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.envs.ManagerBasedRlEnv"><code class="docutils literal notranslate"><span class="pre">ManagerBasedRlEnv</span></code></a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.envs.ManagerBasedRlEnv.is_vector_env"><code class="docutils literal notranslate"><span class="pre">ManagerBasedRlEnv.is_vector_env</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.envs.ManagerBasedRlEnv.metadata"><code class="docutils literal notranslate"><span class="pre">ManagerBasedRlEnv.metadata</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.envs.ManagerBasedRlEnv.__init__"><code class="docutils literal notranslate"><span class="pre">ManagerBasedRlEnv.__init__()</span></code></a></li>
@@ -471,7 +471,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.envs.ManagerBasedRlEnv.update_visualizers"><code class="docutils literal notranslate"><span class="pre">ManagerBasedRlEnv.update_visualizers()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.envs.ManagerBasedRlEnvCfg"><code class="docutils literal notranslate"><span class="pre">ManagerBasedRlEnvCfg</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.envs.ManagerBasedRlEnvCfg"><code class="docutils literal notranslate"><span class="pre">ManagerBasedRlEnvCfg</span></code></a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.envs.ManagerBasedRlEnvCfg.decimation"><code class="docutils literal notranslate"><span class="pre">ManagerBasedRlEnvCfg.decimation</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.envs.ManagerBasedRlEnvCfg.scene"><code class="docutils literal notranslate"><span class="pre">ManagerBasedRlEnvCfg.scene</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.envs.ManagerBasedRlEnvCfg.observations"><code class="docutils literal notranslate"><span class="pre">ManagerBasedRlEnvCfg.observations</span></code></a></li>
@@ -573,7 +573,7 @@ document.write(`
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mjlab.envs.ManagerBasedRlEnv.step" title="mjlab.envs.ManagerBasedRlEnv.step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">step</span></code></a>(action)</p></td>
-<td><p></p></td>
+<td><p>Run one environment step: apply actions, simulate, compute RL signals.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#mjlab.envs.ManagerBasedRlEnv.render" title="mjlab.envs.ManagerBasedRlEnv.render"><code class="xref py py-obj docutils literal notranslate"><span class="pre">render</span></code></a>()</p></td>
 <td><p></p></td>
@@ -673,7 +673,27 @@ then action and observation managers, then other RL managers.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="mjlab.envs.ManagerBasedRlEnv.step">
 <span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.14)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/mjlab/envs/manager_based_rl_env.html#ManagerBasedRlEnv.step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mjlab.envs.ManagerBasedRlEnv.step" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Run one environment step: apply actions, simulate, compute RL signals.</p>
+<p>After <code class="docutils literal notranslate"><span class="pre">mj_step</span></code>, derived quantities (<code class="docutils literal notranslate"><span class="pre">xpos</span></code>, <code class="docutils literal notranslate"><span class="pre">xquat</span></code>, <code class="docutils literal notranslate"><span class="pre">site_xpos</span></code>,
+<code class="docutils literal notranslate"><span class="pre">cvel</span></code>, <code class="docutils literal notranslate"><span class="pre">sensordata</span></code>) are stale. They reflect the pre-integration
+state while <code class="docutils literal notranslate"><span class="pre">qpos</span></code>/<code class="docutils literal notranslate"><span class="pre">qvel</span></code> have been integrated forward. This method
+calls <code class="docutils literal notranslate"><span class="pre">sim.forward()</span></code> at two points to keep them in sync:</p>
+<ol class="arabic simple">
+<li><p>After the decimation loop, before termination/reward computation.</p></li>
+<li><p>After the reset block, before observation computation. This second
+call is needed because <code class="docutils literal notranslate"><span class="pre">_reset_idx</span></code> and reset events write new
+<code class="docutils literal notranslate"><span class="pre">qpos</span></code>/<code class="docutils literal notranslate"><span class="pre">qvel</span></code> for terminated envs, making derived quantities
+stale again.</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Event and command authors do not need to call <code class="docutils literal notranslate"><span class="pre">sim.forward()</span></code>
+themselves. This method handles it. The only constraint is: do not
+read derived quantities (<code class="docutils literal notranslate"><span class="pre">root_link_pose_w</span></code>, <code class="docutils literal notranslate"><span class="pre">body_link_vel_w</span></code>,
+etc.) in the same function that writes state (<code class="docutils literal notranslate"><span class="pre">write_root_state_to_sim</span></code>,
+<code class="docutils literal notranslate"><span class="pre">write_joint_state_to_sim</span></code>, etc.). See <a class="reference internal" href="../faq.html#faq"><span class="std std-ref">FAQ &amp; Troubleshooting</span></a> for details.</p>
+</div>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="mjlab.envs.ManagerBasedRlEnv.render">
@@ -935,7 +955,7 @@ algorithms that expect unscaled reward signals (e.g., HER, static reward scaling
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.envs.ManagerBasedRlEnv"><code class="docutils literal notranslate"><span class="pre">ManagerBasedRlEnv</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.envs.ManagerBasedRlEnv"><code class="docutils literal notranslate"><span class="pre">ManagerBasedRlEnv</span></code></a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.envs.ManagerBasedRlEnv.is_vector_env"><code class="docutils literal notranslate"><span class="pre">ManagerBasedRlEnv.is_vector_env</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.envs.ManagerBasedRlEnv.metadata"><code class="docutils literal notranslate"><span class="pre">ManagerBasedRlEnv.metadata</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.envs.ManagerBasedRlEnv.__init__"><code class="docutils literal notranslate"><span class="pre">ManagerBasedRlEnv.__init__()</span></code></a></li>
@@ -957,7 +977,7 @@ algorithms that expect unscaled reward signals (e.g., HER, static reward scaling
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.envs.ManagerBasedRlEnv.update_visualizers"><code class="docutils literal notranslate"><span class="pre">ManagerBasedRlEnv.update_visualizers()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.envs.ManagerBasedRlEnvCfg"><code class="docutils literal notranslate"><span class="pre">ManagerBasedRlEnvCfg</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.envs.ManagerBasedRlEnvCfg"><code class="docutils literal notranslate"><span class="pre">ManagerBasedRlEnvCfg</span></code></a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.envs.ManagerBasedRlEnvCfg.decimation"><code class="docutils literal notranslate"><span class="pre">ManagerBasedRlEnvCfg.decimation</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.envs.ManagerBasedRlEnvCfg.scene"><code class="docutils literal notranslate"><span class="pre">ManagerBasedRlEnvCfg.scene</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.envs.ManagerBasedRlEnvCfg.observations"><code class="docutils literal notranslate"><span class="pre">ManagerBasedRlEnvCfg.observations</span></code></a></li>
