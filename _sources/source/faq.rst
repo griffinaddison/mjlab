@@ -149,9 +149,13 @@ but skips integration, leaving ``qpos``/``qvel`` unchanged. It brings all
 derived quantities in ``mjData`` (``xpos``, ``xquat``, ``site_xpos``,
 ``cvel``, ``sensordata``, etc.) into a consistent state with the current
 ``qpos``/``qvel``.
-The environment's ``step()`` method calls it at the right times, after the
-physics decimation loop and after the reset block, so termination, reward,
-and observation managers always see fresh data.
+The environment's ``step()`` method calls it once per step, right before
+observation computation, so observations, commands, and interval events
+always see fresh derived quantities. Termination and reward managers run
+*before* this call and therefore see derived quantities that are stale by
+one physics substep, a deliberate tradeoff that avoids a second
+``forward()`` call while keeping the MDP well-defined (the staleness is
+consistent across all envs and all steps).
 
 The one case where this matters is if you write an event or command that
 both writes state and reads derived quantities in the same function. For

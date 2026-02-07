@@ -727,24 +727,31 @@ document.write(`
   <span class="k">def</span><span class="w"> </span><span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">types</span><span class="o">.</span><span class="n">VecEnvStepReturn</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Run one environment step: apply actions, simulate, compute RL signals.</span>
 
-<span class="sd">    After ``mj_step``, derived quantities (``xpos``, ``xquat``, ``site_xpos``,</span>
-<span class="sd">    ``cvel``, ``sensordata``) are stale. They reflect the pre-integration</span>
-<span class="sd">    state while ``qpos``/``qvel`` have been integrated forward. This method</span>
-<span class="sd">    calls ``sim.forward()`` at two points to keep them in sync:</span>
+<span class="sd">    **Forward-call placement.** MuJoCo&#39;s ``mj_step`` runs forward kinematics</span>
+<span class="sd">    *before* integration, so after stepping, derived quantities (``xpos``,</span>
+<span class="sd">    ``xquat``, ``site_xpos``, ``cvel``, ``sensordata``) lag ``qpos``/``qvel``</span>
+<span class="sd">    by one physics substep. Rather than calling ``sim.forward()`` twice (once</span>
+<span class="sd">    after the decimation loop and once after the reset block), this method</span>
+<span class="sd">    calls it **once**, right before observation computation. This single call</span>
+<span class="sd">    refreshes derived quantities for *all* envs: non-reset envs pick up</span>
+<span class="sd">    post-decimation kinematics, reset envs pick up post-reset kinematics.</span>
 
-<span class="sd">    1. After the decimation loop, before termination/reward computation.</span>
-<span class="sd">    2. After the reset block, before observation computation. This second</span>
-<span class="sd">       call is needed because ``_reset_idx`` and reset events write new</span>
-<span class="sd">       ``qpos``/``qvel`` for terminated envs, making derived quantities</span>
-<span class="sd">       stale again.</span>
+<span class="sd">    The tradeoff is that termination and reward managers see derived</span>
+<span class="sd">    quantities that are stale by one physics substep (the last ``mj_step``</span>
+<span class="sd">    ran ``mj_forward`` from *pre*-integration ``qpos``). In practice, the</span>
+<span class="sd">    staleness is negligible for reward shaping and termination</span>
+<span class="sd">    checks. Critically, the staleness is *consistent*: every env,</span>
+<span class="sd">    every step, always sees the same lag, so the MDP is well-defined</span>
+<span class="sd">    and the value function can learn the correct mapping.</span>
 
 <span class="sd">    .. note::</span>
 
-<span class="sd">       Event and command authors do not need to call ``sim.forward()``</span>
-<span class="sd">       themselves. This method handles it. The only constraint is: do not</span>
-<span class="sd">       read derived quantities (``root_link_pose_w``, ``body_link_vel_w``,</span>
-<span class="sd">       etc.) in the same function that writes state (``write_root_state_to_sim``,</span>
-<span class="sd">       ``write_joint_state_to_sim``, etc.). See :ref:`faq` for details.</span>
+<span class="sd">      Event and command authors do not need to call ``sim.forward()``</span>
+<span class="sd">      themselves. This method handles it. The only constraint is: do not</span>
+<span class="sd">      read derived quantities (``root_link_pose_w``, ``body_link_vel_w``,</span>
+<span class="sd">      etc.) in the same function that writes state</span>
+<span class="sd">      (``write_root_state_to_sim``, ``write_joint_state_to_sim``, etc.).</span>
+<span class="sd">      See :ref:`faq` for details.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">action_manager</span><span class="o">.</span><span class="n">process_action</span><span class="p">(</span><span class="n">action</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">))</span>
 
@@ -755,16 +762,13 @@ document.write(`
       <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">physics_dt</span><span class="p">)</span>
 
-    <span class="c1"># Recompute derived quantities (xpos, xquat, site_xpos, etc.) from the</span>
-    <span class="c1"># post-integration qpos/qvel. Without this, these are stale from the</span>
-    <span class="c1"># pre-integration forward pass inside mj_step.</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">forward</span><span class="p">()</span>
-
     <span class="c1"># Update env counters.</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">episode_length_buf</span> <span class="o">+=</span> <span class="mi">1</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">common_step_counter</span> <span class="o">+=</span> <span class="mi">1</span>
 
-    <span class="c1"># Check terminations.</span>
+    <span class="c1"># Check terminations and compute rewards.</span>
+    <span class="c1"># NOTE: Derived quantities (xpos, xquat, ...) are stale by one physics</span>
+    <span class="c1"># substep here. See the docstring above for why this is acceptable.</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">reset_buf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">termination_manager</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">reset_terminated</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">termination_manager</span><span class="o">.</span><span class="n">terminated</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">reset_time_outs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">termination_manager</span><span class="o">.</span><span class="n">time_outs</span>
@@ -776,7 +780,12 @@ document.write(`
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">reset_env_ids</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">_reset_idx</span><span class="p">(</span><span class="n">reset_env_ids</span><span class="p">)</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">write_data_to_sim</span><span class="p">()</span>
-      <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">forward</span><span class="p">()</span>
+
+    <span class="c1"># Single forward() call: recompute derived quantities from current</span>
+    <span class="c1"># qpos/qvel for every env. For non-reset envs this resolves the</span>
+    <span class="c1"># one-substep staleness left by mj_step; for reset envs it picks up</span>
+    <span class="c1"># the freshly written reset state.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">sim</span><span class="o">.</span><span class="n">forward</span><span class="p">()</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">command_manager</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">step_dt</span><span class="p">)</span>
 
