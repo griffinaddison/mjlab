@@ -823,5 +823,20 @@
       "ee_pos_error": 0.049514591693878174,
       "ee_ori_error": 0.1788899004459381
     }
+  },
+  {
+    "id": "hnafec61",
+    "name": "2026-02-08_02-28-21",
+    "url": "https://wandb.ai/gcbc_researchers/mjlab/runs/hnafec61",
+    "created_at": "2026-02-08T10:28:27Z",
+    "commit": "91d4638",
+    "metrics": {
+      "success_rate": 0.9892578125,
+      "mpkpe": 0.030009236186742783,
+      "r_mpkpe": 0.02832726016640663,
+      "joint_vel_error": 3.1237540245056152,
+      "ee_pos_error": 0.04780321940779686,
+      "ee_ori_error": 0.1716962605714798
+    }
   }
 ]
