@@ -539,6 +539,12 @@ document.write(`
 </li>
         <li><a href="source/api/sensor.html#mjlab.sensor.BuiltinSensorCfg.__init__">(mjlab.sensor.BuiltinSensorCfg method)</a>
 </li>
+        <li><a href="source/api/sensor.html#mjlab.sensor.CameraSensor.__init__">(mjlab.sensor.CameraSensor method)</a>
+</li>
+        <li><a href="source/api/sensor.html#mjlab.sensor.CameraSensorCfg.__init__">(mjlab.sensor.CameraSensorCfg method)</a>
+</li>
+        <li><a href="source/api/sensor.html#mjlab.sensor.CameraSensorData.__init__">(mjlab.sensor.CameraSensorData method)</a>
+</li>
         <li><a href="source/api/sensor.html#mjlab.sensor.ContactData.__init__">(mjlab.sensor.ContactData method)</a>
 </li>
         <li><a href="source/api/sensor.html#mjlab.sensor.ContactMatch.__init__">(mjlab.sensor.ContactMatch method)</a>
@@ -564,6 +570,8 @@ document.write(`
         <li><a href="source/api/sensor.html#mjlab.sensor.Sensor.__init__">(mjlab.sensor.Sensor method)</a>
 </li>
         <li><a href="source/api/sensor.html#mjlab.sensor.SensorCfg.__init__">(mjlab.sensor.SensorCfg method)</a>
+</li>
+        <li><a href="source/api/sensor.html#mjlab.sensor.SensorContext.__init__">(mjlab.sensor.SensorContext method)</a>
 </li>
         <li><a href="source/api/sim.html#mjlab.sim.MujocoCfg.__init__">(mjlab.sim.MujocoCfg method)</a>
 </li>
@@ -821,6 +829,8 @@ document.write(`
 </li>
         <li><a href="source/api/sensor.html#mjlab.sensor.BuiltinSensorCfg.build">(mjlab.sensor.BuiltinSensorCfg method)</a>
 </li>
+        <li><a href="source/api/sensor.html#mjlab.sensor.CameraSensorCfg.build">(mjlab.sensor.CameraSensorCfg method)</a>
+</li>
         <li><a href="source/api/sensor.html#mjlab.sensor.ContactSensorCfg.build">(mjlab.sensor.ContactSensorCfg method)</a>
 </li>
         <li><a href="source/api/sensor.html#mjlab.sensor.RayCastSensorCfg.build">(mjlab.sensor.RayCastSensorCfg method)</a>
@@ -856,7 +866,21 @@ document.write(`
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/sensor.html#mjlab.sensor.CameraSensor.camera_idx">camera_idx (mjlab.sensor.CameraSensor property)</a>
+</li>
+      <li><a href="source/api/sensor.html#mjlab.sensor.CameraSensor.camera_name">camera_name (mjlab.sensor.CameraSensor property)</a>
+
+      <ul>
+        <li><a href="source/api/sensor.html#mjlab.sensor.CameraSensorCfg.camera_name">(mjlab.sensor.CameraSensorCfg attribute)</a>
+</li>
+      </ul></li>
       <li><a href="source/api/entity.html#mjlab.entity.EntityCfg.cameras">cameras (mjlab.entity.EntityCfg attribute)</a>
+</li>
+      <li><a href="source/api/sensor.html#mjlab.sensor.CameraSensor">CameraSensor (class in mjlab.sensor)</a>
+</li>
+      <li><a href="source/api/sensor.html#mjlab.sensor.CameraSensorCfg">CameraSensorCfg (class in mjlab.sensor)</a>
+</li>
+      <li><a href="source/api/sensor.html#mjlab.sensor.CameraSensorData">CameraSensorData (class in mjlab.sensor)</a>
 </li>
       <li><a href="source/api/sim.html#mjlab.sim.MujocoCfg.ccd_iterations">ccd_iterations (mjlab.sim.MujocoCfg attribute)</a>
 </li>
@@ -876,6 +900,8 @@ document.write(`
         <li><a href="source/api/managers.html#mjlab.managers.ObservationTermCfg.clip">(mjlab.managers.ObservationTermCfg attribute)</a>
 </li>
       </ul></li>
+      <li><a href="source/api/sensor.html#mjlab.sensor.CameraSensorCfg.clone_data">clone_data (mjlab.sensor.CameraSensorCfg attribute)</a>
+</li>
       <li><a href="source/api/envs.html#mjlab.envs.ManagerBasedRlEnv.close">close() (mjlab.envs.ManagerBasedRlEnv method)</a>
 </li>
       <li><a href="source/api/entity.html#mjlab.entity.EntityCfg.collisions">collisions (mjlab.entity.EntityCfg attribute)</a>
@@ -1022,6 +1048,8 @@ document.write(`
         <li><a href="source/api/sim.html#mjlab.sim.Simulation.data">(mjlab.sim.Simulation property)</a>
 </li>
       </ul></li>
+      <li><a href="source/api/sensor.html#mjlab.sensor.CameraSensorCfg.data_types">data_types (mjlab.sensor.CameraSensorCfg attribute)</a>
+</li>
       <li><a href="source/api/actuator.html#mjlab.actuator.DcMotorActuator">DcMotorActuator (class in mjlab.actuator)</a>
 </li>
       <li><a href="source/api/actuator.html#mjlab.actuator.DcMotorActuatorCfg">DcMotorActuatorCfg (class in mjlab.actuator)</a>
@@ -1098,6 +1126,8 @@ document.write(`
 </li>
       <li><a href="source/api/actuator.html#mjlab.actuator.DelayedActuatorCfg">DelayedActuatorCfg (class in mjlab.actuator)</a>
 </li>
+      <li><a href="source/api/sensor.html#mjlab.sensor.CameraSensorData.depth">depth (mjlab.sensor.CameraSensorData attribute)</a>
+</li>
       <li><a href="source/api/entity.html#mjlab.entity.EntityData.device">device (mjlab.entity.EntityData attribute)</a>
 
       <ul>
@@ -1151,6 +1181,8 @@ document.write(`
 </li>
         <li><a href="source/api/sensor.html#mjlab.sensor.BuiltinSensor.edit_spec">(mjlab.sensor.BuiltinSensor method)</a>
 </li>
+        <li><a href="source/api/sensor.html#mjlab.sensor.CameraSensor.edit_spec">(mjlab.sensor.CameraSensor method)</a>
+</li>
         <li><a href="source/api/sensor.html#mjlab.sensor.ContactSensor.edit_spec">(mjlab.sensor.ContactSensor method)</a>
 </li>
         <li><a href="source/api/sensor.html#mjlab.sensor.RayCastSensor.edit_spec">(mjlab.sensor.RayCastSensor method)</a>
@@ -1171,6 +1203,8 @@ document.write(`
       <li><a href="source/api/actuator.html#mjlab.actuator.ActuatorCmd.effort_target">effort_target (mjlab.actuator.ActuatorCmd attribute)</a>
 </li>
       <li><a href="source/api/managers.html#mjlab.managers.ObservationGroupCfg.enable_corruption">enable_corruption (mjlab.managers.ObservationGroupCfg attribute)</a>
+</li>
+      <li><a href="source/api/sensor.html#mjlab.sensor.CameraSensorCfg.enabled_geom_groups">enabled_geom_groups (mjlab.sensor.CameraSensorCfg attribute)</a>
 </li>
       <li><a href="source/api/entity.html#mjlab.entity.EntityData.encoder_bias">encoder_bias (mjlab.entity.EntityData attribute)</a>
 </li>
@@ -1236,6 +1270,8 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/sensor.html#mjlab.sensor.ContactSensorCfg.fields">fields (mjlab.sensor.ContactSensorCfg attribute)</a>
 </li>
+      <li><a href="source/api/sensor.html#mjlab.sensor.SensorContext.finalize">finalize() (mjlab.sensor.SensorContext method)</a>
+</li>
       <li><a href="source/api/entity.html#mjlab.entity.Entity.find_actuators">find_actuators() (mjlab.entity.Entity method)</a>
 </li>
       <li><a href="source/api/entity.html#mjlab.entity.Entity.find_bodies">find_bodies() (mjlab.entity.Entity method)</a>
@@ -1276,12 +1312,16 @@ document.write(`
 </li>
       <li><a href="source/api/sensor.html#mjlab.sensor.ContactData.found">found (mjlab.sensor.ContactData attribute)</a>
 </li>
-      <li><a href="source/api/sensor.html#mjlab.sensor.PinholeCameraPatternCfg.fovy">fovy (mjlab.sensor.PinholeCameraPatternCfg attribute)</a>
+      <li><a href="source/api/sensor.html#mjlab.sensor.CameraSensorCfg.fovy">fovy (mjlab.sensor.CameraSensorCfg attribute)</a>
+
+      <ul>
+        <li><a href="source/api/sensor.html#mjlab.sensor.PinholeCameraPatternCfg.fovy">(mjlab.sensor.PinholeCameraPatternCfg attribute)</a>
 </li>
-      <li><a href="source/api/actuator.html#mjlab.actuator.BuiltinMuscleActuatorCfg.fpmax">fpmax (mjlab.actuator.BuiltinMuscleActuatorCfg attribute)</a>
-</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/actuator.html#mjlab.actuator.BuiltinMuscleActuatorCfg.fpmax">fpmax (mjlab.actuator.BuiltinMuscleActuatorCfg attribute)</a>
+</li>
       <li><a href="source/api/sensor.html#mjlab.sensor.RayCastSensorCfg.frame">frame (mjlab.sensor.RayCastSensorCfg attribute)</a>
 </li>
       <li><a href="source/api/entity.html#mjlab.entity.EntityIndexing.free_joint_q_adr">free_joint_q_adr (mjlab.entity.EntityIndexing attribute)</a>
@@ -1396,8 +1436,6 @@ document.write(`
         <li><a href="source/api/managers.html#mjlab.managers.TerminationManager.get_active_iterable_terms">(mjlab.managers.TerminationManager method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/actuator.html#mjlab.actuator.Actuator.get_command">get_command() (mjlab.actuator.Actuator method)</a>
 
       <ul>
@@ -1406,7 +1444,13 @@ document.write(`
         <li><a href="source/api/managers.html#mjlab.managers.NullCommandManager.get_command">(mjlab.managers.NullCommandManager method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/sim.html#mjlab.sim.Simulation.get_default_field">get_default_field() (mjlab.sim.Simulation method)</a>
+</li>
+      <li><a href="source/api/sensor.html#mjlab.sensor.SensorContext.get_depth">get_depth() (mjlab.sensor.SensorContext method)</a>
+</li>
+      <li><a href="source/api/sensor.html#mjlab.sensor.SensorContext.get_rgb">get_rgb() (mjlab.sensor.SensorContext method)</a>
 </li>
       <li><a href="source/api/managers.html#mjlab.managers.ActionManager.get_term">get_term() (mjlab.managers.ActionManager method)</a>
 
@@ -1462,14 +1506,22 @@ document.write(`
 <h2 id="H">H</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/sensor.html#mjlab.sensor.SensorContext.has_cameras">has_cameras (mjlab.sensor.SensorContext property)</a>
+</li>
+      <li><a href="source/api/sensor.html#mjlab.sensor.SensorContext.has_raycasts">has_raycasts (mjlab.sensor.SensorContext property)</a>
+</li>
       <li><a href="source/api/entity.html#mjlab.entity.Entity.has_site_actuators">has_site_actuators (mjlab.entity.Entity property)</a>
 </li>
       <li><a href="source/api/entity.html#mjlab.entity.Entity.has_tendon_actuators">has_tendon_actuators (mjlab.entity.Entity property)</a>
 </li>
       <li><a href="source/api/entity.html#mjlab.entity.EntityData.heading_w">heading_w (mjlab.entity.EntityData property)</a>
 </li>
-      <li><a href="source/api/sensor.html#mjlab.sensor.PinholeCameraPatternCfg.height">height (mjlab.sensor.PinholeCameraPatternCfg attribute)</a>
+      <li><a href="source/api/sensor.html#mjlab.sensor.CameraSensorCfg.height">height (mjlab.sensor.CameraSensorCfg attribute)</a>
+
+      <ul>
+        <li><a href="source/api/sensor.html#mjlab.sensor.PinholeCameraPatternCfg.height">(mjlab.sensor.PinholeCameraPatternCfg attribute)</a>
 </li>
+      </ul></li>
       <li><a href="source/api/terrains.html#mjlab.terrains.BoxRandomGridTerrainCfg.height_merge_threshold">height_merge_threshold (mjlab.terrains.BoxRandomGridTerrainCfg attribute)</a>
 </li>
       <li><a href="source/api/terrains.html#mjlab.terrains.HfDiscreteObstaclesTerrainCfg">HfDiscreteObstaclesTerrainCfg (class in mjlab.terrains)</a>
@@ -1552,6 +1604,8 @@ document.write(`
         <li><a href="source/api/scene.html#mjlab.scene.Scene.initialize">(mjlab.scene.Scene method)</a>
 </li>
         <li><a href="source/api/sensor.html#mjlab.sensor.BuiltinSensor.initialize">(mjlab.sensor.BuiltinSensor method)</a>
+</li>
+        <li><a href="source/api/sensor.html#mjlab.sensor.CameraSensor.initialize">(mjlab.sensor.CameraSensor method)</a>
 </li>
         <li><a href="source/api/sensor.html#mjlab.sensor.ContactSensor.initialize">(mjlab.sensor.ContactSensor method)</a>
 </li>
@@ -1842,6 +1896,8 @@ document.write(`
 </li>
         <li><a href="source/api/sensor.html#mjlab.sensor.BuiltinSensorCfg.name">(mjlab.sensor.BuiltinSensorCfg attribute)</a>
 </li>
+        <li><a href="source/api/sensor.html#mjlab.sensor.CameraSensorCfg.name">(mjlab.sensor.CameraSensorCfg attribute)</a>
+</li>
         <li><a href="source/api/sensor.html#mjlab.sensor.ContactSensorCfg.name">(mjlab.sensor.ContactSensorCfg attribute)</a>
 </li>
         <li><a href="source/api/sensor.html#mjlab.sensor.ObjRef.name">(mjlab.sensor.ObjRef attribute)</a>
@@ -1875,10 +1931,10 @@ document.write(`
 </li>
       <li><a href="source/api/sensor.html#mjlab.sensor.RayCastSensorCfg.VizCfg.normal_length">normal_length (mjlab.sensor.RayCastSensorCfg.VizCfg attribute)</a>
 </li>
-      <li><a href="source/api/sensor.html#mjlab.sensor.RayCastData.normals_w">normals_w (mjlab.sensor.RayCastData attribute)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/sensor.html#mjlab.sensor.RayCastData.normals_w">normals_w (mjlab.sensor.RayCastData attribute)</a>
+</li>
       <li><a href="source/api/managers.html#mjlab.managers.NullCommandManager">NullCommandManager (class in mjlab.managers)</a>
 </li>
       <li><a href="source/api/managers.html#mjlab.managers.NullCurriculumManager">NullCurriculumManager (class in mjlab.managers)</a>
@@ -1949,6 +2005,8 @@ document.write(`
 </li>
       <li><a href="source/api/terrains.html#mjlab.terrains.HfDiscreteObstaclesTerrainCfg.origin_z_offset">origin_z_offset (mjlab.terrains.HfDiscreteObstaclesTerrainCfg attribute)</a>
 </li>
+      <li><a href="source/api/sensor.html#mjlab.sensor.CameraSensorCfg.orthographic">orthographic (mjlab.sensor.CameraSensorCfg attribute)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -1967,6 +2025,8 @@ document.write(`
         <li><a href="source/api/managers.html#mjlab.managers.TerminationTermCfg.params">(mjlab.managers.TerminationTermCfg attribute)</a>
 </li>
       </ul></li>
+      <li><a href="source/api/sensor.html#mjlab.sensor.CameraSensorCfg.parent_body">parent_body (mjlab.sensor.CameraSensorCfg attribute)</a>
+</li>
       <li><a href="source/api/terrains.html#mjlab.terrains.FlatPatchSamplingCfg.patch_radius">patch_radius (mjlab.terrains.FlatPatchSamplingCfg attribute)</a>
 </li>
       <li><a href="source/api/sensor.html#mjlab.sensor.ContactMatch.pattern">pattern (mjlab.sensor.ContactMatch attribute)</a>
@@ -1994,6 +2054,8 @@ document.write(`
       <ul>
         <li><a href="source/api/entity.html#mjlab.entity.EntityCfg.InitialStateCfg.pos">(mjlab.entity.EntityCfg.InitialStateCfg attribute)</a>
 </li>
+        <li><a href="source/api/sensor.html#mjlab.sensor.CameraSensorCfg.pos">(mjlab.sensor.CameraSensorCfg attribute)</a>
+</li>
         <li><a href="source/api/sensor.html#mjlab.sensor.ContactData.pos">(mjlab.sensor.ContactData attribute)</a>
 </li>
       </ul></li>
@@ -2007,7 +2069,13 @@ document.write(`
 </li>
       <li><a href="source/api/actuator.html#mjlab.actuator.ActuatorCmd.position_target">position_target (mjlab.actuator.ActuatorCmd attribute)</a>
 </li>
+      <li><a href="source/api/sensor.html#mjlab.sensor.RayCastSensor.postprocess_rays">postprocess_rays() (mjlab.sensor.RayCastSensor method)</a>
+</li>
       <li><a href="source/api/sensor.html#mjlab.sensor.ObjRef.prefixed_name">prefixed_name() (mjlab.sensor.ObjRef method)</a>
+</li>
+      <li><a href="source/api/sensor.html#mjlab.sensor.SensorContext.prepare">prepare() (mjlab.sensor.SensorContext method)</a>
+</li>
+      <li><a href="source/api/sensor.html#mjlab.sensor.RayCastSensor.prepare_rays">prepare_rays() (mjlab.sensor.RayCastSensor method)</a>
 </li>
       <li><a href="source/api/managers.html#mjlab.managers.SceneEntityCfg.preserve_order">preserve_order (mjlab.managers.SceneEntityCfg attribute)</a>
 </li>
@@ -2033,10 +2101,12 @@ document.write(`
 <h2 id="Q">Q</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/api/entity.html#mjlab.entity.EntityData.QUAT_DIM">QUAT_DIM (mjlab.entity.EntityData attribute)</a>
+      <li><a href="source/api/sensor.html#mjlab.sensor.CameraSensorCfg.quat">quat (mjlab.sensor.CameraSensorCfg attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/entity.html#mjlab.entity.EntityData.QUAT_DIM">QUAT_DIM (mjlab.entity.EntityData attribute)</a>
+</li>
       <li><a href="source/api/sensor.html#mjlab.sensor.RayCastData.quat_w">quat_w (mjlab.sensor.RayCastData attribute)</a>
 </li>
   </ul></td>
@@ -2053,6 +2123,8 @@ document.write(`
 </li>
       <li><a href="source/api/sensor.html#mjlab.sensor.RayCastSensorCfg.ray_alignment">ray_alignment (mjlab.sensor.RayCastSensorCfg attribute)</a>
 </li>
+      <li><a href="source/api/sensor.html#mjlab.sensor.RayCastSensor.raycast_kernel">raycast_kernel() (mjlab.sensor.RayCastSensor method)</a>
+</li>
       <li><a href="source/api/sensor.html#mjlab.sensor.RayCastData">RayCastData (class in mjlab.sensor)</a>
 </li>
       <li><a href="source/api/sensor.html#mjlab.sensor.RayCastSensor">RayCastSensor (class in mjlab.sensor)</a>
@@ -2061,12 +2133,24 @@ document.write(`
 </li>
       <li><a href="source/api/sensor.html#mjlab.sensor.RayCastSensorCfg.VizCfg">RayCastSensorCfg.VizCfg (class in mjlab.sensor)</a>
 </li>
+      <li><a href="source/api/sensor.html#mjlab.sensor.SensorContext.recreate">recreate() (mjlab.sensor.SensorContext method)</a>
+</li>
       <li><a href="source/api/sensor.html#mjlab.sensor.ContactSensorCfg.reduce">reduce (mjlab.sensor.ContactSensorCfg attribute)</a>
 </li>
       <li><a href="source/api/sensor.html#mjlab.sensor.BuiltinSensorCfg.ref">ref (mjlab.sensor.BuiltinSensorCfg attribute)</a>
 </li>
       <li><a href="source/api/envs.html#mjlab.envs.ManagerBasedRlEnv.render">render() (mjlab.envs.ManagerBasedRlEnv method)</a>
 </li>
+      <li><a href="source/api/sensor.html#mjlab.sensor.SensorContext.render_context">render_context (mjlab.sensor.SensorContext property)</a>
+</li>
+      <li><a href="source/api/sensor.html#mjlab.sensor.CameraSensor.requires_sensor_context">requires_sensor_context (mjlab.sensor.CameraSensor attribute)</a>
+
+      <ul>
+        <li><a href="source/api/sensor.html#mjlab.sensor.RayCastSensor.requires_sensor_context">(mjlab.sensor.RayCastSensor attribute)</a>
+</li>
+        <li><a href="source/api/sensor.html#mjlab.sensor.Sensor.requires_sensor_context">(mjlab.sensor.Sensor attribute)</a>
+</li>
+      </ul></li>
       <li><a href="source/api/managers.html#mjlab.managers.CommandTermCfg.resampling_time_range">resampling_time_range (mjlab.managers.CommandTermCfg attribute)</a>
 </li>
       <li><a href="source/api/actuator.html#mjlab.actuator.Actuator.reset">reset() (mjlab.actuator.Actuator method)</a>
@@ -2124,6 +2208,8 @@ document.write(`
       <li><a href="source/api/envs.html#mjlab.envs.ManagerBasedRlEnvCfg.rewards">rewards (mjlab.envs.ManagerBasedRlEnvCfg attribute)</a>
 </li>
       <li><a href="source/api/managers.html#mjlab.managers.RewardTermCfg">RewardTermCfg (class in mjlab.managers)</a>
+</li>
+      <li><a href="source/api/sensor.html#mjlab.sensor.CameraSensorData.rgb">rgb (mjlab.sensor.CameraSensorData attribute)</a>
 </li>
       <li><a href="source/api/entity.html#mjlab.entity.Entity.root_body">root_body (mjlab.entity.Entity property)</a>
 </li>
@@ -2209,16 +2295,28 @@ document.write(`
       </ul></li>
       <li><a href="source/api/envs.html#mjlab.envs.ManagerBasedRlEnv.seed">seed() (mjlab.envs.ManagerBasedRlEnv static method)</a>
 </li>
+      <li><a href="source/api/sim.html#mjlab.sim.Simulation.sense">sense() (mjlab.sim.Simulation method)</a>
+</li>
       <li><a href="source/api/sensor.html#mjlab.sensor.Sensor">Sensor (class in mjlab.sensor)</a>
+</li>
+      <li><a href="source/api/scene.html#mjlab.scene.Scene.sensor_context">sensor_context (mjlab.scene.Scene property)</a>
 </li>
       <li><a href="source/api/sensor.html#mjlab.sensor.BuiltinSensorCfg.sensor_type">sensor_type (mjlab.sensor.BuiltinSensorCfg attribute)</a>
 </li>
       <li><a href="source/api/sensor.html#mjlab.sensor.SensorCfg">SensorCfg (class in mjlab.sensor)</a>
 </li>
+      <li><a href="source/api/sensor.html#mjlab.sensor.SensorContext">SensorContext (class in mjlab.sensor)</a>
+</li>
       <li><a href="source/api/scene.html#mjlab.scene.Scene.sensors">sensors (mjlab.scene.Scene property)</a>
 
       <ul>
         <li><a href="source/api/scene.html#mjlab.scene.SceneCfg.sensors">(mjlab.scene.SceneCfg attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="source/api/sensor.html#mjlab.sensor.CameraSensor.set_context">set_context() (mjlab.sensor.CameraSensor method)</a>
+
+      <ul>
+        <li><a href="source/api/sensor.html#mjlab.sensor.RayCastSensor.set_context">(mjlab.sensor.RayCastSensor method)</a>
 </li>
       </ul></li>
       <li><a href="source/api/actuator.html#mjlab.actuator.IdealPdActuator.set_effort_limit">set_effort_limit() (mjlab.actuator.IdealPdActuator method)</a>
@@ -2232,6 +2330,8 @@ document.write(`
       <li><a href="source/api/entity.html#mjlab.entity.Entity.set_joint_velocity_target">set_joint_velocity_target() (mjlab.entity.Entity method)</a>
 </li>
       <li><a href="source/api/actuator.html#mjlab.actuator.DelayedActuator.set_lags">set_lags() (mjlab.actuator.DelayedActuator method)</a>
+</li>
+      <li><a href="source/api/sim.html#mjlab.sim.Simulation.set_sensor_context">set_sensor_context() (mjlab.sim.Simulation method)</a>
 </li>
       <li><a href="source/api/entity.html#mjlab.entity.Entity.set_site_effort_target">set_site_effort_target() (mjlab.entity.Entity method)</a>
 </li>
@@ -2249,14 +2349,14 @@ document.write(`
 </li>
       <li><a href="source/api/envs.html#mjlab.envs.ManagerBasedRlEnvCfg.sim">sim (mjlab.envs.ManagerBasedRlEnvCfg attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/sim.html#mjlab.sim.Simulation">Simulation (class in mjlab.sim)</a>
 </li>
       <li><a href="source/api/sim.html#mjlab.sim.SimulationCfg">SimulationCfg (class in mjlab.sim)</a>
 </li>
       <li><a href="source/api/entity.html#mjlab.entity.EntityData.site_ang_vel_w">site_ang_vel_w (mjlab.entity.EntityData property)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/entity.html#mjlab.entity.EntityData.site_effort_target">site_effort_target (mjlab.entity.EntityData attribute)</a>
 </li>
       <li><a href="source/api/entity.html#mjlab.entity.EntityIndexing.site_ids">site_ids (mjlab.entity.EntityIndexing attribute)</a>
@@ -2467,6 +2567,8 @@ document.write(`
 <h2 id="U">U</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/api/sensor.html#mjlab.sensor.SensorContext.unpack_rgb">unpack_rgb() (mjlab.sensor.SensorContext method)</a>
+</li>
       <li><a href="source/api/envs.html#mjlab.envs.ManagerBasedRlEnv.unwrapped">unwrapped (mjlab.envs.ManagerBasedRlEnv property)</a>
 </li>
       <li><a href="source/api/actuator.html#mjlab.actuator.Actuator.update">update() (mjlab.actuator.Actuator method)</a>
@@ -2488,6 +2590,10 @@ document.write(`
       <li><a href="source/api/terrains.html#mjlab.terrains.TerrainImporter.update_env_origins">update_env_origins() (mjlab.terrains.TerrainImporter method)</a>
 </li>
       <li><a href="source/api/envs.html#mjlab.envs.ManagerBasedRlEnv.update_visualizers">update_visualizers() (mjlab.envs.ManagerBasedRlEnv method)</a>
+</li>
+      <li><a href="source/api/sensor.html#mjlab.sensor.CameraSensorCfg.use_shadows">use_shadows (mjlab.sensor.CameraSensorCfg attribute)</a>
+</li>
+      <li><a href="source/api/sensor.html#mjlab.sensor.CameraSensorCfg.use_textures">use_textures (mjlab.sensor.CameraSensorCfg attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -2535,8 +2641,12 @@ document.write(`
 </li>
       <li><a href="source/api/managers.html#mjlab.managers.RewardTermCfg.weight">weight (mjlab.managers.RewardTermCfg attribute)</a>
 </li>
-      <li><a href="source/api/sensor.html#mjlab.sensor.PinholeCameraPatternCfg.width">width (mjlab.sensor.PinholeCameraPatternCfg attribute)</a>
+      <li><a href="source/api/sensor.html#mjlab.sensor.CameraSensorCfg.width">width (mjlab.sensor.CameraSensorCfg attribute)</a>
+
+      <ul>
+        <li><a href="source/api/sensor.html#mjlab.sensor.PinholeCameraPatternCfg.width">(mjlab.sensor.PinholeCameraPatternCfg attribute)</a>
 </li>
+      </ul></li>
       <li><a href="source/api/sim.html#mjlab.sim.TorchArray.wp_array">wp_array (mjlab.sim.TorchArray property)</a>
 </li>
       <li><a href="source/api/sim.html#mjlab.sim.Simulation.wp_data">wp_data (mjlab.sim.Simulation property)</a>

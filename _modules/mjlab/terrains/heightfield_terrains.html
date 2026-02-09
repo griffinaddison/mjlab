@@ -646,7 +646,7 @@ document.write(`
       <span class="p">],</span>
       <span class="n">nrow</span><span class="o">=</span><span class="n">noise</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
       <span class="n">ncol</span><span class="o">=</span><span class="n">noise</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-      <span class="n">userdata</span><span class="o">=</span><span class="n">normalized_elevation</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+      <span class="n">userdata</span><span class="o">=</span><span class="n">normalized_elevation</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
     <span class="p">)</span>
 
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverted</span><span class="p">:</span>
@@ -820,7 +820,7 @@ document.write(`
       <span class="p">],</span>
       <span class="n">nrow</span><span class="o">=</span><span class="n">noise</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
       <span class="n">ncol</span><span class="o">=</span><span class="n">noise</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-      <span class="n">userdata</span><span class="o">=</span><span class="n">normalized_elevation</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+      <span class="n">userdata</span><span class="o">=</span><span class="n">normalized_elevation</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
     <span class="p">)</span>
 
     <span class="n">material_name</span> <span class="o">=</span> <span class="n">color_by_height</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">noise</span><span class="p">,</span> <span class="n">unique_id</span><span class="p">,</span> <span class="n">normalized_elevation</span><span class="p">)</span>
@@ -953,7 +953,7 @@ document.write(`
       <span class="p">],</span>
       <span class="n">nrow</span><span class="o">=</span><span class="n">noise</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
       <span class="n">ncol</span><span class="o">=</span><span class="n">noise</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-      <span class="n">userdata</span><span class="o">=</span><span class="n">normalized_elevation</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+      <span class="n">userdata</span><span class="o">=</span><span class="n">normalized_elevation</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
     <span class="p">)</span>
 
     <span class="n">material_name</span> <span class="o">=</span> <span class="n">color_by_height</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">noise</span><span class="p">,</span> <span class="n">unique_id</span><span class="p">,</span> <span class="n">normalized_elevation</span><span class="p">)</span>
@@ -1119,7 +1119,7 @@ document.write(`
       <span class="p">],</span>
       <span class="n">nrow</span><span class="o">=</span><span class="n">noise</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
       <span class="n">ncol</span><span class="o">=</span><span class="n">noise</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-      <span class="n">userdata</span><span class="o">=</span><span class="n">normalized_elevation</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+      <span class="n">userdata</span><span class="o">=</span><span class="n">normalized_elevation</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
     <span class="p">)</span>
 
     <span class="c1"># For &quot;choice&quot; mode, obstacles can be negative (pits), so offset the</span>

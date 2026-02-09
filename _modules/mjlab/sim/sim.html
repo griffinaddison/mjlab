@@ -386,7 +386,9 @@ document.write(`
                 <article class="bd-article">
                   
   <h1>Source code for mjlab.sim.sim</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">cast</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">mujoco</span>
@@ -397,6 +399,9 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">mjlab.sim.randomization</span><span class="w"> </span><span class="kn">import</span> <span class="n">expand_model_fields</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">mjlab.sim.sim_data</span><span class="w"> </span><span class="kn">import</span> <span class="n">TorchArray</span><span class="p">,</span> <span class="n">WarpBridge</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">mjlab.utils.nan_guard</span><span class="w"> </span><span class="kn">import</span> <span class="n">NanGuard</span><span class="p">,</span> <span class="n">NanGuardCfg</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+  <span class="kn">from</span><span class="w"> </span><span class="nn">mjlab.sensor.sensor_context</span><span class="w"> </span><span class="kn">import</span> <span class="n">SensorContext</span>
 
 <span class="c1"># Type aliases for better IDE support while maintaining runtime compatibility</span>
 <span class="c1"># At runtime, WarpBridge wraps the actual MJWarp objects.</span>
@@ -560,6 +565,7 @@ document.write(`
 
     <span class="bp">self</span><span class="o">.</span><span class="n">_model_bridge</span> <span class="o">=</span> <span class="n">WarpBridge</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wp_model</span><span class="p">,</span> <span class="n">nworld</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_envs</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_data_bridge</span> <span class="o">=</span> <span class="n">WarpBridge</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wp_data</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_sensor_context</span><span class="p">:</span> <span class="n">SensorContext</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">use_cuda_graph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_should_use_cuda_graph</span><span class="p">()</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">create_graph</span><span class="p">()</span>
@@ -586,6 +592,7 @@ document.write(`
     <span class="bp">self</span><span class="o">.</span><span class="n">step_graph</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">forward_graph</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">reset_graph</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">sense_graph</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_cuda_graph</span><span class="p">:</span>
       <span class="k">with</span> <span class="n">wp</span><span class="o">.</span><span class="n">ScopedDevice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wp_device</span><span class="p">):</span>
         <span class="k">with</span> <span class="n">wp</span><span class="o">.</span><span class="n">ScopedCapture</span><span class="p">()</span> <span class="k">as</span> <span class="n">capture</span><span class="p">:</span>
@@ -596,7 +603,11 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">forward_graph</span> <span class="o">=</span> <span class="n">capture</span><span class="o">.</span><span class="n">graph</span>
         <span class="k">with</span> <span class="n">wp</span><span class="o">.</span><span class="n">ScopedCapture</span><span class="p">()</span> <span class="k">as</span> <span class="n">capture</span><span class="p">:</span>
           <span class="n">mjwarp</span><span class="o">.</span><span class="n">reset_data</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wp_model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">wp_data</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_reset_mask_wp</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">reset_graph</span> <span class="o">=</span> <span class="n">capture</span><span class="o">.</span><span class="n">graph</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_graph</span> <span class="o">=</span> <span class="n">capture</span><span class="o">.</span><span class="n">graph</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sensor_context</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+          <span class="k">with</span> <span class="n">wp</span><span class="o">.</span><span class="n">ScopedCapture</span><span class="p">()</span> <span class="k">as</span> <span class="n">capture</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_sense_kernel</span><span class="p">()</span>
+          <span class="bp">self</span><span class="o">.</span><span class="n">sense_graph</span> <span class="o">=</span> <span class="n">capture</span><span class="o">.</span><span class="n">graph</span></div>
 
 
   <span class="c1"># Properties.</span>
@@ -645,6 +656,9 @@ document.write(`
 
     <span class="n">expand_model_fields</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wp_model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_envs</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">fields</span><span class="p">))</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_model_bridge</span><span class="o">.</span><span class="n">clear_cache</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sensor_context</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_sensor_context</span><span class="o">.</span><span class="n">recreate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_mj_model</span><span class="p">)</span>
 
     <span class="c1"># Field expansion allocates new arrays and replaces them via setattr. The</span>
     <span class="c1"># CUDA graph captured the old memory addresses, so we must recreate it.</span>
@@ -709,7 +723,58 @@ document.write(`
         <span class="n">mjwarp</span><span class="o">.</span><span class="n">reset_data</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wp_model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">wp_data</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_reset_mask_wp</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="Simulation.set_sensor_context">
+<a class="viewcode-back" href="../../../source/api/sim.html#mjlab.sim.Simulation.set_sensor_context">[docs]</a>
+  <span class="k">def</span><span class="w"> </span><span class="nf">set_sensor_context</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">SensorContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Wire a SensorContext for camera/raycast sensing.</span>
+
+<span class="sd">    Automatically re-captures CUDA graphs so the sense_graph includes</span>
+<span class="sd">    the new sensor kernels.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_sensor_context</span> <span class="o">=</span> <span class="n">ctx</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">create_graph</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Simulation.sense">
+<a class="viewcode-back" href="../../../source/api/sim.html#mjlab.sim.Simulation.sense">[docs]</a>
+  <span class="k">def</span><span class="w"> </span><span class="nf">sense</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Execute the sense pipeline: prepare -&gt; graph -&gt; finalize.</span>
+
+<span class="sd">    Runs BVH refit, camera rendering, and raycasting in a single</span>
+<span class="sd">    CUDA graph launch. Should be called once per env step, right</span>
+<span class="sd">    before observation computation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sensor_context</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="k">return</span>
+
+    <span class="n">ctx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sensor_context</span>
+    <span class="n">ctx</span><span class="o">.</span><span class="n">prepare</span><span class="p">()</span>
+
+    <span class="k">with</span> <span class="n">wp</span><span class="o">.</span><span class="n">ScopedDevice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wp_device</span><span class="p">):</span>
+      <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_cuda_graph</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">sense_graph</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">wp</span><span class="o">.</span><span class="n">capture_launch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sense_graph</span><span class="p">)</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sense_kernel</span><span class="p">()</span>
+
+    <span class="n">ctx</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span></div>
+
+
   <span class="c1"># Private methods.</span>
+
+  <span class="k">def</span><span class="w"> </span><span class="nf">_sense_kernel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;GPU kernel sequence for sensing (captured in sense_graph).&quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sensor_context</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="n">ctx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sensor_context</span>
+    <span class="n">rc</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">render_context</span>
+
+    <span class="n">mjwarp</span><span class="o">.</span><span class="n">refit_bvh</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wp_model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">wp_data</span><span class="p">,</span> <span class="n">rc</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">ctx</span><span class="o">.</span><span class="n">has_cameras</span><span class="p">:</span>
+      <span class="n">mjwarp</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wp_model</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">wp_data</span><span class="p">,</span> <span class="n">rc</span><span class="p">)</span>
+      <span class="n">ctx</span><span class="o">.</span><span class="n">unpack_rgb</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">sensor</span> <span class="ow">in</span> <span class="n">ctx</span><span class="o">.</span><span class="n">raycast_sensors</span><span class="p">:</span>
+      <span class="n">sensor</span><span class="o">.</span><span class="n">raycast_kernel</span><span class="p">(</span><span class="n">rc</span><span class="o">=</span><span class="n">rc</span><span class="p">)</span>
 
   <span class="k">def</span><span class="w"> </span><span class="nf">_should_use_cuda_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Determine if CUDA graphs can be used based on device and driver version.&quot;&quot;&quot;</span>

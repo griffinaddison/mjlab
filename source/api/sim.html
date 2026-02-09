@@ -482,6 +482,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sim.Simulation.forward"><code class="docutils literal notranslate"><span class="pre">Simulation.forward()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sim.Simulation.step"><code class="docutils literal notranslate"><span class="pre">Simulation.step()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sim.Simulation.reset"><code class="docutils literal notranslate"><span class="pre">Simulation.reset()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sim.Simulation.set_sensor_context"><code class="docutils literal notranslate"><span class="pre">Simulation.set_sensor_context()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sim.Simulation.sense"><code class="docutils literal notranslate"><span class="pre">Simulation.sense()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sim.SimulationCfg"><code class="docutils literal notranslate"><span class="pre">SimulationCfg</span></code></a><ul class="visible nav section-nav flex-column">
@@ -529,7 +531,7 @@ document.write(`
 <td><p>GPU-accelerated MuJoCo simulation powered by MJWarp.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mjlab.sim.SimulationCfg" title="mjlab.sim.SimulationCfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SimulationCfg</span></code></a></p></td>
-<td><p>SimulationCfg(<a href="#id1"><span class="problematic" id="id2">*</span></a>, nconmax: int | None = None, njmax: int | None = None, ls_parallel: bool = True, contact_sensor_maxmatch: int = 64, mujoco: mjlab.sim.sim.MujocoCfg = &lt;factory&gt;, nan_guard: mjlab.utils.nan_guard.NanGuardCfg = &lt;factory&gt;)</p></td>
+<td><p>SimulationCfg(<a href="#id1"><span class="problematic" id="id2">*</span></a>, nconmax: 'int | None' = None, njmax: 'int | None' = None, ls_parallel: 'bool' = True, contact_sensor_maxmatch: 'int' = 64, mujoco: 'MujocoCfg' = &lt;factory&gt;, nan_guard: 'NanGuardCfg' = &lt;factory&gt;)</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#mjlab.sim.TorchArray" title="mjlab.sim.TorchArray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TorchArray</span></code></a></p></td>
 <td><p>Warp array that behaves like a torch.Tensor with shared memory.</p></td>
@@ -724,6 +726,12 @@ the graphs with the new memory addresses.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#mjlab.sim.Simulation.reset" title="mjlab.sim.Simulation.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>([env_ids])</p></td>
 <td><p></p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mjlab.sim.Simulation.set_sensor_context" title="mjlab.sim.Simulation.set_sensor_context"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_sensor_context</span></code></a>(ctx)</p></td>
+<td><p>Wire a SensorContext for camera/raycast sensing.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mjlab.sim.Simulation.sense" title="mjlab.sim.Simulation.sense"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sense</span></code></a>()</p></td>
+<td><p>Execute the sense pipeline: prepare -&gt; graph -&gt; finalize.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -840,6 +848,23 @@ randomized values.</p>
 <span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/mjlab/sim/sim.html#Simulation.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mjlab.sim.Simulation.reset" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="mjlab.sim.Simulation.set_sensor_context">
+<span class="sig-name descname"><span class="pre">set_sensor_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="sensor.html#mjlab.sensor.SensorContext" title="mjlab.sensor.SensorContext"><span class="pre">SensorContext</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/mjlab/sim/sim.html#Simulation.set_sensor_context"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mjlab.sim.Simulation.set_sensor_context" title="Link to this definition">#</a></dt>
+<dd><p>Wire a SensorContext for camera/raycast sensing.</p>
+<p>Automatically re-captures CUDA graphs so the sense_graph includes
+the new sensor kernels.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mjlab.sim.Simulation.sense">
+<span class="sig-name descname"><span class="pre">sense</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/mjlab/sim/sim.html#Simulation.sense"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mjlab.sim.Simulation.sense" title="Link to this definition">#</a></dt>
+<dd><p>Execute the sense pipeline: prepare -&gt; graph -&gt; finalize.</p>
+<p>Runs BVH refit, camera rendering, and raycasting in a single
+CUDA graph launch. Should be called once per env step, right
+before observation computation.</p>
+</dd></dl>
+
 </section>
 </dd></dl>
 
@@ -847,7 +872,7 @@ randomized values.</p>
 <dt class="sig sig-object py" id="mjlab.sim.SimulationCfg">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mjlab.sim.</span></span><span class="sig-name descname"><span class="pre">SimulationCfg</span></span><a class="reference internal" href="../../_modules/mjlab/sim/sim.html#SimulationCfg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mjlab.sim.SimulationCfg" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>SimulationCfg(<a href="#id3"><span class="problematic" id="id4">*</span></a>, nconmax: int | None = None, njmax: int | None = None, ls_parallel: bool = True, contact_sensor_maxmatch: int = 64, mujoco: mjlab.sim.sim.MujocoCfg = &lt;factory&gt;, nan_guard: mjlab.utils.nan_guard.NanGuardCfg = &lt;factory&gt;)</p>
+<p>SimulationCfg(<a href="#id3"><span class="problematic" id="id4">*</span></a>, nconmax: ‘int | None’ = None, njmax: ‘int | None’ = None, ls_parallel: ‘bool’ = True, contact_sensor_maxmatch: ‘int’ = 64, mujoco: ‘MujocoCfg’ = &lt;factory&gt;, nan_guard: ‘NanGuardCfg’ = &lt;factory&gt;)</p>
 <p><strong>Attributes:</strong></p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
@@ -1094,6 +1119,8 @@ such as expand_model_fields(), to ensure the cache reflects the updated arrays.<
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sim.Simulation.forward"><code class="docutils literal notranslate"><span class="pre">Simulation.forward()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sim.Simulation.step"><code class="docutils literal notranslate"><span class="pre">Simulation.step()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sim.Simulation.reset"><code class="docutils literal notranslate"><span class="pre">Simulation.reset()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sim.Simulation.set_sensor_context"><code class="docutils literal notranslate"><span class="pre">Simulation.set_sensor_context()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sim.Simulation.sense"><code class="docutils literal notranslate"><span class="pre">Simulation.sense()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.sim.SimulationCfg"><code class="docutils literal notranslate"><span class="pre">SimulationCfg</span></code></a><ul class="visible nav section-nav flex-column">

@@ -392,7 +392,7 @@ document.write(`
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Literal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Literal</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">mujoco</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">mujoco_warp</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mjwarp</span>
@@ -979,7 +979,7 @@ document.write(`
     <span class="k">else</span><span class="p">:</span>
       <span class="n">prefixed_primary</span> <span class="o">=</span> <span class="n">primary_name</span>
 
-    <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
       <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">sensor_name</span><span class="p">,</span>
       <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">mujoco</span><span class="o">.</span><span class="n">mjtSensor</span><span class="o">.</span><span class="n">mjSENS_CONTACT</span><span class="p">,</span>
       <span class="s2">&quot;objtype&quot;</span><span class="p">:</span> <span class="n">_MODE_TO_OBJTYPE</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">primary</span><span class="o">.</span><span class="n">mode</span><span class="p">],</span>
