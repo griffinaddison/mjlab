@@ -451,8 +451,9 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-choose-an-installation-method">How to choose an installation method?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-1-use-mjlab-as-a-dependency-uv">Method 1 - Use mjlab as a dependency (uv)</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-uv">Install uv</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-mjlab-dependency">Add mjlab dependency</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-uv">1. Install uv</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#initialize-your-project">2. Initialize your project</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-mjlab-dependencies">3. Add mjlab dependencies</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verification">Verification</a></li>
 </ul>
 </li>
@@ -559,14 +560,23 @@ Method 4 - Docker / clusters</div>
 your own project and want to use <code class="docutils literal notranslate"><span class="pre">mjlab</span></code> as a dependency
 using <code class="docutils literal notranslate"><span class="pre">uv</span></code>.</p>
 <section id="install-uv">
-<h3>Install uv<a class="headerlink" href="#install-uv" title="Link to this heading">#</a></h3>
+<h3>1. Install uv<a class="headerlink" href="#install-uv" title="Link to this heading">#</a></h3>
 <p>If you do not have <code class="docutils literal notranslate"><span class="pre">uv</span></code> installed, run:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
 </pre></div>
 </div>
 </section>
-<section id="add-mjlab-dependency">
-<h3>Add mjlab dependency<a class="headerlink" href="#add-mjlab-dependency" title="Link to this heading">#</a></h3>
+<section id="initialize-your-project">
+<h3>2. Initialize your project<a class="headerlink" href="#initialize-your-project" title="Link to this heading">#</a></h3>
+<p>Initialize a managed Python project:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a new package-based project</span>
+uv<span class="w"> </span>init<span class="w"> </span>--package<span class="w"> </span>my_mjlab_project
+<span class="nb">cd</span><span class="w"> </span>my_mjlab_project
+</pre></div>
+</div>
+</section>
+<section id="add-mjlab-dependencies">
+<h3>3. Add mjlab dependencies<a class="headerlink" href="#add-mjlab-dependencies" title="Link to this heading">#</a></h3>
 <p>There are different options to add <code class="docutils literal notranslate"><span class="pre">mjlab</span></code> as a dependency.
 We recommend using the latest stable version from PyPI. If you need
 the latest features, use the direct GitHub installation. Finally, if you
@@ -609,6 +619,12 @@ Local</label><div class="sd-tab-content docutils">
 </pre></div>
 </div>
 </div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>For a complete example of how to structure a project that integrates a custom robot
+with an existing <code class="docutils literal notranslate"><span class="pre">mjlab</span></code> task, check out the
+<a class="reference external" href="https://github.com/mujocolab/anymal_c_velocity">ANYmal C Velocity Tracking</a> repository.</p>
 </div>
 </section>
 <section id="verification">
@@ -811,8 +827,9 @@ the Docker configuration section of the NVIDIA install guide.</p></li>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-choose-an-installation-method">How to choose an installation method?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#method-1-use-mjlab-as-a-dependency-uv">Method 1 - Use mjlab as a dependency (uv)</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-uv">Install uv</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-mjlab-dependency">Add mjlab dependency</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-uv">1. Install uv</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#initialize-your-project">2. Initialize your project</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-mjlab-dependencies">3. Add mjlab dependencies</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verification">Verification</a></li>
 </ul>
 </li>
