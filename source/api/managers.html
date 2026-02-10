@@ -59,7 +59,7 @@
     <link rel="prev" title="mjlab.sensor" href="sensor.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Feb 09, 2026"/>
+    <meta name="docbuild:last-update" content="Feb 10, 2026"/>
   </head>
   
   
@@ -581,6 +581,25 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.ManagerTermBaseCfg.__init__"><code class="docutils literal notranslate"><span class="pre">ManagerTermBaseCfg.__init__()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.MetricsManager"><code class="docutils literal notranslate"><span class="pre">MetricsManager</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.MetricsManager.__init__"><code class="docutils literal notranslate"><span class="pre">MetricsManager.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.MetricsManager.active_terms"><code class="docutils literal notranslate"><span class="pre">MetricsManager.active_terms</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.MetricsManager.reset"><code class="docutils literal notranslate"><span class="pre">MetricsManager.reset()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.MetricsManager.compute"><code class="docutils literal notranslate"><span class="pre">MetricsManager.compute()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.MetricsManager.get_active_iterable_terms"><code class="docutils literal notranslate"><span class="pre">MetricsManager.get_active_iterable_terms()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.MetricsTermCfg"><code class="docutils literal notranslate"><span class="pre">MetricsTermCfg</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.MetricsTermCfg.__init__"><code class="docutils literal notranslate"><span class="pre">MetricsTermCfg.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.NullMetricsManager"><code class="docutils literal notranslate"><span class="pre">NullMetricsManager</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.NullMetricsManager.__init__"><code class="docutils literal notranslate"><span class="pre">NullMetricsManager.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.NullMetricsManager.get_active_iterable_terms"><code class="docutils literal notranslate"><span class="pre">NullMetricsManager.get_active_iterable_terms()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.NullMetricsManager.reset"><code class="docutils literal notranslate"><span class="pre">NullMetricsManager.reset()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.NullMetricsManager.compute"><code class="docutils literal notranslate"><span class="pre">NullMetricsManager.compute()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.ObservationGroupCfg"><code class="docutils literal notranslate"><span class="pre">ObservationGroupCfg</span></code></a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.ObservationGroupCfg.terms"><code class="docutils literal notranslate"><span class="pre">ObservationGroupCfg.terms</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.ObservationGroupCfg.concatenate_terms"><code class="docutils literal notranslate"><span class="pre">ObservationGroupCfg.concatenate_terms</span></code></a></li>
@@ -739,28 +758,37 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="#mjlab.managers.ManagerTermBaseCfg" title="mjlab.managers.ManagerTermBaseCfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ManagerTermBaseCfg</span></code></a></p></td>
 <td><p>Base configuration for manager terms.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#mjlab.managers.ObservationGroupCfg" title="mjlab.managers.ObservationGroupCfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ObservationGroupCfg</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#mjlab.managers.MetricsManager" title="mjlab.managers.MetricsManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MetricsManager</span></code></a></p></td>
+<td><p>Accumulates per-step metric values, reports episode averages.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mjlab.managers.MetricsTermCfg" title="mjlab.managers.MetricsTermCfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MetricsTermCfg</span></code></a></p></td>
+<td><p>Configuration for a metrics term.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mjlab.managers.NullMetricsManager" title="mjlab.managers.NullMetricsManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NullMetricsManager</span></code></a></p></td>
+<td><p>Placeholder for absent metrics manager that safely no-ops all operations.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mjlab.managers.ObservationGroupCfg" title="mjlab.managers.ObservationGroupCfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ObservationGroupCfg</span></code></a></p></td>
 <td><p>Configuration for an observation group.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#mjlab.managers.ObservationManager" title="mjlab.managers.ObservationManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ObservationManager</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#mjlab.managers.ObservationManager" title="mjlab.managers.ObservationManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ObservationManager</span></code></a></p></td>
 <td><p>Manages observation computation for the environment.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#mjlab.managers.ObservationTermCfg" title="mjlab.managers.ObservationTermCfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ObservationTermCfg</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mjlab.managers.ObservationTermCfg" title="mjlab.managers.ObservationTermCfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ObservationTermCfg</span></code></a></p></td>
 <td><p>Configuration for an observation term.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#mjlab.managers.RewardManager" title="mjlab.managers.RewardManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RewardManager</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#mjlab.managers.RewardManager" title="mjlab.managers.RewardManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RewardManager</span></code></a></p></td>
 <td><p>Manages reward computation by aggregating weighted reward terms.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#mjlab.managers.RewardTermCfg" title="mjlab.managers.RewardTermCfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RewardTermCfg</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mjlab.managers.RewardTermCfg" title="mjlab.managers.RewardTermCfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RewardTermCfg</span></code></a></p></td>
 <td><p>Configuration for a reward term.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#mjlab.managers.SceneEntityCfg" title="mjlab.managers.SceneEntityCfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SceneEntityCfg</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#mjlab.managers.SceneEntityCfg" title="mjlab.managers.SceneEntityCfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SceneEntityCfg</span></code></a></p></td>
 <td><p>Configuration for a scene entity that is used by the manager's term.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#mjlab.managers.TerminationManager" title="mjlab.managers.TerminationManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TerminationManager</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mjlab.managers.TerminationManager" title="mjlab.managers.TerminationManager"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TerminationManager</span></code></a></p></td>
 <td><p>Manages termination conditions for the environment.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#mjlab.managers.TerminationTermCfg" title="mjlab.managers.TerminationTermCfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TerminationTermCfg</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#mjlab.managers.TerminationTermCfg" title="mjlab.managers.TerminationTermCfg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TerminationTermCfg</span></code></a></p></td>
 <td><p>Configuration for a termination term.</p></td>
 </tr>
 </tbody>
@@ -1828,6 +1856,136 @@ Classes are auto-instantiated with <code class="docutils literal notranslate"><s
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="mjlab.managers.MetricsManager">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mjlab.managers.</span></span><span class="sig-name descname"><span class="pre">MetricsManager</span></span><a class="reference internal" href="../../_modules/mjlab/managers/metrics_manager.html#MetricsManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mjlab.managers.MetricsManager" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#mjlab.managers.ManagerBase" title="mjlab.managers.manager_base.ManagerBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ManagerBase</span></code></a></p>
+<p>Accumulates per-step metric values, reports episode averages.</p>
+<p>Unlike rewards, metrics have no weight, no dt scaling, and no
+normalization by episode length. Episode values are true per-step
+averages (sum / step_count), so a metric in [0,1] stays in [0,1]
+in the logger.</p>
+<p><strong>Methods:</strong></p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mjlab.managers.MetricsManager.__init__" title="mjlab.managers.MetricsManager.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(cfg, env)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mjlab.managers.MetricsManager.reset" title="mjlab.managers.MetricsManager.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>([env_ids])</p></td>
+<td><p>Resets the manager and returns logging info for the current step.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mjlab.managers.MetricsManager.compute" title="mjlab.managers.MetricsManager.compute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mjlab.managers.MetricsManager.get_active_iterable_terms" title="mjlab.managers.MetricsManager.get_active_iterable_terms"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_active_iterable_terms</span></code></a>(env_idx)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Attributes:</strong></p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mjlab.managers.MetricsManager.active_terms" title="mjlab.managers.MetricsManager.active_terms"><code class="xref py py-obj docutils literal notranslate"><span class="pre">active_terms</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="mjlab.managers.MetricsManager.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#mjlab.managers.MetricsTermCfg" title="mjlab.managers.MetricsTermCfg"><span class="pre">MetricsTermCfg</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="envs.html#mjlab.envs.ManagerBasedRlEnv" title="mjlab.envs.ManagerBasedRlEnv"><span class="pre">ManagerBasedRlEnv</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mjlab/managers/metrics_manager.html#MetricsManager.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mjlab.managers.MetricsManager.__init__" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="mjlab.managers.MetricsManager.active_terms">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">active_terms</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#mjlab.managers.MetricsManager.active_terms" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mjlab.managers.MetricsManager.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#slice" title="(in Python v3.14)"><span class="pre">slice</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tensor</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/mjlab/managers/metrics_manager.html#MetricsManager.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mjlab.managers.MetricsManager.reset" title="Link to this definition">#</a></dt>
+<dd><p>Resets the manager and returns logging info for the current step.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mjlab.managers.MetricsManager.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/mjlab/managers/metrics_manager.html#MetricsManager.compute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mjlab.managers.MetricsManager.compute" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mjlab.managers.MetricsManager.get_active_iterable_terms">
+<span class="sig-name descname"><span class="pre">get_active_iterable_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.14)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.14)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/mjlab/managers/metrics_manager.html#MetricsManager.get_active_iterable_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mjlab.managers.MetricsManager.get_active_iterable_terms" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mjlab.managers.MetricsTermCfg">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mjlab.managers.</span></span><span class="sig-name descname"><span class="pre">MetricsTermCfg</span></span><a class="reference internal" href="../../_modules/mjlab/managers/metrics_manager.html#MetricsTermCfg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mjlab.managers.MetricsTermCfg" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#mjlab.managers.ManagerTermBaseCfg" title="mjlab.managers.manager_base.ManagerTermBaseCfg"><code class="xref py py-class docutils literal notranslate"><span class="pre">ManagerTermBaseCfg</span></code></a></p>
+<p>Configuration for a metrics term.</p>
+<p><strong>Methods:</strong></p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mjlab.managers.MetricsTermCfg.__init__" title="mjlab.managers.MetricsTermCfg.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(func[, params])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="mjlab.managers.MetricsTermCfg.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func:</span> <span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params:</span> <span class="pre">dict[str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Any]</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#mjlab.managers.MetricsTermCfg.__init__" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="mjlab.managers.NullMetricsManager">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mjlab.managers.</span></span><span class="sig-name descname"><span class="pre">NullMetricsManager</span></span><a class="reference internal" href="../../_modules/mjlab/managers/metrics_manager.html#NullMetricsManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mjlab.managers.NullMetricsManager" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Placeholder for absent metrics manager that safely no-ops all operations.</p>
+<p><strong>Methods:</strong></p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mjlab.managers.NullMetricsManager.__init__" title="mjlab.managers.NullMetricsManager.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mjlab.managers.NullMetricsManager.get_active_iterable_terms" title="mjlab.managers.NullMetricsManager.get_active_iterable_terms"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_active_iterable_terms</span></code></a>(env_idx)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#mjlab.managers.NullMetricsManager.reset" title="mjlab.managers.NullMetricsManager.reset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code></a>([env_ids])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#mjlab.managers.NullMetricsManager.compute" title="mjlab.managers.NullMetricsManager.compute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="mjlab.managers.NullMetricsManager.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/mjlab/managers/metrics_manager.html#NullMetricsManager.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mjlab.managers.NullMetricsManager.__init__" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mjlab.managers.NullMetricsManager.get_active_iterable_terms">
+<span class="sig-name descname"><span class="pre">get_active_iterable_terms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.14)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.14)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/mjlab/managers/metrics_manager.html#NullMetricsManager.get_active_iterable_terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mjlab.managers.NullMetricsManager.get_active_iterable_terms" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mjlab.managers.NullMetricsManager.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">env_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/mjlab/managers/metrics_manager.html#NullMetricsManager.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mjlab.managers.NullMetricsManager.reset" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="mjlab.managers.NullMetricsManager.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/mjlab/managers/metrics_manager.html#NullMetricsManager.compute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mjlab.managers.NullMetricsManager.compute" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="mjlab.managers.ObservationGroupCfg">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mjlab.managers.</span></span><span class="sig-name descname"><span class="pre">ObservationGroupCfg</span></span><a class="reference internal" href="../../_modules/mjlab/managers/observation_manager.html#ObservationGroupCfg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mjlab.managers.ObservationGroupCfg" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
@@ -2830,6 +2988,25 @@ Classes are auto-instantiated with <code class="docutils literal notranslate"><s
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.ManagerTermBaseCfg.__init__"><code class="docutils literal notranslate"><span class="pre">ManagerTermBaseCfg.__init__()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.MetricsManager"><code class="docutils literal notranslate"><span class="pre">MetricsManager</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.MetricsManager.__init__"><code class="docutils literal notranslate"><span class="pre">MetricsManager.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.MetricsManager.active_terms"><code class="docutils literal notranslate"><span class="pre">MetricsManager.active_terms</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.MetricsManager.reset"><code class="docutils literal notranslate"><span class="pre">MetricsManager.reset()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.MetricsManager.compute"><code class="docutils literal notranslate"><span class="pre">MetricsManager.compute()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.MetricsManager.get_active_iterable_terms"><code class="docutils literal notranslate"><span class="pre">MetricsManager.get_active_iterable_terms()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.MetricsTermCfg"><code class="docutils literal notranslate"><span class="pre">MetricsTermCfg</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.MetricsTermCfg.__init__"><code class="docutils literal notranslate"><span class="pre">MetricsTermCfg.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.NullMetricsManager"><code class="docutils literal notranslate"><span class="pre">NullMetricsManager</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.NullMetricsManager.__init__"><code class="docutils literal notranslate"><span class="pre">NullMetricsManager.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.NullMetricsManager.get_active_iterable_terms"><code class="docutils literal notranslate"><span class="pre">NullMetricsManager.get_active_iterable_terms()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.NullMetricsManager.reset"><code class="docutils literal notranslate"><span class="pre">NullMetricsManager.reset()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.NullMetricsManager.compute"><code class="docutils literal notranslate"><span class="pre">NullMetricsManager.compute()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.ObservationGroupCfg"><code class="docutils literal notranslate"><span class="pre">ObservationGroupCfg</span></code></a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.ObservationGroupCfg.terms"><code class="docutils literal notranslate"><span class="pre">ObservationGroupCfg.terms</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mjlab.managers.ObservationGroupCfg.concatenate_terms"><code class="docutils literal notranslate"><span class="pre">ObservationGroupCfg.concatenate_terms</span></code></a></li>
@@ -2958,7 +3135,7 @@ By The mjlab Developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Feb 09, 2026.
+  Last updated on Feb 10, 2026.
   <br/>
 </p>
   </div>

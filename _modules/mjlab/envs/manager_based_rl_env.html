@@ -56,7 +56,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Feb 09, 2026"/>
+    <meta name="docbuild:last-update" content="Feb 10, 2026"/>
   </head>
   
   
@@ -410,6 +410,11 @@ document.write(`
   <span class="n">NullCurriculumManager</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">mjlab.managers.event_manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">EventManager</span><span class="p">,</span> <span class="n">EventTermCfg</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mjlab.managers.metrics_manager</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+  <span class="n">MetricsManager</span><span class="p">,</span>
+  <span class="n">MetricsTermCfg</span><span class="p">,</span>
+  <span class="n">NullMetricsManager</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">mjlab.managers.observation_manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">ObservationGroupCfg</span><span class="p">,</span> <span class="n">ObservationManager</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">mjlab.managers.reward_manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">RewardManager</span><span class="p">,</span> <span class="n">RewardTermCfg</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">mjlab.managers.termination_manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">TerminationManager</span><span class="p">,</span> <span class="n">TerminationTermCfg</span>
@@ -503,6 +508,9 @@ document.write(`
 
   <span class="n">curriculum</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">CurriculumTermCfg</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;Curriculum terms for adaptive difficulty.&quot;&quot;&quot;</span>
+
+  <span class="n">metrics</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">MetricsTermCfg</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Custom metric terms for logging per-step values as episode averages.&quot;&quot;&quot;</span>
 
   <span class="n">is_finite_horizon</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="w">  </span><span class="sd">&quot;&quot;&quot;Whether the task has a finite or infinite horizon. Defaults to False (infinite).</span>
@@ -696,6 +704,11 @@ document.write(`
     <span class="k">else</span><span class="p">:</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">curriculum_manager</span> <span class="o">=</span> <span class="n">NullCurriculumManager</span><span class="p">()</span>
     <span class="n">print_info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[INFO] </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">curriculum_manager</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">metrics</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">metrics_manager</span> <span class="o">=</span> <span class="n">MetricsManager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cfg</span><span class="o">.</span><span class="n">metrics</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">metrics_manager</span> <span class="o">=</span> <span class="n">NullMetricsManager</span><span class="p">()</span>
+    <span class="n">print_info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[INFO] </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">metrics_manager</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="c1"># Configure spaces for the environment.</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_configure_gym_env_spaces</span><span class="p">()</span>
@@ -779,6 +792,7 @@ document.write(`
     <span class="bp">self</span><span class="o">.</span><span class="n">reset_time_outs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">termination_manager</span><span class="o">.</span><span class="n">time_outs</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">reward_buf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reward_manager</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">step_dt</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">metrics_manager</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
 
     <span class="c1"># Reset envs that terminated/timed-out and log the episode info.</span>
     <span class="n">reset_env_ids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reset_buf</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">as_tuple</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
@@ -911,6 +925,9 @@ document.write(`
     <span class="c1"># rewards manager.</span>
     <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reward_manager</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">env_ids</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">extras</span><span class="p">[</span><span class="s2">&quot;log&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+    <span class="c1"># metrics manager.</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metrics_manager</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">env_ids</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">extras</span><span class="p">[</span><span class="s2">&quot;log&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
     <span class="c1"># curriculum manager.</span>
     <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curriculum_manager</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">env_ids</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">extras</span><span class="p">[</span><span class="s2">&quot;log&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
@@ -973,7 +990,7 @@ By The mjlab Developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Feb 09, 2026.
+  Last updated on Feb 10, 2026.
   <br/>
 </p>
   </div>

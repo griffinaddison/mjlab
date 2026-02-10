@@ -56,7 +56,7 @@
     <link rel="search" title="Search" href="search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Feb 09, 2026"/>
+    <meta name="docbuild:last-update" content="Feb 10, 2026"/>
   </head>
   
   
@@ -511,9 +511,15 @@ document.write(`
 </li>
         <li><a href="source/api/managers.html#mjlab.managers.ManagerTermBaseCfg.__init__">(mjlab.managers.ManagerTermBaseCfg method)</a>
 </li>
+        <li><a href="source/api/managers.html#mjlab.managers.MetricsManager.__init__">(mjlab.managers.MetricsManager method)</a>
+</li>
+        <li><a href="source/api/managers.html#mjlab.managers.MetricsTermCfg.__init__">(mjlab.managers.MetricsTermCfg method)</a>
+</li>
         <li><a href="source/api/managers.html#mjlab.managers.NullCommandManager.__init__">(mjlab.managers.NullCommandManager method)</a>
 </li>
         <li><a href="source/api/managers.html#mjlab.managers.NullCurriculumManager.__init__">(mjlab.managers.NullCurriculumManager method)</a>
+</li>
+        <li><a href="source/api/managers.html#mjlab.managers.NullMetricsManager.__init__">(mjlab.managers.NullMetricsManager method)</a>
 </li>
         <li><a href="source/api/managers.html#mjlab.managers.ObservationGroupCfg.__init__">(mjlab.managers.ObservationGroupCfg method)</a>
 </li>
@@ -643,6 +649,8 @@ document.write(`
 </li>
         <li><a href="source/api/managers.html#mjlab.managers.ManagerBase.active_terms">(mjlab.managers.ManagerBase property)</a>
 </li>
+        <li><a href="source/api/managers.html#mjlab.managers.MetricsManager.active_terms">(mjlab.managers.MetricsManager property)</a>
+</li>
         <li><a href="source/api/managers.html#mjlab.managers.ObservationManager.active_terms">(mjlab.managers.ObservationManager property)</a>
 </li>
         <li><a href="source/api/managers.html#mjlab.managers.RewardManager.active_terms">(mjlab.managers.RewardManager property)</a>
@@ -656,14 +664,14 @@ document.write(`
 </li>
       <li><a href="source/api/managers.html#mjlab.managers.SceneEntityCfg.actuator_ids">actuator_ids (mjlab.managers.SceneEntityCfg attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/entity.html#mjlab.entity.Entity.actuator_names">actuator_names (mjlab.entity.Entity property)</a>
 
       <ul>
         <li><a href="source/api/managers.html#mjlab.managers.SceneEntityCfg.actuator_names">(mjlab.managers.SceneEntityCfg attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/actuator.html#mjlab.actuator.ActuatorCfg">ActuatorCfg (class in mjlab.actuator)</a>
 </li>
       <li><a href="source/api/actuator.html#mjlab.actuator.ActuatorCmd">ActuatorCmd (class in mjlab.actuator)</a>
@@ -959,9 +967,13 @@ document.write(`
 </li>
         <li><a href="source/api/managers.html#mjlab.managers.CurriculumManager.compute">(mjlab.managers.CurriculumManager method)</a>
 </li>
+        <li><a href="source/api/managers.html#mjlab.managers.MetricsManager.compute">(mjlab.managers.MetricsManager method)</a>
+</li>
         <li><a href="source/api/managers.html#mjlab.managers.NullCommandManager.compute">(mjlab.managers.NullCommandManager method)</a>
 </li>
         <li><a href="source/api/managers.html#mjlab.managers.NullCurriculumManager.compute">(mjlab.managers.NullCurriculumManager method)</a>
+</li>
+        <li><a href="source/api/managers.html#mjlab.managers.NullMetricsManager.compute">(mjlab.managers.NullMetricsManager method)</a>
 </li>
         <li><a href="source/api/managers.html#mjlab.managers.ObservationManager.compute">(mjlab.managers.ObservationManager method)</a>
 </li>
@@ -1425,9 +1437,13 @@ document.write(`
 </li>
         <li><a href="source/api/managers.html#mjlab.managers.ManagerBase.get_active_iterable_terms">(mjlab.managers.ManagerBase method)</a>
 </li>
+        <li><a href="source/api/managers.html#mjlab.managers.MetricsManager.get_active_iterable_terms">(mjlab.managers.MetricsManager method)</a>
+</li>
         <li><a href="source/api/managers.html#mjlab.managers.NullCommandManager.get_active_iterable_terms">(mjlab.managers.NullCommandManager method)</a>
 </li>
         <li><a href="source/api/managers.html#mjlab.managers.NullCurriculumManager.get_active_iterable_terms">(mjlab.managers.NullCurriculumManager method)</a>
+</li>
+        <li><a href="source/api/managers.html#mjlab.managers.NullMetricsManager.get_active_iterable_terms">(mjlab.managers.NullMetricsManager method)</a>
 </li>
         <li><a href="source/api/managers.html#mjlab.managers.ObservationManager.get_active_iterable_terms">(mjlab.managers.ObservationManager method)</a>
 </li>
@@ -1436,6 +1452,8 @@ document.write(`
         <li><a href="source/api/managers.html#mjlab.managers.TerminationManager.get_active_iterable_terms">(mjlab.managers.TerminationManager method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/actuator.html#mjlab.actuator.Actuator.get_command">get_command() (mjlab.actuator.Actuator method)</a>
 
       <ul>
@@ -1444,8 +1462,6 @@ document.write(`
         <li><a href="source/api/managers.html#mjlab.managers.NullCommandManager.get_command">(mjlab.managers.NullCommandManager method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/sim.html#mjlab.sim.Simulation.get_default_field">get_default_field() (mjlab.sim.Simulation method)</a>
 </li>
       <li><a href="source/api/sensor.html#mjlab.sensor.SensorContext.get_depth">get_depth() (mjlab.sensor.SensorContext method)</a>
@@ -1776,6 +1792,12 @@ document.write(`
 </li>
       <li><a href="source/api/envs.html#mjlab.envs.ManagerBasedRlEnv.metadata">metadata (mjlab.envs.ManagerBasedRlEnv attribute)</a>
 </li>
+      <li><a href="source/api/envs.html#mjlab.envs.ManagerBasedRlEnvCfg.metrics">metrics (mjlab.envs.ManagerBasedRlEnvCfg attribute)</a>
+</li>
+      <li><a href="source/api/managers.html#mjlab.managers.MetricsManager">MetricsManager (class in mjlab.managers)</a>
+</li>
+      <li><a href="source/api/managers.html#mjlab.managers.MetricsTermCfg">MetricsTermCfg (class in mjlab.managers)</a>
+</li>
       <li><a href="source/api/managers.html#mjlab.managers.EventTermCfg.min_step_count_between_reset">min_step_count_between_reset (mjlab.managers.EventTermCfg attribute)</a>
 </li>
       <li><a href="source/api/sensor.html#mjlab.sensor.RayCastSensorCfg.VizCfg.miss_color">miss_color (mjlab.sensor.RayCastSensorCfg.VizCfg attribute)</a>
@@ -1805,6 +1827,8 @@ document.write(`
         <li><a href="source/api/envs.html#module-mjlab.envs">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     mjlab.managers
 
@@ -1812,8 +1836,6 @@ document.write(`
         <li><a href="source/api/managers.html#module-mjlab.managers">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     mjlab.scene
 
@@ -1931,13 +1953,15 @@ document.write(`
 </li>
       <li><a href="source/api/sensor.html#mjlab.sensor.RayCastSensorCfg.VizCfg.normal_length">normal_length (mjlab.sensor.RayCastSensorCfg.VizCfg attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/sensor.html#mjlab.sensor.RayCastData.normals_w">normals_w (mjlab.sensor.RayCastData attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/api/managers.html#mjlab.managers.NullCommandManager">NullCommandManager (class in mjlab.managers)</a>
 </li>
       <li><a href="source/api/managers.html#mjlab.managers.NullCurriculumManager">NullCurriculumManager (class in mjlab.managers)</a>
+</li>
+      <li><a href="source/api/managers.html#mjlab.managers.NullMetricsManager">NullMetricsManager (class in mjlab.managers)</a>
 </li>
       <li><a href="source/api/entity.html#mjlab.entity.Entity.num_actuators">num_actuators (mjlab.entity.Entity property)</a>
 </li>
@@ -2178,9 +2202,13 @@ document.write(`
 </li>
         <li><a href="source/api/managers.html#mjlab.managers.ManagerTermBase.reset">(mjlab.managers.ManagerTermBase method)</a>
 </li>
+        <li><a href="source/api/managers.html#mjlab.managers.MetricsManager.reset">(mjlab.managers.MetricsManager method)</a>
+</li>
         <li><a href="source/api/managers.html#mjlab.managers.NullCommandManager.reset">(mjlab.managers.NullCommandManager method)</a>
 </li>
         <li><a href="source/api/managers.html#mjlab.managers.NullCurriculumManager.reset">(mjlab.managers.NullCurriculumManager method)</a>
+</li>
+        <li><a href="source/api/managers.html#mjlab.managers.NullMetricsManager.reset">(mjlab.managers.NullMetricsManager method)</a>
 </li>
         <li><a href="source/api/managers.html#mjlab.managers.ObservationManager.reset">(mjlab.managers.ObservationManager method)</a>
 </li>
@@ -2795,7 +2823,7 @@ By The mjlab Developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Feb 09, 2026.
+  Last updated on Feb 10, 2026.
   <br/>
 </p>
   </div>
