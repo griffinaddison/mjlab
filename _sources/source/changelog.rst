@@ -23,8 +23,6 @@ Added
 - Added site group visualization to the Viser viewer (Geoms and Sites
   tabs unified into a single Groups tab).
 - Added ``env_ids`` parameter to ``Entity.write_ctrl_to_sim``.
-- Curriculum stages can now be defined in iterations instead of raw
-  steps.
 
 Changed
 ^^^^^^^
