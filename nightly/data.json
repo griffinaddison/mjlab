@@ -883,5 +883,35 @@
       "ee_pos_error": 0.04708077758550644,
       "ee_ori_error": 0.170246422290802
     }
+  },
+  {
+    "id": "32s9dh8w",
+    "name": "2026-02-12_08-41-57",
+    "url": "https://wandb.ai/gcbc_researchers/mjlab/runs/32s9dh8w",
+    "created_at": "2026-02-12T16:42:03Z",
+    "commit": "eeff3f7",
+    "metrics": {
+      "success_rate": 0.9765625,
+      "mpkpe": 0.029281429946422577,
+      "r_mpkpe": 0.02733600325882435,
+      "joint_vel_error": 3.131734848022461,
+      "ee_pos_error": 0.046782542020082474,
+      "ee_ori_error": 0.1651701033115387
+    }
+  },
+  {
+    "id": "oss5ey61",
+    "name": "2026-02-12_02-16-22",
+    "url": "https://wandb.ai/gcbc_researchers/mjlab/runs/oss5ey61",
+    "created_at": "2026-02-12T10:16:28Z",
+    "commit": "6a60f97",
+    "metrics": {
+      "success_rate": 0.9873046875,
+      "mpkpe": 0.028854064643383026,
+      "r_mpkpe": 0.02719889022409916,
+      "joint_vel_error": 3.042073965072632,
+      "ee_pos_error": 0.04589611291885376,
+      "ee_ori_error": 0.16619578003883362
+    }
   }
 ]
