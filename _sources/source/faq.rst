@@ -138,6 +138,8 @@ The ``nan_guard`` tool makes it easier to:
 
 Reporting well-isolated issues helps improve the framework for everyone.
 
+.. _faq-sim-forward:
+
 When do I need to call ``sim.forward()``?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

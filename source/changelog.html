@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>NaN Guard &#8212; mjlab Documentation</title>
+    <title>Changelog &#8212; mjlab Documentation</title>
   
   
   
@@ -51,12 +51,12 @@
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'source/nan_guard';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'source/changelog';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Observation History and Delay" href="observation.html" />
-    <link rel="prev" title="Domain Randomization" href="randomization.html" />
+    <link rel="next" title="API Reference" href="api/index.html" />
+    <link rel="prev" title="FAQ &amp; Troubleshooting" href="faq.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
     <meta name="docbuild:last-update" content="Feb 12, 2026"/>
@@ -210,10 +210,10 @@
 <li class="toctree-l1"><a class="reference internal" href="migration_isaac_lab.html">Migrating from Isaac Lab</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">About the Project</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="motivation.html">Why mjlab?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">FAQ &amp; Troubleshooting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Changelog</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul class="nav bd-sidenav">
@@ -230,9 +230,9 @@
 </details></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Core Concepts</span></p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="randomization.html">Domain Randomization</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">NaN Guard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nan_guard.html">NaN Guard</a></li>
 <li class="toctree-l1"><a class="reference internal" href="observation.html">Observation History and Delay</a></li>
 <li class="toctree-l1"><a class="reference internal" href="actuators.html">Actuators</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sensors.html">Sensors</a></li>
@@ -309,7 +309,7 @@
       
       
       
-      <li><a href="https://github.com/mujocolab/mjlab/edit/main/docs/source/nan_guard.rst" target="_blank"
+      <li><a href="https://github.com/mujocolab/mjlab/edit/main/docs/source/changelog.rst" target="_blank"
    class="btn btn-sm btn-source-edit-button dropdown-item"
    title="Suggest edit"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -326,7 +326,7 @@
       
       
       
-      <li><a href="https://github.com/mujocolab/mjlab/issues/new?title=Issue%20on%20page%20%2Fsource/nan_guard.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/mujocolab/mjlab/issues/new?title=Issue%20on%20page%20%2Fsource/changelog.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -356,7 +356,7 @@
       
       
       
-      <li><a href="../_sources/source/nan_guard.rst" target="_blank"
+      <li><a href="../_sources/source/changelog.rst" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -440,7 +440,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>NaN Guard</h1>
+    <h1>Changelog</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -450,14 +450,13 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tl-dr">TL;DR</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#behavior">Behavior</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#output-format">Output Format</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-dumps">Visualizing Dumps</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance">Performance</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#related-features">Related Features</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nan-detection-termination">NaN Detection Termination</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#upcoming-version-not-yet-released">Upcoming version (not yet released)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#new-features">New features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changes">Changes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fixes">Bug fixes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-1-0-0-january-28-2026">Version 1.0.0 (January 28, 2026)</a></li>
 </ul>
             </nav>
         </div>
@@ -469,133 +468,63 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="nan-guard">
-<span id="id1"></span><h1>NaN Guard<a class="headerlink" href="#nan-guard" title="Link to this heading">#</a></h1>
-<p>The NaN guard captures simulation states when NaN/Inf is detected, helping debug
-numerical instability issues.</p>
-<section id="tl-dr">
-<h2>TL;DR<a class="headerlink" href="#tl-dr" title="Link to this heading">#</a></h2>
-<p><strong>Running into NaN issues during training?</strong> Enable the NaN guard with a single flag:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>run<span class="w"> </span>train.py<span class="w"> </span>--enable-nan-guard<span class="w"> </span>True
-</pre></div>
-</div>
-<p>This will automatically capture and save simulation states when NaN/Inf is
-detected, making it easy to debug what went wrong.</p>
-<p>You can also enable it programmatically in your simulation config:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">mjlab.sim.sim</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimulationCfg</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">mjlab.utils.nan_guard</span><span class="w"> </span><span class="kn">import</span> <span class="n">NanGuardCfg</span>
-
-<span class="n">cfg</span> <span class="o">=</span> <span class="n">SimulationCfg</span><span class="p">(</span>
-    <span class="n">nan_guard</span><span class="o">=</span><span class="n">NanGuardCfg</span><span class="p">(</span>
-        <span class="n">enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">buffer_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-        <span class="n">output_dir</span><span class="o">=</span><span class="s2">&quot;/tmp/mjlab/nan_dumps&quot;</span><span class="p">,</span>
-        <span class="n">max_envs_to_dump</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-    <span class="p">),</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-</section>
-<section id="configuration">
-<h2>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">#</a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">enabled</span></code> (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)
-Enable/disable NaN detection and dumping. When disabled, has minimal overhead.</p>
-<p><code class="docutils literal notranslate"><span class="pre">buffer_size</span></code> (default: <code class="docutils literal notranslate"><span class="pre">100</span></code>)
-Number of recent simulation states to keep in rolling buffer.</p>
-<p><code class="docutils literal notranslate"><span class="pre">output_dir</span></code> (default: <code class="docutils literal notranslate"><span class="pre">&quot;/tmp/mjlab/nan_dumps&quot;</span></code>)
-Directory where NaN dump files are saved.</p>
-<p><code class="docutils literal notranslate"><span class="pre">max_envs_to_dump</span></code> (default: <code class="docutils literal notranslate"><span class="pre">5</span></code>) Maximum number of NaN environments to dump
-to disk. All environments are tracked in the buffer, but only the first N NaN
-environments are saved to reduce dump size.</p>
-</section>
-<section id="behavior">
-<h2>Behavior<a class="headerlink" href="#behavior" title="Link to this heading">#</a></h2>
+  <section id="changelog">
+<h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading">#</a></h1>
+<section id="upcoming-version-not-yet-released">
+<h2>Upcoming version (not yet released)<a class="headerlink" href="#upcoming-version-not-yet-released" title="Link to this heading">#</a></h2>
+<section id="new-features">
+<h3>New features<a class="headerlink" href="#new-features" title="Link to this heading">#</a></h3>
 <ul class="simple">
-<li><p><strong>Captures</strong> simulation state before each step (using <code class="docutils literal notranslate"><span class="pre">mj_getState</span></code>)</p></li>
-<li><p><strong>Detects</strong> NaN/Inf in <code class="docutils literal notranslate"><span class="pre">qpos</span></code>, <code class="docutils literal notranslate"><span class="pre">qvel</span></code>, <code class="docutils literal notranslate"><span class="pre">qacc</span></code>, <code class="docutils literal notranslate"><span class="pre">qacc_warmstart</span></code> after each step</p></li>
-<li><p><strong>Dumps</strong> buffer and model to disk on first detection</p></li>
-<li><p><strong>Exits</strong> only dumps once per training run to avoid spam</p></li>
+<li><p>Added camera sensor, unified sensor context, and spatial-softmax CNN
+model.</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">MetricsManager</span></code> for logging custom metrics during training.</p></li>
+<li><p>Added terrain visualizer. Contribution by
+<a class="reference external" href="https://github.com/mktk1117">&#64;mktk1117</a>.</p></li>
 </ul>
-</section>
-<section id="output-format">
-<h2>Output Format<a class="headerlink" href="#output-format" title="Link to this heading">#</a></h2>
-<p>Each NaN detection creates timestamped files plus latest symlinks:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">nan_dump_TIMESTAMP.npz</span></code> - Compressed state buffer
-- <code class="docutils literal notranslate"><span class="pre">states_step_NNNNNN</span></code> - Captured states for each step (shape: <code class="docutils literal notranslate"><span class="pre">[num_envs_dumped,</span> <span class="pre">state_size]</span></code>)
-- <code class="docutils literal notranslate"><span class="pre">_metadata</span></code> - Dict with <code class="docutils literal notranslate"><span class="pre">num_envs_total</span></code>, <code class="docutils literal notranslate"><span class="pre">nan_env_ids</span></code>, <code class="docutils literal notranslate"><span class="pre">dumped_env_ids</span></code>, etc.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">model_TIMESTAMP.mjb</span></code> - MuJoCo model in binary format</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">nan_dump_latest.npz</span></code> - Symlink to most recent dump</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">model_latest.mjb</span></code> - Symlink to most recent model</p></li>
-</ul>
-</section>
-<section id="visualizing-dumps">
-<h2>Visualizing Dumps<a class="headerlink" href="#visualizing-dumps" title="Link to this heading">#</a></h2>
-<p>Use the interactive viewer to scrub through captured states:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># View latest dump.</span>
-uv<span class="w"> </span>run<span class="w"> </span>viz-nan<span class="w"> </span>/tmp/mjlab/nan_dumps/nan_dump_latest.npz
-
-<span class="c1"># Or view a specific dump.</span>
-uv<span class="w"> </span>run<span class="w"> </span>viz-nan<span class="w"> </span>/tmp/mjlab/nan_dumps/nan_dump_20251014_123456.npz
-</pre></div>
-</div>
-<figure class="align-default" id="id2">
-<img alt="NaN Debug Viewer" src="../_images/nan_debug.gif" />
-<figcaption>
-<p><span class="caption-text">NaN debug viewer.</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
-</figcaption>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../_images/terrain_visualizer.jpg"><img alt="../_images/terrain_visualizer.jpg" src="../_images/terrain_visualizer.jpg" style="width: 80%;" />
+</a>
 </figure>
-<p>The viewer provides:</p>
 <ul class="simple">
-<li><p>Step slider to scrub through the buffer</p></li>
-<li><p>Environment slider to compare different environments</p></li>
-<li><p>Info panel showing which environments have NaN/Inf</p></li>
-<li><p>3D visualization of the robot and terrain at each state</p></li>
+<li><p>Added many new terrains including <code class="docutils literal notranslate"><span class="pre">HfDiscreteObstaclesTerrainCfg</span></code>,
+<code class="docutils literal notranslate"><span class="pre">HfPerlinNoiseTerrainCfg</span></code>, <code class="docutils literal notranslate"><span class="pre">BoxSteppingStonesTerrainCfg</span></code>,
+<code class="docutils literal notranslate"><span class="pre">BoxNarrowBeamsTerrainCfg</span></code>, <code class="docutils literal notranslate"><span class="pre">BoxRandomStairsTerrainCfg</span></code>, and
+more. Added flat patch sampling for heightfield terrains.</p></li>
+<li><p>Added site group visualization to the Viser viewer (Geoms and Sites
+tabs unified into a single Groups tab).</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">env_ids</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">Entity.write_ctrl_to_sim</span></code>.</p></li>
+<li><p>Curriculum stages can now be defined in iterations instead of raw
+steps.</p></li>
 </ul>
-<p>This makes it easy to see exactly what went wrong and compare crashed
-environments against clean ones.</p>
 </section>
-<section id="performance">
-<h2>Performance<a class="headerlink" href="#performance" title="Link to this heading">#</a></h2>
-<p>When disabled (<code class="docutils literal notranslate"><span class="pre">enabled=False</span></code>), all operations are no-ops with
-negligible overhead. When enabled, overhead scales with <code class="docutils literal notranslate"><span class="pre">buffer_size</span></code> and
-<code class="docutils literal notranslate"><span class="pre">max_envs_to_capture</span></code>.</p>
-</section>
-<section id="related-features">
-<h2>Related Features<a class="headerlink" href="#related-features" title="Link to this heading">#</a></h2>
-</section>
-<section id="nan-detection-termination">
-<h2>NaN Detection Termination<a class="headerlink" href="#nan-detection-termination" title="Link to this heading">#</a></h2>
-<p>While <code class="docutils literal notranslate"><span class="pre">nan_guard</span></code> helps <strong>debug</strong> NaN issues by capturing states, you can also
-<strong>prevent</strong> training crashes using the <code class="docutils literal notranslate"><span class="pre">nan_detection</span></code> termination:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">mjlab.envs.mdp.terminations</span><span class="w"> </span><span class="kn">import</span> <span class="n">nan_detection</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">mjlab.managers.termination_manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">TerminationTermCfg</span>
-
-<span class="c1"># In your termination config:</span>
-<span class="n">nan_term</span><span class="p">:</span> <span class="n">TerminationTermCfg</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
-    <span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">TerminationTermCfg</span><span class="p">(</span>
-        <span class="n">func</span><span class="o">=</span><span class="n">nan_detection</span><span class="p">,</span>
-        <span class="n">time_out</span><span class="o">=</span><span class="kc">False</span>
-    <span class="p">)</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-<p>This marks NaN environments as terminated, allowing them to reset while training
-continues. Terminations are logged as <code class="docutils literal notranslate"><span class="pre">Episode_Termination/nan_term</span></code> in your
-metrics.</p>
-<div class="admonition important">
-<p class="admonition-title">Important</p>
-<p><code class="docutils literal notranslate"><span class="pre">nan_detection</span></code> is a band-aid, not a cure. If NaNs occur
-during your task objective (e.g., your task is to grasp objects but NaNs
-happen when grasping), the policy will never learn to complete the task since
-it resets before receiving rewards. Monitor your <code class="docutils literal notranslate"><span class="pre">Episode_Termination/nan_term</span></code>
-metrics carefully.</p>
-</div>
-<p><strong>When to use which:</strong></p>
+<section id="changes">
+<h3>Changes<a class="headerlink" href="#changes" title="Link to this heading">#</a></h3>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">nan_guard</span></code>: Debug and understand why NaNs occur (always do this first)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">nan_detection</span></code>: Keep training stable while working on a permanent fix</p></li>
+<li><p>Upgraded <code class="docutils literal notranslate"><span class="pre">rsl-rl-lib</span></code> to 4.0.0 and replaced the custom ONNX
+exporter with rsl-rl’s built-in <code class="docutils literal notranslate"><span class="pre">as_onnx()</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sim.forward()</span></code> is now called unconditionally after the decimation
+loop. See <a class="reference internal" href="faq.html#faq-sim-forward"><span class="std std-ref">When do I need to call sim.forward()?</span></a> for details.</p></li>
+<li><p>Unnamed freejoints are now automatically named to prevent
+<code class="docutils literal notranslate"><span class="pre">KeyError</span></code> during entity init.</p></li>
 </ul>
+</section>
+<section id="bug-fixes">
+<h3>Bug fixes<a class="headerlink" href="#bug-fixes" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Fixed <code class="docutils literal notranslate"><span class="pre">randomize_pd_gains</span></code> crash with <code class="docutils literal notranslate"><span class="pre">num_envs</span> <span class="pre">&gt;</span> <span class="pre">1</span></code>.</p></li>
+<li><p>Fixed <code class="docutils literal notranslate"><span class="pre">ctrl_ids</span></code> index error with multiple actuated entities.
+Reported by <a class="reference external" href="https://github.com/bwrooney82">&#64;bwrooney82</a>.</p></li>
+<li><p>Fixed Viser viewer rendering textured robots as gray.</p></li>
+<li><p>Fixed Viser plane rendering ignoring MuJoCo size parameter.</p></li>
+<li><p>Fixed <code class="docutils literal notranslate"><span class="pre">HfDiscreteObstaclesTerrainCfg</span></code> spawn height.</p></li>
+<li><p>Fixed <code class="docutils literal notranslate"><span class="pre">RaycastSensor</span></code> visualization ignoring the all-envs toggle.
+Contribution by <a class="reference external" href="https://github.com/oxkitsune">&#64;oxkitsune</a>.</p></li>
+</ul>
+</section>
+</section>
+<section id="version-1-0-0-january-28-2026">
+<h2>Version 1.0.0 (January 28, 2026)<a class="headerlink" href="#version-1-0-0-january-28-2026" title="Link to this heading">#</a></h2>
+<p>Initial release of mjlab.</p>
 </section>
 </section>
 
@@ -611,20 +540,20 @@ metrics carefully.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="randomization.html"
+       href="faq.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Domain Randomization</p>
+        <p class="prev-next-title">FAQ &amp; Troubleshooting</p>
       </div>
     </a>
     <a class="right-next"
-       href="observation.html"
+       href="api/index.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Observation History and Delay</p>
+        <p class="prev-next-title">API Reference</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -644,14 +573,13 @@ metrics carefully.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tl-dr">TL;DR</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration">Configuration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#behavior">Behavior</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#output-format">Output Format</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-dumps">Visualizing Dumps</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance">Performance</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#related-features">Related Features</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nan-detection-termination">NaN Detection Termination</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#upcoming-version-not-yet-released">Upcoming version (not yet released)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#new-features">New features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changes">Changes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fixes">Bug fixes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-1-0-0-january-28-2026">Version 1.0.0 (January 28, 2026)</a></li>
 </ul>
   </nav></div>
 

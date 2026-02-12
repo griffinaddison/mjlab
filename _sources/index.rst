@@ -71,6 +71,7 @@ Table of Contents
 
    source/motivation
    source/faq
+   source/changelog
 
 .. toctree::
    :maxdepth: 2
