@@ -671,8 +671,7 @@ document.write(`
     <span class="k">with</span> <span class="n">wp</span><span class="o">.</span><span class="n">ScopedDevice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wp_device</span><span class="p">):</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">_ctx</span> <span class="o">=</span> <span class="n">mjwarp</span><span class="o">.</span><span class="n">create_render_context</span><span class="p">(</span>
         <span class="n">mjm</span><span class="o">=</span><span class="n">mj_model</span><span class="p">,</span>
-        <span class="n">m</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_model</span><span class="o">.</span><span class="n">struct</span><span class="p">,</span>  <span class="c1"># type: ignore[attr-defined]</span>
-        <span class="n">d</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">struct</span><span class="p">,</span>  <span class="c1"># type: ignore[attr-defined]</span>
+        <span class="n">nworld</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="o">.</span><span class="n">nworld</span><span class="p">,</span>
         <span class="n">cam_res</span><span class="o">=</span><span class="n">cam_res</span><span class="p">,</span>
         <span class="n">render_rgb</span><span class="o">=</span><span class="n">render_rgb</span><span class="p">,</span>
         <span class="n">render_depth</span><span class="o">=</span><span class="n">render_depth</span><span class="p">,</span>
