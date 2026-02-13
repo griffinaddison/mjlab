@@ -59,7 +59,7 @@
     <link rel="prev" title="Welcome to mjlab!" href="../index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Feb 12, 2026"/>
+    <meta name="docbuild:last-update" content="Feb 13, 2026"/>
   </head>
   
   
@@ -171,7 +171,7 @@
           
           
           
-          <a href="https://github.com/mujocolab/mjlab" title="mjlab" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="https://img.shields.io/badge/mjlab-1.0.0-silver.svg" class="icon-link-image" alt="mjlab"/></a>
+          <a href="https://github.com/mujocolab/mjlab" title="mjlab" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="https://img.shields.io/badge/mjlab-1.1.0-silver.svg" class="icon-link-image" alt="mjlab"/></a>
         </li>
         <li class="nav-item">
           
@@ -599,24 +599,16 @@ install. These options are interchangeable: you can switch at any time.</p>
 <label class="sd-tab-label" for="sd-tab-item-0">
 PyPI</label><div class="sd-tab-content docutils">
 <p>Once in your project, install the latest snapshot from PyPI:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>add<span class="w"> </span>mjlab<span class="w"> </span><span class="s2">&quot;mujoco-warp @ git+https://github.com/google-deepmind/mujoco_warp@7c20a44bfed722e6415235792a1b247ea6b6a6d3&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>add<span class="w"> </span>mjlab
 </pre></div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p><code class="docutils literal notranslate"><span class="pre">mujoco-warp</span></code> must be installed from GitHub since it’s not available on PyPI.</p>
 </div>
 </div>
 <input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
 <label class="sd-tab-label" for="sd-tab-item-1">
 Source</label><div class="sd-tab-content docutils">
 <p>Once in your project, install directly from GitHub without cloning:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;mjlab @ git+https://github.com/mujocolab/mjlab&quot;</span><span class="w"> </span><span class="s2">&quot;mujoco-warp @ git+https://github.com/google-deepmind/mujoco_warp@0828fb0b57d7baf734dd71fa164d092cb17e635b&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>add<span class="w"> </span><span class="s2">&quot;mjlab @ git+https://github.com/mujocolab/mjlab&quot;</span>
 </pre></div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p><code class="docutils literal notranslate"><span class="pre">mujoco-warp</span></code> must be installed from GitHub since it’s not available on PyPI.</p>
 </div>
 </div>
 <input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
@@ -697,8 +689,7 @@ conda<span class="w"> </span>activate<span class="w"> </span>mjlab
 <label class="sd-tab-label" for="sd-tab-item-5">
 PyPI</label><div class="sd-tab-content docutils">
 <p>From PyPI:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/google-deepmind/mujoco_warp@7c20a44bfed722e6415235792a1b247ea6b6a6d3
-pip<span class="w"> </span>install<span class="w"> </span>mjlab
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>mjlab
 </pre></div>
 </div>
 </div>
@@ -706,18 +697,10 @@ pip<span class="w"> </span>install<span class="w"> </span>mjlab
 <label class="sd-tab-label" for="sd-tab-item-6">
 Source</label><div class="sd-tab-content docutils">
 <p>From Source:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/google-deepmind/mujoco_warp@0828fb0b57d7baf734dd71fa164d092cb17e635b
-git<span class="w"> </span>clone<span class="w"> </span>https://github.com/mujocolab/mjlab.git
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/mujocolab/mjlab.git
 <span class="nb">cd</span><span class="w"> </span>mjlab
 pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
 </pre></div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>You must install <code class="docutils literal notranslate"><span class="pre">mujoco-warp</span></code> from GitHub before running
-<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code> since it’s not available on PyPI and pip cannot resolve
-the GitHub dependency specified in <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> (which uses uv-specific
-syntax).</p>
 </div>
 </div>
 </div>
@@ -895,7 +878,7 @@ By The mjlab Developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Feb 12, 2026.
+  Last updated on Feb 13, 2026.
   <br/>
 </p>
   </div>
