@@ -34,6 +34,8 @@ class PlayConfig:
   video_width: int | None = None
   camera: int | str | None = None
   viewer: Literal["auto", "native", "viser"] = "auto"
+  checkpoint_step: int | None = None
+  """Step number to load from W&B (e.g., 1500 loads model_1500.pt). Defaults to latest."""
   no_terminations: bool = False
   """Disable all termination conditions (useful for viewing motions with dummy agents)."""
 
@@ -129,7 +131,7 @@ def run_play(task_id: str, cfg: PlayConfig):
           "`wandb_run_path` is required when `checkpoint_file` is not provided."
         )
       resume_path, was_cached = get_wandb_checkpoint_path(
-        log_root_path, Path(cfg.wandb_run_path)
+        log_root_path, Path(cfg.wandb_run_path), step=cfg.checkpoint_step
       )
       # Extract run_id and checkpoint name from path for display.
       run_id = resume_path.parent.name

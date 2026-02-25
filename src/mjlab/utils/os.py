@@ -89,7 +89,9 @@ def get_checkpoint_path(
   return run_path / checkpoint_file
 
 
-def get_wandb_checkpoint_path(log_path: Path, run_path: Path) -> tuple[Path, bool]:
+def get_wandb_checkpoint_path(
+  log_path: Path, run_path: Path, step: int | None = None
+) -> tuple[Path, bool]:
   """Get checkpoint path from wandb, downloading if needed.
 
   Returns:
@@ -107,7 +109,14 @@ def get_wandb_checkpoint_path(log_path: Path, run_path: Path) -> tuple[Path, boo
   files = [
     file.name for file in wandb_run.files() if re.match(r"^model_\d+\.pt$", file.name)
   ]
-  checkpoint_file = max(files, key=lambda x: int(x.split("_")[1].split(".")[0]))
+  if step is not None:
+    checkpoint_file = f"model_{step}.pt"
+    if checkpoint_file not in files:
+      raise ValueError(
+        f"model_{step}.pt not found in run. Available: {sorted(files)}"
+      )
+  else:
+    checkpoint_file = max(files, key=lambda x: int(x.split("_")[1].split(".")[0]))
   checkpoint_path = download_dir / checkpoint_file
 
   # If this checkpoint is not cached locally, download it.
