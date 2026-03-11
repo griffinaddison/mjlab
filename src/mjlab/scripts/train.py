@@ -51,8 +51,10 @@ def run_train(task_id: str, cfg: TrainConfig, log_dir: Path) -> None:
   else:
     local_rank = int(os.environ.get("LOCAL_RANK", "0"))
     rank = int(os.environ.get("RANK", "0"))
-    # Set EGL device to match the CUDA device.
-    os.environ["MUJOCO_EGL_DEVICE_ID"] = str(local_rank)
+    # Default EGL device to match the CUDA device, but allow the caller to
+    # override (e.g. to place rendering on a dedicated GPU).
+    if "MUJOCO_EGL_DEVICE_ID" not in os.environ:
+      os.environ["MUJOCO_EGL_DEVICE_ID"] = str(local_rank)
     device = f"cuda:{local_rank}"
     # Set seed to have diversity in different processes.
     seed = cfg.agent.seed + local_rank
