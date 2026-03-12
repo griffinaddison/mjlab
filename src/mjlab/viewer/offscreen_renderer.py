@@ -37,6 +37,11 @@ class OffscreenRenderer:
     self._catmask = mujoco.mjtCatBit.mjCAT_DYNAMIC
 
   @property
+  def is_initialized(self) -> bool:
+    """Whether the GPU rendering context has been created."""
+    return self._renderer is not None
+
+  @property
   def renderer(self) -> mujoco.Renderer:
     if self._renderer is None:
       raise ValueError("Renderer not initialized. Call 'initialize()' first.")

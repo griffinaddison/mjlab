@@ -209,11 +209,14 @@ class ManagerBasedRlEnv:
     self.render_mode = render_mode
     self._offline_renderer: OffscreenRenderer | None = None
     if self.render_mode == "rgb_array":
-      renderer = OffscreenRenderer(
+      # Create renderer but do NOT initialize the GPU context yet.
+      # Initialization creates an EGL context that contends with CUDA under
+      # Slurm cgroup isolation, causing ~38x slowdown even on non-rendering
+      # iterations.  render() lazily initializes on first use, and
+      # release_render_context() tears it down after each recording session.
+      self._offline_renderer = OffscreenRenderer(
         model=self.sim.mj_model, cfg=self.cfg.viewer, scene=self.scene
       )
-      renderer.initialize()
-      self._offline_renderer = renderer
     self.metadata["render_fps"] = 1.0 / self.step_dt
 
     # Load all managers.
@@ -420,7 +423,10 @@ class ManagerBasedRlEnv:
       return None
     elif self.render_mode == "rgb_array":
       if self._offline_renderer is None:
-        raise ValueError("Offline renderer not initialized")
+        raise ValueError("Offline renderer not created")
+      # Lazy-init: create the GPU/EGL context only when a frame is needed.
+      if not self._offline_renderer.is_initialized:
+        self._offline_renderer.initialize()
       debug_callback = (
         self.update_visualizers if hasattr(self, "update_visualizers") else None
       )
@@ -431,6 +437,16 @@ class ManagerBasedRlEnv:
         f"Render mode {self.render_mode} is not supported. "
         f"Please use: {self.metadata['render_modes']}."
       )
+
+  def release_render_context(self) -> None:
+    """Release the GPU rendering context (EGL) without destroying the renderer.
+
+    Call after capturing a batch of frames to free the GPU context.  The context
+    is lazily re-created on the next ``render()`` call.  This avoids persistent
+    EGL-CUDA contention under Slurm cgroup isolation.
+    """
+    if self._offline_renderer is not None:
+      self._offline_renderer.close()
 
   def close(self) -> None:
     if self._offline_renderer is not None:

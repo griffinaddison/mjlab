@@ -204,3 +204,8 @@ class VideoRecorder(ManagerBasedRlEnv):
     self.current_video_path = None
     self.video_count += 1
     self.trigger_type = None  # Reset trigger type after recording
+
+    # Release the GPU rendering context (EGL) to avoid persistent contention
+    # with CUDA training.  The context will be lazily re-created on next render().
+    if hasattr(self._wrapped_env, "release_render_context"):
+      self._wrapped_env.release_render_context()
