@@ -1,4 +1,5 @@
 import os
+import time
 
 import torch
 from rsl_rl.env import VecEnv
@@ -26,6 +27,41 @@ class MjlabOnPolicyRunner(OnPolicyRunner):
           if train_cfg[key].get(opt) is None:
             train_cfg[key].pop(opt, None)
     super().__init__(env, train_cfg, log_dir, device)
+    self._install_wall_clock_logger()
+
+  def _install_wall_clock_logger(self) -> None:
+    """Wrap the logger's log() to add wall-clock iteration rate metrics.
+
+    The base rsl_rl logger only tracks collect_time + learn_time, which
+    misses time spent on video recording, checkpointing, GCSFuse I/O, etc.
+    This wrapper measures actual wall-clock time between log() calls and
+    reports Perf/wall_clock_iter_time and Perf/iterations_per_hour.
+    """
+    original_log = self.logger.log
+    wall_clock_state = {"prev_time": None, "start_time": None, "start_it": None}
+
+    def _log_with_wall_clock(**kwargs):
+      now = time.time()
+      it = kwargs.get("it", 0)
+      writer = self.logger.writer
+
+      if wall_clock_state["start_time"] is None:
+        wall_clock_state["start_time"] = now
+        wall_clock_state["start_it"] = it
+
+      if wall_clock_state["prev_time"] is not None and writer is not None:
+        wall_dt = now - wall_clock_state["prev_time"]
+        writer.add_scalar("Perf/wall_clock_iter_time", wall_dt, it)
+        elapsed = now - wall_clock_state["start_time"]
+        done_it = it - wall_clock_state["start_it"]
+        if elapsed > 0 and done_it > 0:
+          it_per_hour = done_it / elapsed * 3600
+          writer.add_scalar("Perf/iterations_per_hour", it_per_hour, it)
+
+      wall_clock_state["prev_time"] = now
+      return original_log(**kwargs)
+
+    self.logger.log = _log_with_wall_clock
 
   def export_policy_to_onnx(
     self, path: str, filename: str = "policy.onnx", verbose: bool = False
