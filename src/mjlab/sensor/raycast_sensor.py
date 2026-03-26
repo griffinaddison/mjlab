@@ -163,10 +163,16 @@ from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Literal
 
 import mujoco
-import mujoco_warp as mjwarp
 import torch
-import warp as wp
-from mujoco_warp import rays
+
+try:
+  import mujoco_warp as mjwarp
+  import warp as wp
+  from mujoco_warp import rays
+except ImportError:
+  mjwarp = None
+  wp = None
+  rays = None
 
 from mjlab.entity import Entity
 from mjlab.sensor.builtin_sensor import ObjRef
@@ -502,8 +508,8 @@ class RayCastSensor(Sensor[RayCastData]):
   def initialize(
     self,
     mj_model: mujoco.MjModel,
-    model: mjwarp.Model,
-    data: mjwarp.Data,
+    model,
+    data,
     device: str,
   ) -> None:
     self._data = data

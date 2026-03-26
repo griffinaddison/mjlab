@@ -6,8 +6,12 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING, Literal
 
 import mujoco
-import mujoco_warp as mjwarp
 import torch
+
+try:
+  import mujoco_warp as mjwarp
+except ImportError:
+  mjwarp = None
 
 from mjlab.entity import Entity
 from mjlab.sensor.sensor import Sensor, SensorCfg
@@ -181,8 +185,8 @@ class CameraSensor(Sensor[CameraSensorData]):
   def initialize(
     self,
     mj_model: mujoco.MjModel,
-    model: mjwarp.Model,
-    data: mjwarp.Data,
+    model,
+    data,
     device: str,
   ) -> None:
     del model, data, device

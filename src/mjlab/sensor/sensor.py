@@ -7,8 +7,12 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any, Generic, TypeVar
 
 import mujoco
-import mujoco_warp as mjwarp
 import torch
+
+try:
+  import mujoco_warp as mjwarp
+except ImportError:
+  mjwarp = None
 
 if TYPE_CHECKING:
   from mjlab.entity import Entity
@@ -70,8 +74,8 @@ class Sensor(ABC, Generic[T]):
   def initialize(
     self,
     mj_model: mujoco.MjModel,
-    model: mjwarp.Model,
-    data: mjwarp.Data,
+    model,
+    data,
     device: str,
   ) -> None:
     """Initialize the sensor after model compilation.

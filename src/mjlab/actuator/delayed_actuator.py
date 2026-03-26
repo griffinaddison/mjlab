@@ -6,8 +6,12 @@ from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Literal
 
 import mujoco
-import mujoco_warp as mjwarp
 import torch
+
+try:
+  import mujoco_warp as mjwarp
+except ImportError:
+  mjwarp = None
 
 from mjlab.actuator.actuator import Actuator, ActuatorCfg, ActuatorCmd
 from mjlab.utils.buffers import DelayBuffer
@@ -96,8 +100,8 @@ class DelayedActuator(Actuator[DelayedActuatorCfg]):
   def initialize(
     self,
     mj_model: mujoco.MjModel,
-    model: mjwarp.Model,
-    data: mjwarp.Data,
+    model,
+    data,
     device: str,
   ) -> None:
     self._base_actuator.initialize(mj_model, model, data, device)

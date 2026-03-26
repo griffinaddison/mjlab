@@ -8,8 +8,12 @@ from enum import Enum
 from typing import TYPE_CHECKING, Generic, TypeVar
 
 import mujoco
-import mujoco_warp as mjwarp
 import torch
+
+try:
+  import mujoco_warp as mjwarp
+except ImportError:
+  mjwarp = None
 
 if TYPE_CHECKING:
   from mjlab.entity import Entity
@@ -161,8 +165,8 @@ class Actuator(ABC, Generic[ActuatorCfgT]):
   def initialize(
     self,
     mj_model: mujoco.MjModel,
-    model: mjwarp.Model,
-    data: mjwarp.Data,
+    model,
+    data,
     device: str,
   ) -> None:
     """Initialize the actuator after model compilation.
@@ -171,7 +175,7 @@ class Actuator(ABC, Generic[ActuatorCfgT]):
 
     Args:
       mj_model: The compiled MuJoCo model.
-      model: The compiled mjwarp model.
+      model: The compiled model (mjwarp.Model or NumpyBridge).
       data: The mjwarp data arrays.
       device: Device for tensor operations (e.g., "cuda", "cpu").
     """

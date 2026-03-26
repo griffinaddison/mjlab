@@ -6,9 +6,14 @@ import warnings
 from typing import TYPE_CHECKING
 
 import mujoco
-import mujoco_warp as mjwarp
 import torch
-import warp as wp
+
+try:
+  import mujoco_warp as mjwarp
+  import warp as wp
+except ImportError:
+  mjwarp = None
+  wp = None
 
 if TYPE_CHECKING:
   from mjlab.sensor.camera_sensor import CameraSensor

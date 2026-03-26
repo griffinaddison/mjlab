@@ -6,8 +6,12 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING, Generic, TypeVar
 
 import mujoco
-import mujoco_warp as mjwarp
 import torch
+
+try:
+  import mujoco_warp as mjwarp
+except ImportError:
+  mjwarp = None
 
 from mjlab.actuator.actuator import Actuator, ActuatorCfg, ActuatorCmd
 from mjlab.utils.spec import create_motor_actuator
@@ -69,8 +73,8 @@ class IdealPdActuator(Actuator, Generic[IdealPdCfgT]):
   def initialize(
     self,
     mj_model: mujoco.MjModel,
-    model: mjwarp.Model,
-    data: mjwarp.Data,
+    model,
+    data,
     device: str,
   ) -> None:
     super().initialize(mj_model, model, data, device)

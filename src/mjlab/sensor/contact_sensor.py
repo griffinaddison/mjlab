@@ -7,7 +7,11 @@ from dataclasses import dataclass
 from typing import Any, Literal
 
 import mujoco
-import mujoco_warp as mjwarp
+
+try:
+  import mujoco_warp as mjwarp
+except ImportError:
+  mjwarp = None
 import torch
 
 from mjlab.entity import Entity
@@ -220,7 +224,7 @@ class ContactSensor(Sensor[ContactData]):
         )
 
   def initialize(
-    self, mj_model: mujoco.MjModel, model: mjwarp.Model, data: mjwarp.Data, device: str
+    self, mj_model: mujoco.MjModel, model, data, device: str
   ) -> None:
     """Map sensors to sensordata buffer and allocate air time state."""
     del model

@@ -5,7 +5,11 @@ from typing import Any
 import mujoco
 import numpy as np
 import torch
-import warp as wp
+
+try:
+  import warp as wp
+except ImportError:
+  wp = None
 from prettytable import PrettyTable
 
 from mjlab.envs import types
@@ -148,7 +152,7 @@ class ManagerBasedRlEnv:
   metadata = {
     "render_modes": [None, "rgb_array"],
     "mujoco_version": mujoco.__version__,
-    "warp_version": wp.config.version,
+    "warp_version": wp.config.version if wp is not None else None,
   }
   cfg: ManagerBasedRlEnvCfg
 
@@ -157,6 +161,7 @@ class ManagerBasedRlEnv:
     cfg: ManagerBasedRlEnvCfg,
     device: str,
     render_mode: str | None = None,
+    backend: str = "warp",
     **kwargs,
   ) -> None:
     # Initialize base environment state.
@@ -169,12 +174,23 @@ class ManagerBasedRlEnv:
 
     # Initialize scene and simulation.
     self.scene = Scene(self.cfg.scene, device=device)
-    self.sim = Simulation(
-      num_envs=self.scene.num_envs,
-      cfg=self.cfg.sim,
-      model=self.scene.compile(),
-      device=device,
-    )
+    compiled_model = self.scene.compile()
+    if backend == "mujoco":
+      from mjlab.sim.mujoco_sim import MujocoCSimulation
+
+      self.sim = MujocoCSimulation(
+        num_envs=self.scene.num_envs,
+        cfg=self.cfg.sim,
+        model=compiled_model,
+        device=device,
+      )
+    else:
+      self.sim = Simulation(
+        num_envs=self.scene.num_envs,
+        cfg=self.cfg.sim,
+        model=compiled_model,
+        device=device,
+      )
 
     self.scene.initialize(
       mj_model=self.sim.mj_model,

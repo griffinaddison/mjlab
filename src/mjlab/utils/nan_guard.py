@@ -8,9 +8,13 @@ from pathlib import Path
 from typing import Iterator
 
 import mujoco
-import mujoco_warp as mjwarp
 import numpy as np
 import torch
+
+try:
+  import mujoco_warp as mjwarp
+except ImportError:
+  mjwarp = None
 
 
 @dataclass

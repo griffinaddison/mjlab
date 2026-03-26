@@ -6,9 +6,13 @@ from pathlib import Path
 from typing import Callable, Sequence
 
 import mujoco
-import mujoco_warp as mjwarp
 import numpy as np
 import torch
+
+try:
+  import mujoco_warp as mjwarp
+except ImportError:
+  mjwarp = None
 
 from mjlab import actuator
 from mjlab.actuator import BuiltinActuatorGroup
@@ -557,8 +561,8 @@ class Entity:
   def initialize(
     self,
     mj_model: mujoco.MjModel,
-    model: mjwarp.Model,
-    data: mjwarp.Data,
+    model,
+    data,
     device: str,
   ) -> None:
     """Prepare the entity for simulation after the spec has been compiled.

@@ -6,8 +6,12 @@ from dataclasses import dataclass
 from typing import Literal
 
 import mujoco
-import mujoco_warp as mjwarp
 import torch
+
+try:
+  import mujoco_warp as mjwarp
+except ImportError:
+  mjwarp = None
 
 from mjlab.entity import Entity
 from mjlab.sensor.sensor import Sensor, SensorCfg
@@ -329,7 +333,7 @@ class BuiltinSensor(Sensor[torch.Tensor]):
     )
 
   def initialize(
-    self, mj_model: mujoco.MjModel, model: mjwarp.Model, data: mjwarp.Data, device: str
+    self, mj_model: mujoco.MjModel, model, data, device: str
   ) -> None:
     del model, device
     self._data = data

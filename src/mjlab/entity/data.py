@@ -1,10 +1,14 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Sequence
+from typing import TYPE_CHECKING, Any, Sequence
 
-import mujoco_warp as mjwarp
 import torch
+
+try:
+  import mujoco_warp as mjwarp
+except ImportError:
+  mjwarp = None
 
 from mjlab.utils.lab_api.math import (
   quat_apply,
@@ -42,8 +46,8 @@ class EntityData:
   """
 
   indexing: EntityIndexing
-  data: mjwarp.Data
-  model: mjwarp.Model
+  data: Any  # mjwarp.Data or NumpyBridge
+  model: Any  # mjwarp.Model or NumpyBridge
   device: str
 
   default_root_state: torch.Tensor

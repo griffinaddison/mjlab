@@ -36,6 +36,9 @@ class PlayConfig:
   video_width: int | None = None
   camera: int | str | None = None
   viewer: Literal["auto", "native", "viser"] = "auto"
+  backend: Literal["auto", "warp", "mujoco"] = "auto"
+  """Simulation backend. 'mujoco' uses the standard C library (real-time on CPU),
+  'warp' uses mujoco_warp (GPU-accelerated). 'auto' selects 'mujoco' on CPU, 'warp' on CUDA."""
   no_terminations: bool = False
   """Disable all termination conditions (useful for viewing motions with dummy agents)."""
 
@@ -154,7 +157,12 @@ def run_play(task_id: str, cfg: PlayConfig):
     print(
       "[WARN] Video recording with dummy agents is disabled (no checkpoint/log_dir)."
     )
-  env = ManagerBasedRlEnv(cfg=env_cfg, device=device, render_mode=render_mode)
+  # Resolve backend selection.
+  backend = cfg.backend
+  if backend == "auto":
+    backend = "mujoco" if device == "cpu" else "warp"
+
+  env = ManagerBasedRlEnv(cfg=env_cfg, device=device, render_mode=render_mode, backend=backend)
 
   if TRAINED_MODE and cfg.video:
     print("[INFO] Recording videos during play")
