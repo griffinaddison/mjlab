@@ -41,6 +41,7 @@ from mjlab.utils.spaces import Dict as DictSpace
 from mjlab.viewer.debug_visualizer import DebugVisualizer
 from mjlab.viewer.offscreen_renderer import OffscreenRenderer
 from mjlab.viewer.viewer_config import ViewerConfig
+from mjlab.viewer.warp_offscreen_renderer import WarpOffscreenRenderer
 
 
 @dataclass(kw_only=True)
@@ -207,11 +208,25 @@ class ManagerBasedRlEnv:
       cfg.scene.num_envs, device=device, dtype=torch.long
     )
     self.render_mode = render_mode
-    self._offline_renderer: OffscreenRenderer | None = None
+    self._offline_renderer: OffscreenRenderer | WarpOffscreenRenderer | None = None
     if self.render_mode == "rgb_array":
-      renderer = OffscreenRenderer(
-        model=self.sim.mj_model, cfg=self.cfg.viewer, scene=self.scene
-      )
+      render_backend = self.cfg.viewer.render_backend
+      if render_backend == "warp":
+        renderer = WarpOffscreenRenderer(
+          mj_model=self.sim.mj_model,
+          wp_model=self.sim.wp_model,
+          wp_data=self.sim.wp_data,
+          cfg=self.cfg.viewer,
+        )
+      elif render_backend == "opengl":
+        renderer = OffscreenRenderer(
+          model=self.sim.mj_model, cfg=self.cfg.viewer, scene=self.scene
+        )
+      else:
+        raise ValueError(
+          f"Unknown render_backend '{render_backend}'. "
+          "Supported values: 'opengl', 'warp'."
+        )
       renderer.initialize()
       self._offline_renderer = renderer
     self.metadata["render_fps"] = 1.0 / self.step_dt
@@ -426,10 +441,13 @@ class ManagerBasedRlEnv:
     elif self.render_mode == "rgb_array":
       if self._offline_renderer is None:
         raise ValueError("Offline renderer not initialized")
-      debug_callback = (
-        self.update_visualizers if hasattr(self, "update_visualizers") else None
-      )
-      self._offline_renderer.update(self.sim.data, debug_vis_callback=debug_callback)
+      if isinstance(self._offline_renderer, WarpOffscreenRenderer):
+        self._offline_renderer.update(self.sim.wp_data)
+      else:
+        debug_callback = (
+          self.update_visualizers if hasattr(self, "update_visualizers") else None
+        )
+        self._offline_renderer.update(self.sim.data, debug_vis_callback=debug_callback)
       return self._offline_renderer.render()
     else:
       raise NotImplementedError(
