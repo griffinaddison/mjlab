@@ -33,3 +33,8 @@ class ViewerConfig:
   enable_shadows: bool = True
   height: int = 240
   width: int = 320
+  render_backend: str = "opengl"
+  """Rendering backend: ``"opengl"`` for the classic EGL/OpenGL path,
+  ``"warp"`` for MuJoCo Warp GPU ray-tracing. Defaults to ``"opengl"``."""
+  camera_name: str | None = None
+  """Name of an MJCF-defined camera. Required when ``render_backend="warp"``."""
